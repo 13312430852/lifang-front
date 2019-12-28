@@ -1,0 +1,604 @@
+<template>
+    <div id="PanicBuying">
+        <!--        商品图片-->
+        <div class="bigPhoto">
+            <img src="../assets/panicbuying.png" alt="">
+        </div>
+        <!--        价格-->
+        <div class="sell">
+            <div class="nowSell">￥<span v-text="GoodsList.goodsNorms.currentPrice"></span></div>
+            <div class="edSell">原价￥<span v-text="GoodsList.goodsNorms.origiPrice"></span></div>
+        </div>
+        <!--        信息-->
+        <div class="Goods">
+            <div class="GoodsName" v-text="GoodsList.goods.goodsName">花溪重庆火锅</div>
+            <div class="distribution" v-text="GoodsList.goods.consumeType">骑手配送</div>
+        </div>
+
+        <div class="goods_desc" v-text="GoodsList.goods.goodsDesc">全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。</div>
+        <!--        地址-->
+        <div class="Address">
+            <div class="position">
+                <img src="../assets/position.png">
+            </div>
+            <div class="address">贵阳市 花溪区 花溪大学城 学富路</div>
+        </div>
+        <!--        选择规格-->
+        <div class="select">选择</div>
+        <!--        数量-->
+        <div class="number">
+            <div class="number1">数量</div>
+            <div class="number2">
+                <button class="btn" style="border: none;background-color: transparent;outline: none; "
+                        @click="subtract()" :class="{ 'active1':style1 }">-</button>
+                <div class="digit">{{count}}</div>
+                <button class="btn" style="border: none;background-color: transparent;outline: none; "
+                @click="add()":class="{active1: style2}">+</button>
+            </div>
+        </div>
+        <!--        线-->
+<!--        <div class="line"></div>-->
+        <hr style="margin: 0 auto; width:92%;height: 1px;background-color:#E7E7E7;">
+        <!--        规格-->
+        <div class="Specification">
+            <div class="specification">规格</div>
+            <div class=" weight" v-text="GoodsList.goodsNorms.norms">小份</div>
+        </div>
+        <!--        线-->
+        <hr style="margin: 0 auto; width:92%;height: 1px;background-color:#E7E7E7;">
+<!--        <div class="line"></div>-->
+        <!--        地址-->
+        <div class="place">
+            <!--            定好的-->
+            <div class="receipt">收货地址</div>
+            <!--            获取-->
+            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                     <option v-for="item in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
+            </select>
+        </div>
+
+        <hr style="margin: 0 auto; width:92%;height: 1px;background-color:#E7E7E7;">
+        <!--        优惠-->
+        <div class="Coupon">
+            <div class="couponLeft">优惠券</div>
+            <!--            获取-->
+            <select class="Place" v-model="chooseCar" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                <option v-for="item in userGoodCaeds" :disabled="isUserCards(item)" :value="item">
+                    <div><span>满</span><span v-text="item.cardsOrder"> 10 </span><span>减 </span><span v-text="item.cardsPrice">5</span> <span>可用</span></div>
+                </option>
+            </select>
+
+        </div>
+        <!--        立即购买-->
+        <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
+    </div>
+
+</template>
+
+<script>
+    import GoodsList from "../components/GoodsList";
+
+    export default {
+        name: "PanicBuying",
+        data() {
+            return {
+                goodId:12456,
+                orderId:null,
+                selectAddressId:'', //用户选择的地址ID
+                userAddress:[
+                    {
+                        "addressId": "0ace8abefa3cff3f3dd171b36fc21284",
+                        "userId": "123",
+                        "rcAddress": "我是更新过的地址更合适的规范化三个符合施工和法国大使馆佛挡杀佛收到货房间",
+                        "addressName": "555",
+                        "addressTel": 123,
+                        "addressDel": 0,
+                        "defaultAddress": "1"
+                    }, {
+                        "addressId": "1e374e91b67550bb3a9ee3070e7ca55d",
+                        "userId": "123",
+                        "rcAddress": "添加的新地址",
+                        "addressName": "555",
+                        "addressTel": 123,
+                        "addressDel": 0,
+                        "defaultAddress": "0"
+                    }, {
+                        "addressId": "ce927f53fd1d4d13ae1f37daa8252e58",
+                        "userId": "123",
+                        "rcAddress": "这是刚刚添加的地址",
+                        "addressName": "555",
+                        "addressTel": 123,
+                        "addressDel": 0,
+                        "defaultAddress": "0"
+                    }, {
+                        "addressId": "d145a864057ecac2d3a23556839beb91",
+                        "userId": "123",
+                        "rcAddress": "添加",
+                        "addressName": "555",
+                        "addressTel": 123,
+                        "addressDel": 0,
+                        "defaultAddress": "0"
+                    }], //用户的地址
+
+
+                userGoodCaeds:[
+                    {
+                    "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
+                    "cardsId": "4daa47fee1e3cf9378798d8036edb951",
+                    "userId": "123",
+                    "userCardsState": 1,
+                        'cardsOrder':5,
+                        'cardsPrice':2,
+                },
+                    {
+                        "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
+                        "cardsId": "4daa47fee1e3cf9378798d8036edb951",
+                        "userId": "123",
+                        "userCardsState": 1,
+                        'cardsOrder':10,
+                        'cardsPrice':3,
+                    },
+                    {
+                        "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
+                        "cardsId": "4daa47fee1e3cf9378798d8036edb951",
+                        "userId": "123",
+                        "userCardsState": 1,
+                        'cardsOrder':15,
+                        'cardsPrice':5,
+                    }],
+                cardsPrice:null,
+                chooseCar:null,
+                userMsg:{userId:123},
+
+                count:1,  //商品购买数量
+                allPrice:13,  //商品的总价
+                goodsPrice:null,
+                goodsNormsId:null,
+
+                style1: false,
+                style2: false,
+                showcone: false,
+                GoodsList: {
+                    "goods": {
+                        "goodsId": "1",
+                        "goodsName": "商品名字",
+                        "goodsDesc": "商品描述",
+                        "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
+                        "goodsImageUrl": "商品封面地址",
+                        "goodsCount": 98,
+                        "consumeType": 1,
+                        "businessId": "1",
+                        "menuId": "1",
+                        "certificatePeriod": 2,
+                        "discountType": 1,
+                        "goodsDel": 0
+                    },
+                    "menu": {
+                        "menuId": "1",
+                        "menuName": "惊天美食",
+                        "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
+                        "menuDel": 0
+                    },
+                    "business": {
+                        "businessId": "05e1586f8515615d207cbacf5b927266",
+                        "businessName": "123456",
+                        "storeManger": "店长",
+                        "business":'贵州省华夏都很高的多岁的闪光点是读后感',
+                        "storeMangerTel": "店长电话",
+                        "storePrincipal": "负责人",
+                        "storePrincipalTel": "负责人电话",
+                        "storePrincipalWechat": "负责人微信",
+                        "businessDel": 0
+                    },
+                    "goodsNorms": {
+                        "goodsNormsId": "73c39bd647ecebfcfc857ccf64380c2c",
+                        "norms": "大份",
+                        "currentPrice": 13,
+                        "origiPrice": 888.88,
+                        "goodsId": "2a90ee18d212d2827e795668703a213d",
+                        "goodsNormsDel": 0
+                    }
+                },
+                createOrder:{       //订单
+                    'userId':'',        //用户ID
+                    'shopId':this.goodId,        //商品ID
+                    'ordersPrice':this.allPrice,       //总价
+                    'goodsNum':this.count,      //购买数量
+                    'goodsPrice':this.goodsPrice,   //商品单价
+                    // 'ordersTime':'',    //订单生成时间
+                    // 'ordersExpressState':'',   //配送状态
+                    'addressId':this.selectAddressId,         //地址ID
+                    'goodsNormsId':this.goodsNormsId //商品规格
+                }
+            }
+        },
+        watch:{
+            count(newValue){       //当购买数量改变时改变相应的总价
+                let origPrice = this.GoodsList.goodsNorms.currentPrice * this.count; //重置价格
+                if(this.chooseCar == null || this.chooseCar.cardsOrder <= origPrice){   //判断是否能够使用原选的优惠券,能够使用或者未选择使用优惠券
+                    if(this.chooseCar == null) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice);
+                    else if(this.chooseCar.cardsOrder <= origPrice) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice) - this.chooseCar.cardsPrice;
+                }
+                else {      //当减少购买数量导致总价下降而不满足使用此优惠券时重置价格为未使用优惠券价格
+                    this.allPrice = origPrice;
+                }
+
+            },
+            chooseCar(newValue){
+                this.allPrice = this.GoodsList.goodsNorms.currentPrice * this.count; //重置价格
+                this.allPrice = this.allPrice - newValue.cardsPrice;       //计算使用优惠券后的价格
+            }
+        },
+        computed:{
+            isUserCards(){      //用来判断是否达到使用此优惠券的
+                return (it) => {
+                    return !(it.cardsOrder <= this.GoodsList.goodsNorms.currentPrice * this.count);
+                }
+            },
+            isDefaultAddress(){
+                return (it) => {
+                    if(it.defaultAddress == '1') return true
+                    else return false
+                }
+            }
+        },
+        methods:{
+
+            add: function (count) {
+                if (this.count >= 5) {
+                    this.style2 = true;
+                    this.showcone = true;
+                    this.count = 5
+                } else {
+                    this.count++;
+                    this.style1 = false
+                }
+            },
+            subtract: function (count) {
+                if (this.count <= 1) {
+                    this.style1 = true;
+                    this.showcone = true;
+                    this.count = 1
+                } else {
+                    this.count = this.count - 1;
+                    this.style2 = false
+                }
+
+            },
+            submitOrder(){      //提交订单后返回一个订单ID
+                // 响应式添加订单对象
+                this.$set(this.createOrder,'shopId',this.goodId);
+                this.$set(this.createOrder,'userId',this.userMsg.userId);
+                this.$set(this.createOrder,'ordersPrice',this.allPrice);
+                this.$set(this.createOrder,'goodsNum',this.count);
+                this.$set(this.createOrder,'goodsPrice',this.goodsPrice);
+                this.$set(this.createOrder,'addressId',this.selectAddressId);
+                this.$set(this.createOrder,'goodsNormsId',this.goodsNormsId);
+
+                this.$router.push('/submitOrder/123');
+                axios.post(process.env.VUE_APP_URL + '/jdsjsdj',this.createOrder)
+                    .then(response =>{
+
+                        this.orderId = response.data.data;
+                        /*this.$router.push('/submitOrder'+this.orderId);*/
+                        this.$router.push('/submitOrder/'+this.orderId);        //将订单ID传过去
+
+                    })
+                    .catch(err => console.log(err));
+            }
+        },
+        created() {
+
+            //测试时的
+            this.allPrice = this.GoodsList.goodsNorms.currentPrice;
+            this.goodsNormsId = this.GoodsList.goodsNorms.norms;
+            this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
+            //测试时的
+
+
+            //获取用户的基本信息
+            axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
+            axios.defaults.headers.common["userType"] = 'MINE';
+            axios.get('http://50558287.ngrok.io/mine/getUserInfo')                                                 //通过...码获取用户基本信息
+                .then(re => {
+                    this.userMsg = re.data.data;
+                })
+                .catch(err => alert('未请求到用户基本数据错误为：'+err))
+
+
+            this.goodId = this.$route.params.goodId1;   //接收商品ID
+            axios.get('http://localhost:8080/goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
+                this.GoodsList = response.data.data;
+                this.allPrice = GoodsList.goodsNorms.currentPrice;
+                this.goodsNormsId = this.GoodsList.goodsNorms.norms;
+                this.goodsPrice = GoodsList.goodsNorms.currentPrice;
+            }).catch(err => alert(err));
+
+            axios.get('http://192.168.8.90:8090/address/findAddressById/'+123)      //获取地址
+                .then(re => this.userAddress = re.data.data)
+                .catch(err => console.log(err));
+
+            axios.get('http')           //获取属于该用户和该商品的优惠券
+                .then(re =>{
+                    this.userGoodCaeds = re.data.data;
+                })
+                .catch(err => console.log(err));
+
+
+
+
+        }
+    }
+</script>
+
+<style scoped>
+    html, body, #PanicBuying {
+        width: 100%;
+        margin: 0 auto;
+        font-family: "PingFang SC";
+        /*background-color: rebeccapurple;*/
+
+    }
+
+    .bigPhoto {
+
+        height: 32%;
+        width: 92%;
+        background-color: rebeccapurple;
+        margin: 2.4% auto;
+        background-size: cover;
+
+    }
+    .bigPhoto img{width: 100%;height: 100%}
+
+    .sell {
+
+        height: 3.0%;
+        width: 92%;
+        margin: 3% auto;
+        display: flex;
+    }
+
+    .nowSell {
+        font-weight: bold;
+        color: red;
+        font-size: 1.875em;
+        height: 100%;
+
+    }
+
+    .edSell {
+        margin-top: 0.6%;
+        margin-left: 4%;
+        width: 90%;
+        height: 100%;
+        font-size: 1.5em;
+        text-decoration: line-through;
+    }
+
+    .Goods {
+        margin: 3% auto;
+        height: 3.0%;
+        width: 92%;
+        display: flex;
+    }
+
+    .GoodsName {
+
+        height: 100%;
+        width: 85%;
+        font-size: 1.875em;
+        font-weight: bold;
+    }
+
+    .distribution {
+        margin-top: 0.5%;
+        font-size: 1.5em;
+        width: 15%;
+        margin-right: 0;
+    }
+
+    .goods_desc {
+        margin: 2% auto;
+        height: 5.25%;
+        width: 92%;
+        font-size: 1.875em;
+        font-family: PingFang-SC-Medium;
+
+    }
+
+    .Address {
+        margin: 4% auto;
+        display: flex;
+        height:4%;
+        width: 92%;
+    }
+
+    .position {
+        margin-top: 1%;
+        height: 100%;
+        width: 6.73%;
+        /*background-color: #5f5f5f;*/
+    }
+        .position img{width: 100%;height: 100%}
+
+    .address {
+        height: 100%;
+        width: 92.27%;
+        /*background-color: #4c90f5;*/
+        font-family: PingFang-SC-Medium;
+        font-size: 1.5em;
+        margin-left: 2%;
+        padding-top: 2.2%;
+        color: #323131;
+    }
+
+    .select {
+        padding-top: 1%;
+        padding-left: 4%;
+        width: 100%;
+        height: 3.74%;
+        background-color: #E7E7E7;
+        font-size: 1.875em;
+        font-family: "PingFang SC";
+        font-weight: bold;
+
+    }
+
+    .Specification {
+        display: flex;
+        width: 92%;
+        height: 5%;
+        font-family: "PingFang SC";
+    }
+
+    .specification {
+        width: 90%;
+        padding-top: 1%;
+        padding-left: 4%;
+        font-size: 1.75em;
+        font-weight: bold;
+    }
+
+    .weight {
+        width: 10%;
+        font-size: 1.75em;
+        padding-top: 1%;
+        padding-left: 6%;
+        cursor: pointer;
+        border: none;background-color: transparent;outline: none;
+    }
+
+    .number {
+        margin: 0 auto;
+        display: flex;
+        width: 92%;
+        height:5%;
+    }
+
+    .number1 {
+        padding-top: 1.5%;
+        width: 70%;
+        height: 100%;
+        font-family: PingFang-SC-Medium;
+        font-weight: bold;
+        font-size: 1.75em;
+        color: #323131;
+
+    }
+
+    .number2 {
+        display: flex;
+        width: 30%;
+        height: 100%;
+        font-size: 1.75em;
+        font-family: PingFang-SC-Medium;
+
+    }
+
+    .digit {
+        margin: 0 1%;
+        line-height: 265%;
+        text-align: center;
+        width: 31%;
+        height: 100%;
+        background-color: #B8D2FB;
+    }
+
+    .btn {
+        font-size: 1.75em;
+        width: 33%;
+    }
+
+  /*  .line {
+        margin: 0 auto;
+        height: 1px;
+        width: 92%;
+        background-color: #E7E7E7;
+    }*/
+
+    .place {
+        margin: 1.5% auto;
+        display: flex;
+        width: 92%;
+        height: 4.5%;
+
+    }
+
+    .receipt {
+        height: 100%;
+        width:60%;
+        font-size: 1.75em;
+        font-family: PingFang-SC-Medium;
+        line-height: 250%;
+        color: #323131;
+        font-weight: bold;
+    }
+
+    .Place {
+       border: none;background-color: transparent;outline: none;
+        height: 100%;
+        width: 61%;
+        font-family: PingFang-SC-Medium;
+        font-size: 1.5em;
+        color: #757575;
+
+    }
+
+    .Coupon {
+
+        width: 92%;
+        height: 4.5%;
+        margin: 1% auto;
+        display: flex;
+    }
+
+    .couponLeft {
+
+        width: 75%;
+        font-size: 1.75em;
+        font-family: PingFang-SC-Medium;
+        color: #323131;
+        font-weight: bold;
+
+    }
+    .couponRight{
+        text-align: center;
+        margin-right: 1%;
+        display: flex;
+        width: 25%;
+        height: 100%;
+        font-family: PingFang-SC-Medium;
+        font-size: 1.75em;
+        color: #323131;
+
+    }
+    .man{
+        width: 25%;
+        height: 100%;
+    }
+    .price{
+        line-height:150%;
+        text-align: center;
+        width: 25%;
+        height: 100%;
+    }
+    .Jian{
+        width: 25%;
+        height: 100%;
+    }
+
+    .buying {
+        height: 7.34%;
+        width: 100%;
+        background-color: #4C90F5;
+        margin-bottom: 0;
+        font-family: PingFang-SC-Medium;
+        font-size: 1.875em;
+        color: #ffffff;
+        line-height:290%;
+        text-align: center;
+        cursor: pointer;
+
+    }
+</style>
