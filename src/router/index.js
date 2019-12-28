@@ -26,7 +26,7 @@ import ShareDetail from "../views/Order/ShareDetail";
 import OrderDetail from "../views/Order/OrderDetail";
 import add_address from "../views/add_address";
 import DiscountCoupon from "../views/DiscountCoupon";
-
+import WalletRouter2 from "../views/WalletRouter2";
 import addsuccess from "../views/addsuccess";
 import UpdateAddress from "../views/UpdateAddress";
 import UpdateInfo from "../views/UpdateInfo";
@@ -35,6 +35,7 @@ import UpdateSuccess from "../views/UpdateSuccess";
 import UpdateAdsuccess from "../views/UpdateAdsuccess";
 import My from "../views/My";
 import OrderSubmit from "../views/OrderSubmit";
+import Start from "../views/Start";
 
 
 
@@ -45,38 +46,47 @@ const routes = [
   {
     path: '/',          //入口-有底部导航的都是他的 children - 杨某
     name: 'home',
+    redirect:'/thehome/start',
     component:Home,
 
     children:[
-      {path:'thehome',component:TheHome},    //首页的路由-杨某
+
+      {path:'thehome',component:TheHome,   //带有底部导航的
+        redirect:'start',
+        children:[
+            /*带底部导航的*/
+          {path:'start',component:Start},   //首页
+          {path:'service',component:Service},  //客服-李某
+
+          {path:'wallet',component:Wallet,    //钱包-李
+            redirect:'/thehome/wallet/walletRouter1',
+            children:[   //钱包-李某
+              {path:'walletRouter1',component:WalletRouter1},  //钱包-李某
+              {path:'walletRouter2',component:WalletRouter2},  //钱包-李某
+            ]},
+
+          {         //我的-吴某
+            path:'Order',
+            component:Order,
+            children:[
+              {path:'My',component:My,children:[
+                  {path: 'AllOrder', component: AllOrder},
+                  {path:'NoFinish',component:NoFinish},
+                  {path:'Finished',component:Finished},
+                ]},
+              {path: 'myaddress',component: MyAddress}, //我的地址-杨某
+              {path:'MyShare', component:MyShare},
+              {path:'myCards',component:DiscountCoupon}
+            ],
+
+          },
+
+        ]
+      },
 
 
       {path: '/MoreTravel/:menuName', name: '/MoreTravel', component: MoreTravel},   //更多旅游界面-况某
-
-      {path:'/service',component:Service},  //客服-李某
-
-      {path:'/wallet',component:Wallet,children:[   //钱包-李某
-          {path:'/wallet/walletRouter1',component:WalletRouter1},  //钱包-李某（跟 /wallet 是一样的）
-        ]},
-
-
       {path:'/addAddress',component:add_address},
-      {         //吴某
-        path:'/Order',
-        component:Order,
-        children:[
-          {path:'/My',component:My,children:[
-              {path: '/Order/AllOrder', component: AllOrder},
-              {path:'/Order/NoFinish',component:NoFinish},
-              {path:'/Order/Finished',component:Finished},
-            ]},
-          {path: '/myaddress',component: MyAddress}, //我的地址-杨某
-          {path:'/MyShare', component:MyShare},
-          {path:'myCards',component:DiscountCoupon}
-        ],
-
-      },
-
       {path:'/ShareDetail',component:ShareDetail},
       {path:'/OrderDetail',component:OrderDetail},
 

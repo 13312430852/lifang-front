@@ -4,17 +4,17 @@
             <div id="sort">
                 <ul>
                     <li>
-                        <router-link active-class="checkted" class="uncheckted" to="/Order/AllOrder">
+                        <router-link active-class="checkted" class="uncheckted" to="/thehome/Order/My/AllOrder">
                             全部订单
                         </router-link>
                     </li>
                     <li>
-                        <router-link active-class="checkted" class="uncheckted" to="/Order/NoFinish">
+                        <router-link active-class="checkted" class="uncheckted" to="/thehome/Order/My/NoFinish">
                             未支付
                         </router-link>
                     </li>
                     <li>
-                        <router-link active-class="checkted" class="uncheckted" to="/Order/Finished">
+                        <router-link active-class="checkted" class="uncheckted" to="/thehome/Order/My/Finished">
                             已支付
                         </router-link>
                     </li>

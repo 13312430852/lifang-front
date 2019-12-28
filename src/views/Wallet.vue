@@ -127,12 +127,12 @@
             lllla(){
                 this.theOne  = true;
                 this.theTwo = false;
-                this.$router.push('/wallet/walletRouter1');
+                this.$router.push('/thehome/wallet/walletRouter1');
             },
             lllla2(){
                 this.theOne = false;
                 this.theTwo = true;
-                this.$router.push('/wallet/walletRouter2')
+                this.$router.push('/thehome/wallet/walletRouter2')
             }
         }
     }

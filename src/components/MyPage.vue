@@ -58,20 +58,20 @@
 
             ToallOrder(){
                 this.distance = 0;
-                this.$router.push('/Order/AllOrder')
+                this.$router.push('/thehome/Order/My/AllOrder')
 
             },
             ToShare(){
                 this.distance = 25;
-                this.$router.push('/MyShare')
+                this.$router.push('/thehome/Order/MyShare')
             },
             toCardTicket(){
                 this.distance = 50;
-                this.$router.push('/Order/myCards')
+                this.$router.push('/thehome/Order/myCards')
             },
             toAddress(){
                 this.distance = 75;
-                this.$router.push('/myaddress');
+                this.$router.push('/thehome/Order/myaddress');
             }
         },
         created() {

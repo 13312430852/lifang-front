@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="item2" v-for="moneyItem in moneyList" ><!--顶部-->
-            <ol class="item1" @click="toDeatils">
+<!--            <ol class="item1" @click="toDeatils">-->
+            <ol class="item1">
                 <li class="item3" v-text="moneyItem.moneyTime"></li>
                 <li class="item3" v-text="moneyItem.moneyPrice"></li>
                 <li class="item3" v-text="moneyItem.moneyDetails"></li>

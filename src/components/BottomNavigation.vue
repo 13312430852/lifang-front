@@ -24,36 +24,43 @@
         name: "BottomNavigation",
         data(){
             return{
-                isHome:true,
+                isHome:false,
                 isWallet:false,
                 isService:false,
                 isMe:false,
             }
         },
+        directives:{
+            on:{
+                inserted(el){
+                    el.onfocus;
+                }
+            }
+        },
         methods:{
             toHome(){
-                this.$router.push('/thehome');
+                this.$router.push('/thehome/start');
                 this.isHome=true,
                     this.isWallet=false,
                     this.isService=false,
                     this.isMe=false
             },
             toWallet(){
-                this.$router.push('/wallet');
+                this.$router.push('/thehome/wallet');
                 this.isHome=false,
                     this.isWallet=true,
                     this.isService=false,
                     this.isMe=false
             },
             toService(){
-                this.$router.push('/service');
+                this.$router.push('/thehome/service');
                 this.isHome=false,
                     this.isWallet=false,
                     this.isService=true,
                     this.isMe=false
             },
             toMe(){
-                this.$router.push('/Order/AllOrder');
+                this.$router.push('/thehome/Order/My/AllOrder');
                 this.isHome=false,
                     this.isWallet=false,
                     this.isService=false,
