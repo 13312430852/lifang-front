@@ -7,7 +7,7 @@
         </div><!--搜索部分-->
 
         <div style="height: 20.5%;margin-top: 4%;margin-bottom: 4%"><!--轮播部分-->
-            <swiper :options="swiperOption" style="height: 100%;width: 100%">
+            <swiper :options="swiperOption" style="height: 100%;width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
                     <div class="banner" @click="toDetail(item.goodsId)" :style="{backgroundImage:'url(' + item.banner.bannerImageUrl + ')'}">
 
@@ -591,7 +591,7 @@
         width: 24%;
         height: 11.5vh;
         float: left;
-        margin-left: .2%;
+        margin-left: .7%;
         margin-bottom: 3%;
     }
     .nav{
@@ -643,6 +643,7 @@
 
     .noticeList{
         display: inline-block;
+        border-radius: 0.4rem;
         /*width:260px;*/
         width:34.6%;
         height:100%;
@@ -687,7 +688,7 @@
     .hot_col-1{
         flex: 1;
         display: flex;
-        margin-bottom: 8%;
+        margin-bottom: 4%;
         /*background-color: #4c90f5;*/
         /*height: 22%;*/
     }

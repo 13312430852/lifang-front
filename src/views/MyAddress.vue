@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%;height: 100%">
+    <div style="width: 100%;height: 100%;padding-top: 3%">
         <div :class="{'adrressBox':! isNullAddrress,'borderNotRadius':isNullAddrress}">
             <div class="tips"><span class="theTitle">我的收获地址</span></div>
             <div class="butBox">

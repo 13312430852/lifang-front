@@ -68,8 +68,11 @@ const routes = [
           {         //我的-吴某
             path:'Order',
             component:Order,
+            redirect:'/thehome/Order/My',
             children:[
-              {path:'My',component:My,children:[
+              {path:'My',component:My,
+                redirect:'/thehome/Order/My/AllOrder',
+                children:[
                   {path: 'AllOrder', component: AllOrder},
                   {path:'NoFinish',component:NoFinish},
                   {path:'Finished',component:Finished},

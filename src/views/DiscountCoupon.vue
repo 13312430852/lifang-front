@@ -86,6 +86,7 @@
 
 <style scoped>
     html, body, .root {
+        padding-top: 3%;
         height: 100%;
         /*background: #4c90f5;*/
     }

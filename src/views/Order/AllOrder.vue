@@ -78,16 +78,15 @@
 <style scoped>
     #box1{
         width: 100%;
-        height: 100%;
-        margin: 13% auto;
+        height: 92%;
+        margin: 2% auto;
+        background-color: white;
         font-family: "PingFang SC";
-        background-color:white;
-        overflow-y: scroll;
     }
     .goods{
         width: 100%;
         height: 13%;
-        background-color: #F6F5F4;
+        background-color:#f6f5f4;
         display: flex;
         font-family: "PingFang SC";
         margin: 6% auto;

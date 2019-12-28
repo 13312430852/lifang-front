@@ -42,12 +42,12 @@
 
 <style scoped>
     .over{
-        overflow-y: scroll;
+        height: 100%;
+        overflow-y: scroll!important;
     }
     .theOrderBox{
         height: 100%;
         overflow-y: hidden;
-
     }
 
     #navList li{
@@ -66,7 +66,7 @@
 
     #sort{
         width: 66.6%;
-        height:3.4%;
+        height:3%;
         display: flex;
         margin: 4.1% auto;
         border-radius: 24px;

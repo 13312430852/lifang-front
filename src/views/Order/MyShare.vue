@@ -1,7 +1,6 @@
 <template>
-    <div>
+    <div style="height: 100%;overflow-y: scroll;">
         <div id="box2">
-
             <div class="Share">
                 <div class="edit1">
                     <div class="quanxuan">
@@ -87,6 +86,12 @@
                         'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本',
 
                     },
+                    {'goods_image_url': require('../../assets/clothse.jpg'),
+                        'goods_name':'T恤6',
+                        'share_time':'2019-12-12',
+                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本',
+
+                    },
                 ],
                 isShow:false,
 
@@ -135,19 +140,22 @@
 
 <style scoped>
     .sharBox{
-        overflow-y: scroll;
+        height: 80%;
+        overflow-y: scroll!important;
     }
 #box2{
     width: 92%;
     border-radius: 12px;
-    background-color: #ffffff;
-    margin: 5% auto;
+    background-color: #F6F5F4;
+    margin-left: auto;
+    margin-right: auto;
+    height: 60%;
     /*border: 1px solid  #F6F5F4;*/
 
 }
 .Share{
     width: 100%;
-    /*height: 100%;*/
+    height: 100%;
     margin: 3% auto;
     /*background-color: green;*/
 }
@@ -163,12 +171,12 @@
 }
 .Share_box{
     width: 45%;
-    height: 25%;
+    height: 23vh;
     margin: 2.5%;
     float: left;
     border-radius: 6px;
     /*border: 1px solid black;*/
-    background-color: #F6F5F4;
+    background-color: white;
     font-family:PingFang SC;
 
 }
