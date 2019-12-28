@@ -5,7 +5,7 @@
                 <span class="theMenuTitle" v-text="typeList.menuName">惊天美食</span>
                 <span class="moreGoods" @click="toMore(typeList.menuName)">更多</span>
             </div>
-
+<!--sesasfa-->
             <div class="goodsList">
                 <div class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4"  @click="toGoodsDetail(item.goods.goodsId)">
 <!--                        <img class="goodImg" :src="item.goods.goodsImageUrl" alt="">-->
