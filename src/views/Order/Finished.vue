@@ -22,9 +22,8 @@
         },
         created() {
 
-            axios.post('http://192.168.10.66:8090/order/queryOrder',
+            axios.post('http://af7a8ace.ngrok.io/order/userQueryOrder',
                 {
-                    "userId":"user-001",
                     "ordersPayState":"1"
                 }).then(response => {
                 this.goods = response.data.data.records;

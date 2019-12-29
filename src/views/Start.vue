@@ -585,7 +585,7 @@
     .menuIcon{
         height: 65%;
         background-repeat: no-repeat;
-        margin-left: 20%;
+        margin-left: 25%;
     }
     .realyNav{
         width: 24%;

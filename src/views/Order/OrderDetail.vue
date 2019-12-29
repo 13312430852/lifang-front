@@ -6,75 +6,104 @@
                 <div class="logistics_Icon">
                     <img src="../../assets/car.png" height="60%" width="58%"/>
                 </div>
-                <div class="logistics_Message" v-text="goods[0].orders_express_state"></div>
+                <div class="logistics_Message" v-text="ordersExperssState123"></div>
             </div>
             <hr style="background-color: lightgrey">
             <div class="logistics2">
                 <div class="logistics_Icon">
                     <img src="../../assets/position.png" height="70%" width="50%"/></div>
-                <div class="logistics_Message" v-text="goods[0].rc_address"></div>
+                <div class="logistics_Message" v-text="goods.rcAddress"></div>
             </div>
         </div>
         <div class="Detail">
-            <div class="every" v-for="(good,i) in goods">
+            <div class="every">
                 <div class="store">
-                    <div class="left" v-text="good.business_name"></div>
-                    <div class="right" v-text="good.orders_pay_state"></div>
+                    <div class="left" v-text="goods.businessName"></div>
+                    <div class="right" v-text="ordersPayState123"></div>
                 </div>
                 <div class="picture_message">
                     <div class="picture">
-                        <img :src="good.goods_image_url" width="100%" height="100%">
+                        <img :src="goods.goodsImageUrl" width="100%" height="100%">
                     </div>
 
                     <div class="message">
-                        <div class="message_1" v-text="good.goods_name"></div>
+                        <div class="message_1" v-text="goods.goodsName"></div>
                         <div class="message_2">
-                            <div class="discript" v-text="good.goods_desc"></div>
-                            <div class="price" v-text="good.goods_price"></div>
+                            <div class="discript" v-text="goods.goodsDesc"></div>
+                            <div class="price" v-text="goods.goodsPrice"></div>
                         </div>
                     </div>
                 </div>
                 <div class="amount">
                     <div class="left">购买数量</div>
-                    <div class="right" v-text="good.goods_num"></div>
+                    <div class="right" v-text="goods.goodsNum"></div>
                 </div>
                 <div class="amount">
                     <div class="left">总价</div>
-                    <div class="right" v-text="good.goods_price"></div>
+                    <div class="right" v-text="goods.ordersPrice"></div>
                 </div>
                 <div class="amount">
                     <div class="left">下单时间</div>
-                    <div class="right" v-text="good.orders_time"></div>
+                    <div class="right" v-text="goods.ordersTime"></div>
                 </div>
             </div>
             <div class="btn1">
-                <button class="tuikuan">联系客服退款</button>
+                <button class="tuikuan" @click="toservice">联系客服退款</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+
+
     export default {
         name: "OrderDetail",
         data() {
             return {
-                goods: [
+                goods:
                     {
-                        'orders_express_state': '已发货',
-                        'rc_address': '贵安数字经济产业园',
-                        'goods_image_url': require('../../assets/clothse.jpg'),
-                        'business_name': '安踏官方旗舰店',
-                        'goods_price': '55',
-                        'goods_num': '1',
-                        'orders_price': '55',
-                        'orders_time': '2019.11.11',
-                        'orders_pay_state': '已支付',
-                        'goods_name': '表情包T恤',
-                        'goods_desc': '这是一件很骚的表情包T恤不吃白不吃举措啥时间你不压车'
+                        'ordersExperssState': 'n',
+                        'rcAddress': '贵安数字经济产业园',
+                        'goodsImageUrl': require('../../assets/clothse.jpg'),
+                        'businessName': '安踏官方旗舰店',
+                        'goodsPrice': '55',
+                        'goodsNum': '1',
+                        'ordersPrice': '55',
+                        'ordersTime': '2019.11.11',
+                        'ordersPayState': '0',
+                        'goodsName': '表情包T恤',
+                        'goodsDesc': '这是一件很骚的表情包T恤不吃白不吃举措啥时间你不压车'
                     },
-                ]
+
             }
+        },
+        created(){
+            let newGoods= this.$route.query.goods;
+            this.goods = newGoods;
+            console.log(this.goods);
+        },
+        computed:{
+            ordersExperssState123(){
+                if(this.goods.ordersExperssState=='1'){
+                    return '已发货'
+                }else if(this.goods.ordersExperssState=='0') {
+                    return  '未发货'
+                }
+            },
+            ordersPayState123(){
+                if(this.goods.ordersPayState=='0'){
+                    return '未支付'
+                }else if(this.goods.ordersPayState=='1'){
+                    return '已支付'
+                }
+            }
+        },
+        methods:{
+            toservice(){
+                this.$router.push('/service')
+            },
+
         }
     }
 </script>
@@ -188,16 +217,17 @@
     }
 
     .left {
-        width: 75%;
+        width: 50%;
         height: 100%;
         margin-left: 5%;
         /*background-color: lightpink;*/
     }
 
     .right {
-        width: 15%;
+        width: 45%;
         height: 100%;
         text-align: right;
+        margin-right: 5%;
         /*background-color: #ca60ff;*/
     }
     .price{
@@ -237,8 +267,8 @@
 
     }
     .tuikuan{
-        width: 20%;
-        height: 5%;
+        width: 30%;
+        height: 20%;
         color: white;
         font-size: 1.2rem;
         background-color: #f40;

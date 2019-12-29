@@ -91,7 +91,7 @@ const routes = [
       {path: '/MoreTravel/:menuName', name: '/MoreTravel', component: MoreTravel},   //更多旅游界面-况某
       {path:'/addAddress',component:add_address},
       {path:'/ShareDetail',component:ShareDetail},
-      {path:'/OrderDetail',component:OrderDetail},
+      {path:'/theOrderDetail',component:OrderDetail},
 
      ]
   },

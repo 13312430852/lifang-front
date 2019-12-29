@@ -7,6 +7,8 @@
                 <span class="oldPrice">￥13</span>
                 <span class="activeType" @click="toShow = !toShow">领取  优惠券</span>
             </div>
+            <div class="tip" v-if="isShow">领取成功</div>
+
             <div class="name_useType">
                 <div class="DianName" v-text="detailGood.goods.goodsName">花溪重庆火锅换句话说几号放假设计费会使肌肤好几十福建省是否火花塞</div>
                 <div class="useType"><span v-text="detailGood.goods.consumeType">到店消费</span></div>
@@ -25,15 +27,16 @@
         <div class="goodDetailList" v-for="item in detailGood.goodsDetailsUrl">
             <img class="theImg" src="item">
         </div>
+
         <div class="carbox" v-if="toShow">
-            <div class="car1" v-for="(item1,i) in cards">
+            <div class="car1" v-for="(item1,i) in card">
                 <div class="left">
                     <div class="car_price" v-text="item1.cards_price"></div>
                     <div class="car_condition" v-text="item1.cards_order"></div>
                 </div>
                 <div class="right">
                     <div class="getBtn">
-                        <div class="font" @click="lingqu()">领取</div>
+                        <div class="font" @click="lingqu(),toShow=!toShow" >领取</div>
                     </div>
                 </div>
             </div>
@@ -61,7 +64,8 @@
         data(){
             return{
                 toShow:false,
-                cards:[
+                isShow:false,
+                card:[
                     { 'cards_price':'20',
                         'cards_order':'满100可用'},
                     { 'cards_price':'20',
@@ -106,6 +110,7 @@
                 this.toShow=!this.toShow;
                 // console.log(this.toShow)
             },
+
             lingqu(){
                 axios.post('http://123.207.18.77:8090/goods_details/queryGoods',
                     {
@@ -114,7 +119,14 @@
                     console.log(success)
                 }).catch(function (err) {
                     console.log(err)
-                })
+                });
+                this.isShow=true;
+                setTimeout(
+                    () => {
+                        this.isShow=false
+                    }
+                ,2000)
+
 
             }
             },
@@ -337,5 +349,25 @@
         margin-top: 10%;
         font-size: 2.5rem;
 
+    }
+    .tip{
+        position: absolute;
+        width: 40%;
+        height: 8%;
+        left: 50%;
+        margin-left: -20%;
+        font-family: "PingFang SC";
+        font-size: 2.5rem;
+        background-color: #e1e7f5;
+        text-align: center;
+        color: #4c4c4c;
+        line-height: 280%;
+        border-radius: 5px;
+        animation: myfirst 3s;
+    }
+    @keyframes myfirst{
+        0%   {opacity:100%;}
+        50%   {opacity:50%;}
+        100%   {opacity:0%;}
     }
 </style>

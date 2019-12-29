@@ -17,9 +17,10 @@
         name: "AllOrder",
         data(){
             return{
+                url:process.env.VUE_APP_URL,
                 goods:[
-                    {   'ordersId':'1234446',
-                        'goodsImageUrl': require('../../assets/1235.jpg'),
+                 /*   {   'ordersId':'1234446',
+                        'goodsImageUrl': 'http://ww1.sinaimg.cn/large/0069q4eTgy1gaactp9rlbj30dw0agt97.jpg',
                         'goodsName':'T恤',
                         'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
                     {   'ordersId':'sbhab',
@@ -49,19 +50,17 @@
                         'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
                     {'goodsImageUrl': require('../../assets/1235.jpg'),
                         'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
+                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},*/
                 ],
             }
         },
         created() {
-
-            axios.post('http://192.168.8.126:8090/order/queryOrder',
-                {
-                    "userId":"user-001",
-                    // "ordersPayState":"1"
-                }).then(response => {
+           /* axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
+            axios.defaults.headers.common["userType"] = 'MINE';*/
+            axios.post('http://af7a8ace.ngrok.io/order/userQueryOrder',{})
+                .then(response => {
+                    // console.log(response.data);
                 this.goods = response.data.data.records;
-
             }).catch(function (err) {
                 console.log(err);
             })
@@ -69,7 +68,7 @@
         },
         methods:{
             Todetail(goods){
-                this.$router.push({path: '/OrderDetail', query: {'goods':goods}})
+                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
             },
         }
     }

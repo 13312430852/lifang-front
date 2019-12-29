@@ -12,16 +12,19 @@ Vue.use(vueSwiper)
 
 
 
+
 //请求拦截器
 axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么，例如加入token
   axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
   axios.defaults.headers.common["userType"] = 'MINE';
+
   return config;
 }, function (error) {
   // 对请求错误做些什么
   return Promise.reject(error);
 });
+
 
 
 new Vue({

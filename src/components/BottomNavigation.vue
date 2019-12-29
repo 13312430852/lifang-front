@@ -22,22 +22,55 @@
 <script>
     export default {
         name: "BottomNavigation",
+
         data(){
             return{
-                isHome:false,
+                theUrl:null,
+
+                isHome : false,
                 isWallet:false,
                 isService:false,
-                isMe:false,
+                isMe:false
             }
         },
-        directives:{
-            on:{
-                inserted(el){
-                    el.onfocus;
-                }
-            }
+
+        created(){
+            this.judggUrl();
+
         },
         methods:{
+            judggUrl(){
+                this.theUrl = window.location.pathname;
+                if(this.theUrl.indexOf("/Order") != -1) {
+                    this.isHome=false;
+                    this.isWallet=false;
+                    this.isService=false;
+                    this.isMe=true;
+                }
+                else if (this.theUrl.indexOf("/start") != -1){
+                    this.isHome=true;
+                    this.isWallet=false;
+                    this.isService=false;
+                    this.isMe=false;
+                }
+                else if (this.theUrl.indexOf("/service") != -1){
+                    this.isHome=false;
+                    this.isWallet=false;
+                    this.isService=true;
+                    this.isMe=false;
+                }else if (this.theUrl.indexOf("/wallet") != -1){
+                    this.isHome=false;
+                    this.isWallet=true;
+                    this.isService=false;
+                    this.isMe=false;
+                }else {
+                    this.isHome=true;
+                    this.isWallet=false;
+                    this.isService=false;
+                    this.isMe=false;
+                }
+
+            },
             toHome(){
                 this.$router.push('/thehome/start');
                 this.isHome=true,
@@ -76,7 +109,7 @@
         /*height: 88px;*/
         width: 100%;
         background:rgba(255,255,255,1);
-        box-shadow:0px -1px 10px 0px rgba(0,0,2,0.3);
+        box-shadow:0px -1px 10px 0px rgba(0,0,2,0.1);
         position: absolute;
         bottom: 0;
         display: flex;
