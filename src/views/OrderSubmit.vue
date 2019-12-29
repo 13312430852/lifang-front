@@ -130,6 +130,7 @@
             this.theOrderId = this.$route.params.orderID;
 
 
+
             axios.post('sfhjs'+ this.theOrderId)        //获取订单的基本信息
                 .then(re => this.orderMsg = re.data.data)
                 .catch(err => console.log(err))

@@ -1,5 +1,6 @@
 <template>
     <div id="PanicBuying">
+
         <!--        商品图片-->
         <div class="bigPhoto">
             <img src="../assets/panicbuying.png" alt="">
@@ -57,6 +58,7 @@
             </select>
         </div>
 
+
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        优惠-->
         <div class="Coupon">
@@ -69,6 +71,7 @@
             </select>
 
         </div>
+
         <!--        立即购买-->
         <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
     </div>
@@ -83,6 +86,7 @@
         data() {
             return {
                 goodId:12456,
+                theBusinessId:1111, //商家ID
                 orderId:null,
                 selectAddressId:'', //用户选择的地址ID
                 userAddress:[
@@ -120,7 +124,6 @@
                         "defaultAddress": "0"
                     }], //用户的地址
 
-
                 userGoodCaeds:[
                     {
                     "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
@@ -148,6 +151,7 @@
                     }],
                 cardsPrice:null,
                 chooseCar:null,
+                chooseCarId:null,
                 userMsg:{userId:123},
 
                 count:1,  //商品购买数量
@@ -200,16 +204,23 @@
                     }
                 },
                 createOrder:{       //订单
-                    'userId':'',        //用户ID
-                    'shopId':this.goodId,        //商品ID
+                    'goodsId':this.goodId, //商品ID
+
+                    'businessId':this.theBusinessId,
+
                     'ordersPrice':this.allPrice,       //总价
                     'goodsNum':this.count,      //购买数量
                     'goodsPrice':this.goodsPrice,   //商品单价
-                    // 'ordersTime':'',    //订单生成时间
-                    // 'ordersExpressState':'',   //配送状态
                     'addressId':this.selectAddressId,         //地址ID
-                    'goodsNormsId':this.goodsNormsId //商品规格
-                }
+                    'goodsNormsId':this.goodsNormsId, //商品规格
+                    'discountId':this.chooseCar,
+
+                },
+
+                toPayMsg:{
+                    'theGoodMsg':this.GoodsList,
+
+                },
             }
         },
         watch:{
@@ -230,6 +241,7 @@
             }
         },
         computed:{
+
             isUserCards(){      //用来判断是否达到使用此优惠券的
                 return (it) => {
                     return !(it.cardsOrder <= this.GoodsList.goodsNorms.currentPrice * this.count);
@@ -265,21 +277,30 @@
                 }
 
             },
+
             submitOrder(){      //提交订单后返回一个订单ID
                 // 响应式添加订单对象
-                this.$set(this.createOrder,'shopId',this.goodId);
+                this.$router.push('/submitOrder/'+this.orderId);
+                this.$set(this.createOrder,'goodsId',this.goodId);
                 this.$set(this.createOrder,'userId',this.userMsg.userId);
                 this.$set(this.createOrder,'ordersPrice',this.allPrice);
                 this.$set(this.createOrder,'goodsNum',this.count);
                 this.$set(this.createOrder,'goodsPrice',this.goodsPrice);
                 this.$set(this.createOrder,'addressId',this.selectAddressId);
+                this.$set(this.createOrder,'businessId',this.theBusinessId);
                 this.$set(this.createOrder,'goodsNormsId',this.goodsNormsId);
+                if(this.chooseCar == null){
+                    this.$set(this.createOrder,'discountId',null);
+                }else {
+                    this.$set(this.createOrder,'discountId',this.chooseCar.cardsId);
+                }
+                console.log(this.createOrder);
 
-                this.$router.push('/submitOrder/123');
-                axios.post(process.env.VUE_APP_URL + '/jdsjsdj',this.createOrder)
+                // this.$router.push('/submitOrder/123');
+                axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
                     .then(response =>{
-
-                        this.orderId = response.data.data;
+                        this.orderId = response.data.data;          //成功后返回订单ID
+                        console.log(response.data.data);
                         /*this.$router.push('/submitOrder'+this.orderId);*/
                         this.$router.push('/submitOrder/'+this.orderId);        //将订单ID传过去
 
@@ -296,7 +317,7 @@
             //测试时的
 
 
-            this.goodId = this.$route.params.goodId1;   //接收商品ID
+            // this.goodId = this.$route.params.goodId1;   //接收商品ID
             axios.get('http://localhost:8080/goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
                 this.allPrice = GoodsList.goodsNorms.currentPrice;
@@ -315,11 +336,11 @@
                 })
                 .catch(err => console.log(err));
 
-            axios.get('http')           //获取属于该用户和该商品的优惠券
+          /*  axios.get('http')           //获取属于该用户和该商品的优惠券
                 .then(re =>{
                     this.userGoodCaeds = re.data.data;
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.log(err));*/
 
 
 
