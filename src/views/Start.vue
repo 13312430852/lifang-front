@@ -33,8 +33,13 @@
                     <div class="hotImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}">
                         <div class="theCoverBox">
                             <div class="theCoverBox1">
-                                <span>限时:</span>
-                                <span style="font-size: 1.75rem" v-text="">37:13:09</span>
+<!--                                <span>未开始</span>-->
+<!--                                <span>抢购时间结束</span>-->
+                                <count-down :time="2 * 24 * 60 * 60 * 1000">
+                                    <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
+                                        <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
+                                    </template>
+                                </count-down>
                             </div>
                         </div>
                     </div>
@@ -49,14 +54,23 @@
 
 <script>
     import GoodsList from "../components/GoodsList";
+    import CountDown from '@chenfengyuan/vue-countdown'
 
     export default {
         name: "Start",
         components:{
             GoodsList,
+            CountDown
         },
         data(){
             return{
+                pro:{
+                    '小时':1,
+                    '分钟':1,
+                    '秒':1,
+                },
+
+
                 searchInitValue:'花溪重庆火锅',
                 theGoods_1:[            //获取所有商品基本数据
                     {
@@ -526,6 +540,7 @@
             }
         },
         methods:{
+
             toMore(menuName1){
                 this.$router.push('/MoreTravel/' + menuName1)
             },

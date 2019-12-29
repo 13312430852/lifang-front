@@ -38,14 +38,14 @@
         </div>
         <!--        线-->
 <!--        <div class="line"></div>-->
-        <hr style="margin: 0 auto; width:92%;height: 1px;background-color:#E7E7E7;">
+        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        规格-->
         <div class="Specification">
             <div class="specification">规格</div>
             <div class=" weight" v-text="GoodsList.goodsNorms.norms">小份</div>
         </div>
         <!--        线-->
-        <hr style="margin: 0 auto; width:92%;height: 1px;background-color:#E7E7E7;">
+        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
 <!--        <div class="line"></div>-->
         <!--        地址-->
         <div class="place">
@@ -57,7 +57,7 @@
             </select>
         </div>
 
-        <hr style="margin: 0 auto; width:92%;height: 1px;background-color:#E7E7E7;">
+        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        优惠-->
         <div class="Coupon">
             <div class="couponLeft">优惠券</div>
@@ -93,7 +93,7 @@
                         "addressName": "555",
                         "addressTel": 123,
                         "addressDel": 0,
-                        "defaultAddress": "1"
+                        "defaultAddress": "0"
                     }, {
                         "addressId": "1e374e91b67550bb3a9ee3070e7ca55d",
                         "userId": "123",
@@ -101,7 +101,7 @@
                         "addressName": "555",
                         "addressTel": 123,
                         "addressDel": 0,
-                        "defaultAddress": "0"
+                        "defaultAddress": "1"
                     }, {
                         "addressId": "ce927f53fd1d4d13ae1f37daa8252e58",
                         "userId": "123",
@@ -296,16 +296,6 @@
             //测试时的
 
 
-            //获取用户的基本信息
-            axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';
-            axios.get('http://50558287.ngrok.io/mine/getUserInfo')                                                 //通过...码获取用户基本信息
-                .then(re => {
-                    this.userMsg = re.data.data;
-                })
-                .catch(err => alert('未请求到用户基本数据错误为：'+err))
-
-
             this.goodId = this.$route.params.goodId1;   //接收商品ID
             axios.get('http://localhost:8080/goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
@@ -314,8 +304,15 @@
                 this.goodsPrice = GoodsList.goodsNorms.currentPrice;
             }).catch(err => alert(err));
 
-            axios.get('http://192.168.8.90:8090/address/findAddressById/'+123)      //获取地址
-                .then(re => this.userAddress = re.data.data)
+            axios.get('http://192.168.8.90:8090/address/findAddressById/')      //获取地址
+                .then(re =>{
+                    this.userAddress = re.data.data;
+                    this.userAddress.forEach(item => {
+                        if(item.defaultAddress == '1'){
+                            this.selectAddressId = item.addressId;
+                        }
+                    })
+                })
                 .catch(err => console.log(err));
 
             axios.get('http')           //获取属于该用户和该商品的优惠券
@@ -448,13 +445,13 @@
     .Specification {
         display: flex;
         width: 92%;
-        height: 5%;
+        height: 7%;
         font-family: "PingFang SC";
     }
 
     .specification {
         width: 90%;
-        padding-top: 1%;
+        padding-top: 4%;
         padding-left: 4%;
         font-size: 1.75em;
         font-weight: bold;
@@ -463,7 +460,7 @@
     .weight {
         width: 10%;
         font-size: 1.75em;
-        padding-top: 1%;
+        padding-top: 4%;
         padding-left: 6%;
         cursor: pointer;
         border: none;background-color: transparent;outline: none;
@@ -473,11 +470,11 @@
         margin: 0 auto;
         display: flex;
         width: 92%;
-        height:5%;
+        height:7%;
     }
 
     .number1 {
-        padding-top: 1.5%;
+        padding-top: 4%;
         width: 70%;
         height: 100%;
         font-family: PingFang-SC-Medium;
@@ -521,7 +518,7 @@
         margin: 1.5% auto;
         display: flex;
         width: 92%;
-        height: 4.5%;
+        height: 5.5%;
 
     }
 
@@ -546,9 +543,9 @@
     }
 
     .Coupon {
-
+        padding-top: 2.8%;
         width: 92%;
-        height: 4.5%;
+        height: 5.5%;
         margin: 1% auto;
         display: flex;
     }
@@ -596,9 +593,12 @@
         font-family: PingFang-SC-Medium;
         font-size: 1.875em;
         color: #ffffff;
-        line-height:290%;
-        text-align: center;
+        /*line-height:290%;*/
+        /*text-align: center;*/
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
     }
 </style>
