@@ -112,11 +112,12 @@
             },
 
             lingqu(){
-                axios.post('http://123.207.18.77:8090/goods_details/queryGoods',
+                axios.post(process.env.VUE_APP_URL+'usercards/addUserCards',
                     {
-                        'cardsID':'123',
-                    }).then(response=>{
-                    console.log(success)
+                        "cardsId":'456'
+                    }
+                    ).then(response=>{
+                    console.log(response)
                 }).catch(function (err) {
                     console.log(err)
                 });

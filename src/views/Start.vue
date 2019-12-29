@@ -216,6 +216,8 @@
                             }
                         ]
                     },
+
+
                     {
                         "menuName": "惊天美食",
                         "data": [
@@ -569,12 +571,12 @@
         created() {
             /* axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
              axios.defaults.headers.common["userType"] = 'MINE';*/
-            axios.get('http://39de9ecd.ngrok.io/menu/queryAllMenu').then(response => {
+            axios.get(process.env.VUE_APP_URL + '/menu/queryAllMenu').then(response => {
                 this.Icon = response.data.data;
                 console.log(response);
             }).catch(err => alert(err))
 
-            axios.get('http://192.168.10.102:8090/banner/queryBannerList')
+            axios.get(process.env.VUE_APP_URL + '/banner/queryBannerList')
                 .then(re => {this.slide = re.data.data;console.log(this.slide)})
                 .catch(err => alert(err));
             /*  axios.get('http://123.207.18.77:8090/goodsWithMenuName/queryGoodsDetailWithMenuName')
