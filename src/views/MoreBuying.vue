@@ -95,7 +95,7 @@
             axios.get('http://123.207.18.77:8090/goods_details/queryGoodsWithDetailsById').then(response =>{
                 alert(123);
                 this.Goods = response.data.data
-            }).catch(err => alert(err))
+            }).catch()
         }*/
 
     }

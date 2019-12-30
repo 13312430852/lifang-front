@@ -43,8 +43,7 @@
                 addressID:null,     //要修改的地址id
                 userMsg:null,       //用户基本信息
                 address: {
-                    addressID:'',
-                    userId: "007007",
+                    addressId:'',
                     addressName: "",
                     addressTel: null,
                     rcAddress: "",
@@ -60,10 +59,13 @@
         },
         methods: {
             save() {
+                this.$set(this.address,'addressId',this.addressID);
+
+
                 let address = this.address;
                 console.log(address);
                 axios.put(
-                    "http://192.168.8.200:8090/address/updateAddress",
+                    process.env.VUE_APP_URL + "address/updateAddress",
                     JSON.parse(JSON.stringify(address))
                 )
                     .then(response => {
@@ -74,6 +76,7 @@
         },
         created() {
             this.addressID = this.$route.params.addressId;      //获取要修改的地址ID
+
 
        /*     //获取用户的基本信息
             axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');

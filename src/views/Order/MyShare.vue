@@ -133,7 +133,7 @@
 
             axios.get('http://123.207.18.77:8090/menu/queryAllMenu')
                 .then(re => user = re.data.data)
-                .catch(err => alert(err));
+                .catch();
         }
     }
 </script>

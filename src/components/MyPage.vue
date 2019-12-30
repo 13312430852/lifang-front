@@ -78,7 +78,7 @@
             //获取用户的基本信息
             axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
             axios.defaults.headers.common["userType"] = 'MINE';
-            axios.get('http://af7a8ace.ngrok.io/mine/getUserInfo')                                                 //通过...码获取用户基本信息
+            axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
                 .then(re => {
                     this.user = re.data.data;
                     console.log(this.user);

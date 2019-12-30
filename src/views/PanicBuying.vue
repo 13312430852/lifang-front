@@ -53,7 +53,7 @@
             <!--            定好的-->
             <div class="receipt">收货地址</div>
             <!--            获取-->
-            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: rtl">
                      <option v-for="item in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
             </select>
         </div>
@@ -122,7 +122,8 @@
                         "addressTel": 123,
                         "addressDel": 0,
                         "defaultAddress": "0"
-                    }], //用户的地址
+                    }
+                    ], //用户的地址
 
                 userGoodCaeds:[
                     {
@@ -148,7 +149,8 @@
                         "userCardsState": 1,
                         'cardsOrder':15,
                         'cardsPrice':5,
-                    }],
+                    }
+                    ],
                 cardsPrice:null,
                 chooseCar:null,
                 chooseCarId:null,
@@ -310,22 +312,24 @@
         },
         created() {
 
-            //测试时的
+         /*   //测试时的
             this.allPrice = this.GoodsList.goodsNorms.currentPrice;
             this.goodsNormsId = this.GoodsList.goodsNorms.norms;
             this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
             //测试时的
+*/
 
-
-            // this.goodId = this.$route.params.goodId1;   //接收商品ID
-            axios.get('http://localhost:8080/goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
+            this.goodId = this.$route.params.goodId1;   //接收商品ID
+            console.log(this.goodId);
+            axios.get(process.env.VUE_APP_URL + 'queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
-                this.allPrice = GoodsList.goodsNorms.currentPrice;
+                console.log(response.data.data);
+                this.allPrice = this.GoodsList.goodsNorms.currentPrice;
                 this.goodsNormsId = this.GoodsList.goodsNorms.norms;
-                this.goodsPrice = GoodsList.goodsNorms.currentPrice;
-            }).catch(err => alert(err));
+                this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
+            }).catch();
 
-            axios.get('http://192.168.8.90:8090/address/findAddressById/')      //获取地址
+            axios.get(process.env.VUE_APP_URL + 'address/findAddressById/')      //获取地址
                 .then(re =>{
                     this.userAddress = re.data.data;
                     this.userAddress.forEach(item => {
@@ -335,12 +339,6 @@
                     })
                 })
                 .catch(err => console.log(err));
-
-          /*  axios.get('http')           //获取属于该用户和该商品的优惠券
-                .then(re =>{
-                    this.userGoodCaeds = re.data.data;
-                })
-                .catch(err => console.log(err));*/
 
 
 

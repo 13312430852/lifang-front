@@ -42,10 +42,10 @@
         data(){
             return{
                 service:{
-                   /* customerServiceId: "0005",
+                    customerServiceId: "0005",
                     customerServiceTel: "17263717361",
                     customerServiceTime: "13:00~14:00",
-                    twoCode: null*/
+                    twoCode: null
                 }
             }
         },
