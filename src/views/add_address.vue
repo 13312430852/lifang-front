@@ -2,12 +2,7 @@
     <div style="height: 100%;width: 100%; font-family: 'PingFang SC'">
         <div class="headline_add-address">添加收货地址</div>
         <div class="div_content">
-            <div class="list1">
-                <div class="makecenter">
-                    用户ID:
-                    <span v-text="address.userId" style="margin-left: 4%;font-size: 1.75rem"></span>
-                </div>
-            </div>
+
             <div class="list1">
                 <div class="makecenter">
                     收货人:
@@ -110,7 +105,6 @@
     }
     .saveFont:link{
         text-decoration:none;
-
     }
     .headline_add-address {
         height: 6.8%;
@@ -125,9 +119,11 @@
         justify-content: center;
     }
     .div_content {
-        width: 100%;
+        margin: 0 auto;
+        width: 92%;
         height: 93.2%;
-        background: #ececec;
+        padding-top: 8%;
+        /*background: red;*/
     }
     .text {
         height: 50%;
@@ -148,15 +144,7 @@
         display: flex;
         align-items: center;
     }
-    .makecenter {
-        height: 100%;
-        margin-left: 5%;
-        width: 100%;
-        background: white;
-        font-size: 1.75rem;
-        display: flex;
-        align-items: center;
-    }
+
     .textarea1 {
         width: 50%;
         height: 70%;
