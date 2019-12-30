@@ -69,9 +69,9 @@
                         console.log(re.data.message);
                         axios.get('http://192.168.8.13:8090/usercards/queryUserCards/'+456)
                             .then(re => {this.discountCouponList = re.data.data;console.log(re.data.data)})
-                            .catch(err => alert(err))
+                            .catch()
                     })
-                    .catch(err => alert(err))
+                    .catch()
             }
         }
 
@@ -79,7 +79,7 @@
                axios.get('http://192.168.10.118:8090/usercards/queryUserCards/456').then(response =>{
                    console.log(response.data.data);
                    this.CouponList = response.data.data;
-               }).catch(err => alert(err))
+               }).catch()
            }*/
     }
 </script>

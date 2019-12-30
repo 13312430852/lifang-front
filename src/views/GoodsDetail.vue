@@ -3,9 +3,9 @@
         <div class="goodImg"><img style="width: 100%;height: 100%" :src="detailGood.goods.goodsImageUrl" alt=""></div> <!--展示图-->
         <div class="baseMessege">
             <div class="price_type">
-                <span class="rePrice">￥13</span>
-                <span class="oldPrice">￥13</span>
-                <span class="activeType" @click="toShow = !toShow">领取  优惠券</span>
+                <span class="rePrice" v-text="detailGood.goodsNorms.currentPrice">￥13</span>
+                <span class="oldPrice" v-text="detailGood.goodsNorms.origiPrice">￥13</span>
+                <span class="activeType" v-show="card != null" @click="toShow = !toShow">领取  优惠券</span>
             </div>
             <div class="tip" v-if="isShow">领取成功</div>
 
@@ -13,19 +13,19 @@
                 <div class="DianName" v-text="detailGood.goods.goodsName">花溪重庆火锅换句话说几号放假设计费会使肌肤好几十福建省是否火花塞</div>
                 <div class="useType"><span v-text="detailGood.goods.consumeType">到店消费</span></div>
             </div>
-            <div class="goodDesc" v-text="detailGood.goods.goodsDesc">
+            <div class="goodDesc" v-html="detailGood.goods.goodsDesc">
                 和胜股份公司符合施工方见好就收福建省福建师范是否合适手机号健身房和数据恢复及时发货时
             </div>
             <div class="addressBox">
                 <div style="width: 100%;height: 100%;margin-top: 8%">
                     <div class="addressIcon"><img style="width: 100%" src="../assets/adrressIcon.png"></div>
-                    <div class="address" >贵阳市花溪区花溪大学城学富路</div>
+                    <div class="address" v-text="detailGood.business.businessAddress">贵阳市花溪区花溪大学城学富路</div>
                 </div>
             </div>
         </div>
         <div class="goodDetailMsg">商品详情</div>
-        <div class="goodDetailList" v-for="item in detailGood.goodsDetailsUrl">
-            <img class="theImg" src="item">
+        <div class="goodDetailList" v-for="item in detailGood.goods.goodsDetailsUrl">
+            <img class="theImg" :src="item">
         </div>
 
         <div class="carbox" v-if="toShow">
@@ -45,7 +45,7 @@
         </div>
 
         <!--没有参与团购的-->
-        <purchase-and-share-bottom :price="67"></purchase-and-share-bottom>
+        <purchase-and-share-bottom :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
 
         <!--参与了团购的-->
         <!--<purchase-add-togeter :price="67" :isGroupPrice="15"></purchase-add-togeter>-->
@@ -65,19 +65,14 @@
             return{
                 toShow:false,
                 isShow:false,
-                card:[
-                    { 'cards_price':'20',
-                        'cards_order':'满100可用'},
-                    { 'cards_price':'20',
-                        'cards_order':'满100可用'},
-                    { 'cards_price':'20',
-                        'cards_order':'满100可用'},
-                ],
+                haveCard:false,
+
+                card:null,
                 cards_get:[
                     {'cardID':'123'}
                 ],
                 detailGood:{
-                    "goods": {
+                    /*"goods": {
                         "goodsId": "1",
                         "goodsName": "商品名字",
                         "goodsDesc": "商品描述",
@@ -100,7 +95,7 @@
 
 
                     "business": null,
-                    "goodsNormsList": []
+                    "goodsNormsList": []*/
                 },
                 id:'',
             }
@@ -112,11 +107,12 @@
             },
 
             lingqu(){
-                axios.post('http://123.207.18.77:8090/goods_details/queryGoods',
+                axios.post(process.env.VUE_APP_URL+'usercards/addUserCards',
                     {
-                        'cardsID':'123',
-                    }).then(response=>{
-                    console.log(success)
+                        "cardsId":'456'
+                    }
+                    ).then(response=>{
+                    console.log(response)
                 }).catch(function (err) {
                     console.log(err)
                 });
@@ -131,16 +127,19 @@
             }
             },
         created() {
-            this.id = this.$route.params;
-            console.log(this.$route.params);
-            axios.post('http://123.207.18.77:8090/goods_details/queryGoods',{
-                "goodsId": "1",
-            }).then(response=>{
+            this.id = this.$route.params.goodsDetail;
+         /*  console.log(this.$route.params.goodsDetail);
+            axios.post(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/'+this.id).then(response=>{
                 this.cards=response.data.data
             }).catch(function (err) {
                 console.log(err)
-            })
-            // axios.get('http://123.207.18.77:8090/goods_details/queryGoodsWithDetailsById/1').then(re => this.detailGood = re.data.data)
+            })*/
+            axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
+                .then(re =>{
+                    this.detailGood = re.data.data;
+                    this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
+                    this.card= this.detailGood.card;        // 商品的优惠券
+                })
         },
 
 

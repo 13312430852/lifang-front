@@ -56,7 +56,6 @@
                     if(localStorage.getItem('userToken') != null) this.nologined = false;
                     else this.nologined = true;
                 }
-
                         /*     //获取用户的基本信息
                              axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
                              axios.defaults.headers.common["userType"] = 'MINE';
@@ -65,10 +64,7 @@
                                     this.userMsg = re.data.data;
                                  })
                                 .catch(err => alert('未请求到用户基本数据错误为：'+err))*/
-
-
             },
-
 
             theHight(){     //解决安卓端软键盘弹出压缩页面
                 let keshiHeight = document.documentElement.clientHeight;  //获取页面高度

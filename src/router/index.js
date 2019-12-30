@@ -112,7 +112,7 @@ const routes = [
     //况某
   {path: '/MoreTravelOrder/buy/:goodId1', name:'PanicBuying', component:PanicBuying},
   {path:'/TheHome/moreBuying', name:'MoreBuying', component:MoreBuying},
-    {path:'/submitOrder/:orderID',component:OrderSubmit},
+    {path:'/submitOrder',component:OrderSubmit},
 
 
 

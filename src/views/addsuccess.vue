@@ -35,7 +35,7 @@
         methods:{
             pushPage:function(){
                 this.$router.push({
-                    path:'/myaddress'
+                    path:'/thehome/Order/myaddress'
                 })
             }
         },}

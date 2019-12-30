@@ -31,7 +31,7 @@
                 window.location.href = this.url;   //跳转至外部 url
             },
             getURL(i){
-                axios.get('http://af7a8ace.ngrok.io/wechat/login')  //获取授权链接
+                axios.get(process.env.VUE_APP_URL + 'wechat/login')  //获取授权链接
                     .then(re => {
                         this.url = re.data;
                     })

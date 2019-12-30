@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100%;width: 100%; ">
+    <div style="height: 100%;width: 100%; font-family: 'PingFang SC'">
         <div class="headline_add-address">添加收货地址</div>
         <div class="div_content">
             <div class="list1">
@@ -95,9 +95,9 @@
         methods: {
             save: function() {
                 let address = this.address;
-                axios.post("http://39de9ecd.ngrok.io/address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
+                axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
                         console.log(response.data);
-                    }).catch(err => alert(err));
+                    }).catch();
             },
 
         }

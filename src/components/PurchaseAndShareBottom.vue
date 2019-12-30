@@ -20,10 +20,7 @@
                 type:Number,
                 required:true
             },
-            isGroupBuy:{
-                type: String,   //暂定
-                // required: true,
-            },
+
             goodId:{        //商品ID
                 type:String,
                 require:true
@@ -32,7 +29,7 @@
         },
         methods:{
             toBuy(){
-                this.$router.push('/MoreTravelOrder/buy/'+this.goodId);
+                this.$router.push('/MoreTravelOrder/buy/' + this.goodId);
             }
         }
     }

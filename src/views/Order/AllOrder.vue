@@ -55,9 +55,7 @@
             }
         },
         created() {
-           /* axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';*/
-            axios.post('http://af7a8ace.ngrok.io/order/userQueryOrder',{})
+            axios.post(process.env.VUE_APP_URL+'order/userQueryOrder',{})
                 .then(response => {
                     // console.log(response.data);
                 this.goods = response.data.data.records;

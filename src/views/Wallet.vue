@@ -109,7 +109,7 @@
                     console.log(this.moneyList);
                     console.log(this.countMoney);
                 })
-                .catch(err => alert(err))
+                .catch()
 
         axios.get('http://192.168.8.111:8090/mineWallet/queryOutMoney/'+'user-001')
             .then(response => {
@@ -117,7 +117,7 @@
                 this.outMoney = response.data.data.countMoney;
                 console.log(this.moneyOutList);
             })
-            .catch(err => alert(err))
+            .catch()
     },*/
 
         methods:{

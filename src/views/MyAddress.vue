@@ -44,47 +44,23 @@
                 userMsg:{userId:1},
 
                 address:[
-                    {"addressId": "2",
-                        "userId": "1",
-                        "rcAddress": "贵州省化的东西短多喝点爱的规划桑德爱好的桂花树画的跟安徽的",
-                        "addressName": '整齐华裔',
-                        "addressTel": '12237859303',
-                        "addressDel": 0,
-                        "defaultAddress": 0},
-                    {"addressId": "1",
-                        "userId": "1",
-                        "rcAddress": "贵州省化的东西短多喝点爱的规划桑德爱好的桂花树画的跟安徽的",
-                        "addressName": '整齐华裔',
-                        "addressTel": '12237859303',
-                        "addressDel": 0,
-                        "defaultAddress": 0},
-                    {"addressId": "3",
-                        "userId": "1",
-                        "rcAddress": "贵州省化的东西短多喝点爱的规划桑德爱好的桂花树画的跟安徽的",
-                        "addressName": '整齐华裔',
-                        "addressTel": '12237859303',
-                        "addressDel": 0,
-                        "defaultAddress": 0},
-                    {"addressId": "5",
-                        "userId": "1",
-                        "rcAddress": "贵州省化的东西短多喝点爱的规划桑德爱好的桂花树画的跟安徽的",
-                        "addressName": '整齐华裔',
-                        "addressTel": '12237859303',
-                        "addressDel": 0,
-                        "defaultAddress": 0},
-                    {"addressId": "7",
-                        "userId": "1",
-                        "rcAddress": "贵州省化的东西短多喝点爱的规划桑德爱好的桂花树画的跟安徽的",
-                        "addressName": '整齐华裔',
-                        "addressTel": '12237859303',
-                        "addressDel": 0,
-                        "defaultAddress": 0},
+
                 ],
             }
         },
         methods:{
             deleteAdd(addressID){
                 //请求删除
+                axios.delete(process.env.VUE_APP_URL + 'address/deteleByAddressId/' + addressID)
+                    .then(re => {
+                        axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
+                            .then(re => {
+                                this.address = re.data.data;
+                                console.log(this.address);
+                            })
+                            .catch(err => console.log(err));
+                    })
+                    .catch(err => console.log(err))
             },
             toUpdate(addressID1){
                 this.$router.push('/updateAd/' + addressID1);
@@ -107,8 +83,7 @@
             console.log(process.env.VUE_APP_URL);
 
             //获取用户的基本信息
-            axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';
+
             axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
                 .then(re => {
                     this.address = re.data.data;
