@@ -48,46 +48,36 @@
                 CouponList: '',
                 discountCouponList: [
                     {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-
                 ],
             }
         },
         methods:{
             del () {
-                axios.post('http://192.168.8.13:8090/usercards/deletePastUserCards/'+456)
+                axios.post(process.env.VUE_APP_URL + 'usercards/deletePastUserCards/'+456)
                     .then(re => {
                         console.log(re.data.message);
-                        axios.get('http://192.168.8.13:8090/usercards/queryUserCards/'+456)
+                        axios.get(process.env.VUE_APP_URL + 'usercards/queryUserCards/'+456)
                             .then(re => {this.discountCouponList = re.data.data;console.log(re.data.data)})
                             .catch()
                     })
                     .catch()
             }
-        }
+        },
 
-        /* created() {
-               axios.get('http://192.168.10.118:8090/usercards/queryUserCards/456').then(response =>{
+         created() {
+               axios.get(process.env.VUE_APP_URL + 'usercards/queryUserCards').then(response =>{
                    console.log(response.data.data);
                    this.CouponList = response.data.data;
-               }).catch()
-           }*/
+               }).catch(err => alert(err))
+           }
     }
 </script>
 
 <style scoped>
-    html, body, .root {
+   .root {
         padding-top: 3%;
-        height: 100%;
+        /*height: 100%;*/
+       overflow-y: scroll;
         /*background: #4c90f5;*/
     }
 
@@ -146,6 +136,7 @@
         background: #F6F5F4;
         margin: 0 auto;
         font-family: "PingFang SC";
+        overflow-y: scroll;
     }
 
     .coupon1 {

@@ -73,7 +73,6 @@
 
                 searchInitValue:'花溪重庆火锅',
                 theGoods_1:[            //获取所有商品基本数据
-
                     {
                         "menuName": "惊天美食",
                         "data": [
@@ -360,7 +359,6 @@
                             }
                         ]
                     },
-
                     {
                         "menuName": "惊天美食",
                         "data": [
@@ -518,13 +516,13 @@
                     {'menuName':'旅游景点',menuIconUrl:require('../assets/navIcon/旅游.png')},
                     {'menuName':'饱餐住宿',menuIconUrl:require('../assets/navIcon/酒店.png')},
                     {'menuName':'培训机构',menuIconUrl:require('../assets/navIcon/学习教育.png')},
-                    {'menuName':'敬请期待',menuIconUrl:require('../assets/navIcon/敬请期待.png')}
+                    {'menuName':'敬请期待',menuIconUrl:require('../assets/navIcon/敬请期待.png')}*/
                 ],      //存放菜单
 
                 slide: [
-                    {'banner':{'bannerImageUrl':require('../assets/01.jpg')}},
+                    /*{'banner':{'bannerImageUrl':require('../assets/01.jpg')}},
                     {'banner':{'bannerImageUrl':require('../assets/2.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/3.jpg')}},
+                    {'banner':{'bannerImageUrl':require('../assets/3.jpg')}}*/,
                 ],
                 //设置属性
                 swiperOption: {
@@ -555,13 +553,13 @@
                 // console.log(data);
                 this.$router.push('/goodDetail/'+id)      //url传参
             },
-            sortHot(){  //将限购的数据整理
+            /*sortHot(){  //将限购的数据整理
                 this.theGoods_1.forEach(item => {
                     if(item.menuName == '热门抢购'){
                         this.hotGoodsList = item.data;
                     }
                 })
-            },
+            },*/
             test(){
                 alert("qwe");
             },
@@ -583,6 +581,13 @@
               axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
                   .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1)})
                   .catch();
+
+              axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
+                  .then(re => {
+                      this.hotGoodsList = re.data.data;
+                      console.log(re.data);
+                  })
+                  .catch(err => console.log('cccc'))
 
             this.sortHot();
 

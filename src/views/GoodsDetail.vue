@@ -72,7 +72,7 @@
                     {'cardID':'123'}
                 ],
                 detailGood:{
-                    /*"goods": {
+                    "goods": {
                         "goodsId": "1",
                         "goodsName": "商品名字",
                         "goodsDesc": "商品描述",
@@ -95,7 +95,7 @@
 
 
                     "business": null,
-                    "goodsNormsList": []*/
+                    "goodsNormsList": []
                 },
                 id:'',
             }

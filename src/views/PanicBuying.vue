@@ -1,9 +1,8 @@
 <template>
     <div id="PanicBuying">
-
         <!--        商品图片-->
         <div class="bigPhoto">
-            <img src="../assets/panicbuying.png" alt="">
+            <img :src="GoodsList.goods.goodsImageUrl" alt="">
         </div>
         <!--        价格-->
         <div class="sell">
@@ -16,13 +15,13 @@
             <div class="distribution" v-text="GoodsList.goods.consumeType">骑手配送</div>
         </div>
 
-        <div class="goods_desc" v-text="GoodsList.goods.goodsDesc">全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。</div>
+        <div class="goods_desc" v-html="GoodsList.goods.goodsDesc">全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。</div>
         <!--        地址-->
         <div class="Address">
             <div class="position">
                 <img src="../assets/position.png">
             </div>
-            <div class="address">贵阳市 花溪区 花溪大学城 学富路</div>
+            <div class="address" v-text="GoodsList.business.businessAddress">贵阳市 花溪区 花溪大学城 学富路</div>
         </div>
         <!--        选择规格-->
         <div class="select">选择</div>
@@ -38,7 +37,6 @@
             </div>
         </div>
         <!--        线-->
-<!--        <div class="line"></div>-->
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        规格-->
         <div class="Specification">
@@ -47,7 +45,6 @@
         </div>
         <!--        线-->
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
-<!--        <div class="line"></div>-->
         <!--        地址-->
         <div class="place">
             <!--            定好的-->
@@ -73,9 +70,8 @@
             </select>
 
         </div>
-
         <!--        立即购买-->
-        <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder()">提交订单 ￥<span v-text="allPrice"></span></div>
+        <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
     </div>
 
 </template>
@@ -87,16 +83,14 @@
         name: "PanicBuying",
         data() {
             return {
-
                 propsData:{},
-
-
                 goodId:12456,
                 theBusinessId:1111, //商家ID
                 orderId:null,
                 selectAddressId:'', //用户选择的地址ID
-                userAddress:[
-                    {
+                userAddress:null,
+                /*userAddress:[
+                    /!*{
                         "addressId": "0ace8abefa3cff3f3dd171b36fc21284",
                         "userId": "123",
                         "rcAddress": "我是更新过的地址更合适的规范化三个符合施工和法国大使馆佛挡杀佛收到货房间",
@@ -128,11 +122,11 @@
                         "addressTel": 123,
                         "addressDel": 0,
                         "defaultAddress": "0"
-                    }
-                    ], //用户的地址
+                    }*!/
+                    ]*/ //用户的地址
 
-                userGoodCaeds:[
-                    {
+               /* userGoodCaeds:[
+               /!*     {
                     "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
                     "cardsId": "4daa47fee1e3cf9378798d8036edb951",
                     "userId": "123",
@@ -155,8 +149,9 @@
                         "userCardsState": 1,
                         'cardsOrder':15,
                         'cardsPrice':5,
-                    }
-                    ],
+                    }*!/
+                    ],*/
+                userGoodCaeds:null,
                 cardsPrice:null,
                 chooseCar:null,
                 chooseCarId:null,
@@ -170,47 +165,8 @@
                 style1: false,
                 style2: false,
                 showcone: false,
-                GoodsList: {
-                    "goods": {
-                        "goodsId": "1",
-                        "goodsName": "商品名字",
-                        "goodsDesc": "商品描述",
-                        "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                        "goodsImageUrl": "商品封面地址",
-                        "goodsCount": 98,
-                        "businessId": "1",
-                        "menuId": "1",
-                        "certificatePeriod": 2,
-                        "discountType": '1',
-                        "goodsDel": 0,
-                        "consumeType":'1',
-                    },
-                    "menu": {
-                        "menuId": "1",
-                        "menuName": "惊天美食",
-                        "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                        "menuDel": 0
-                    },
-                    "business": {
-                        "businessId": "05e1586f8515615d207cbacf5b927266",
-                        "businessName": "123456",
-                        "storeManger": "店长",
-                        "businessAddress":'贵州省华夏都很高的多岁的闪光点是读后感',
-                        "storeMangerTel": "店长电话",
-                        "storePrincipal": "负责人",
-                        "storePrincipalTel": "负责人电话",
-                        "storePrincipalWechat": "负责人微信",
-                        "businessDel": 0
-                    },
-                    "goodsNorms": {
-                        "goodsNormsId": "73c39bd647ecebfcfc857ccf64380c2c",
-                        "norms": "大份",
-                        "currentPrice": 13,
-                        "origiPrice": 888.88,
-                        "goodsId": "2a90ee18d212d2827e795668703a213d",
-                        "goodsNormsDel": 0
-                    }
-                },
+
+                GoodsList: null,
                 createOrder:{       //订单
                     'goodsId':this.goodId, //商品ID
 
@@ -249,7 +205,6 @@
             }
         },
         computed:{
-
             isUserCards(){      //用来判断是否达到使用此优惠券的
                 return (it) => {
                     return !(it.cardsOrder <= this.GoodsList.goodsNorms.currentPrice * this.count);

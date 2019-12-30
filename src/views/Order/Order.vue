@@ -11,31 +11,6 @@
     export default {
         name: "Order1",
         components: {MyPage},
-        data() {
-            return {
-                goods:[
-                    {'goods_image_url': require('../../assets/1235.jpg'),
-                    'goods_name':'T恤',
-                    'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/1235.jpg'),
-                        'goods_name':'T恤',
-                        'goods_desc':'是出版发挥不出事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/1235.jpg'),
-                        'goods_name':'T恤',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/1235.jpg'),
-                        'goods_name':'T恤',
-                        'goods_desc':'是出版发挥不出事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/1235.jpg'),
-                        'goods_name':'T恤',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/1235.jpg'),
-                        'goods_name':'T恤',
-                        'goods_desc':'是出版发挥不出事多年的时间成本'},
-                ],
-                }
-
-            },
 
     }
 </script>
@@ -44,6 +19,7 @@
     .over{
         height: 100%;
         overflow-y: scroll!important;
+        /*background-color: red;*/
     }
     .theOrderBox{
         height: 100%;
