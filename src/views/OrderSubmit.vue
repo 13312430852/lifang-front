@@ -5,12 +5,11 @@
                 <div class="Nname" v-text="PayMessage.userAddress.addressName">
                 </div>
                 <div class="Nphone" v-text="PayMessage.userAddress.addressTel">
-
                 </div>
             </div>
             <div class="recieptSecond">
                 <div class="tubiao">
-                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" width="100%"/>
+                    <img src="../assets/adrressIcon.png" width="100%"/>
                 </div>
                 <div class="site" v-text="PayMessage.userAddress.rcAddress">
 
@@ -20,13 +19,13 @@
         <div class="commodity">
             <div class="commodityFirst">
                 <div class="Fno1">
-                    <img :src="Url" style="width: 100%">
+                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%">
                 </div>
                 <div class="Fno2">
                     <div v-text="PayMessage.GoodsList.goods.goodsName" class="Fno2-1">
 
                     </div>
-                    <div v-text="PayMessage.GoodsList.goods.goodsDesc" class="Fno2-2">
+                    <div v-html="PayMessage.GoodsList.goods.goodsDesc" class="Fno2-2">
 
                     </div>
                 </div>
@@ -48,7 +47,7 @@
             <div class="commodityLast">
                 <div style="display: flex; height: 9.8%;">
                     <div  class="last1-1" style="overflow: hidden;
-        text-overflow: ellipsis;" v-text="commodityName">
+        text-overflow: ellipsis;" v-text="PayMessage.count">
 
                     </div>
                     <div class="last1-2">
@@ -66,10 +65,7 @@
                         活动类型：
                     </div>
                     <div class="last2-2">
-
-                        <div  v-text="discountType">
-
-                        </div>
+                        <div  v-text="discountType(PayMessage.GoodsList.goods.discountType)"></div>
                     </div>
 
                 </div>
@@ -78,18 +74,15 @@
                         消费方式：
                     </div>
                     <div class="last2-2">
-                        <div  v-text="consumeType">
-
-                        </div>
+                        <div  v-text="consumType(PayMessage.GoodsList.goods.consumeType)"></div>
                     </div>
 
                 </div>
-                <div class="last3">
+                <div class="last3" v-if="PayMessage.userGoodCaeds != null">
                     <div class="man">满</div>
                     <div class="jian"v-text="PayMessage.userGoodCaeds.cardsOrder"></div>
                     <div class="man">减</div>
                     <div class="jian" v-text="PayMessage.userGoodCaeds.cardsPrice"></div>
-
                 </div>
             </div>
         </div>
@@ -98,7 +91,7 @@
                 小计：{{PayMessage.allPrice}}
             </div>
 
-            <button class="btn">立即购买</button>
+            <button class="btn" @click="toPay">立即购买</button>
 
         </div>
     </div>
@@ -116,50 +109,55 @@
                     'nickname':'我是怂狗狗',
                     'numberPhone':'13007808520'
                 },
-        PayMessage:{
-            nickname:'我是怂狗狗',
-            numberPhone:'13007808520',
-            rcAddress:'',
-            commodityName:'暗影精灵3游戏键盘我是一个很努力的大傻逼 虽然我这个人长得很帅但是我也很低调',
-            commodityDescribe:'专业游戏选手所用的鼠标和键盘，绝地求生、英雄联盟专用',
-            totalSpend:'满15减5',
-            shangpingNum:1,
-            shangpuLocal:'贵阳市贵州师范大学美食城一号楼',
-            activity:'限时抢购',
-            costType:'到店消费',
-        },
+        PayMessage:{},
 
             }
 
+        },
+        methods:{
+            toPay(){
+                axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.PayMessage.orderID)
+                    .then(re => {
+                        console.log(re.data);
+                        if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
+                            this.$router.push('/details')
+                        }
+                    })
+                    .catch(err => {
+                        alert('网络错误');
+                    })
+            }
         },
 
         created() {
             let newgoods=this.$route.query;
 
                     this.PayMessage=newgoods
-            console.log(this.PayMessage),
-
-
-            axios.post('sfhjs'+ this.theOrderId)        //获取订单的基本信息
-                .then(re => this.orderMsg = re.data.data)
-                .catch(err => console.log(err))
+                    console.log(this.PayMessage)
 
         }
         ,
         computed:{
-            consumeType(){
-                if(this.PayMessage.GoodsList.goods.consumeType=='1'){
-                    return '到店消费：凭证'
-                }else if(this.PayMessage.GoodsList.goods.consumeType=='2'){
-                    return '包邮'
+            consumType(){
+                return (it) =>{
+                    if(it == 1){
+                        return '到店消费'
+                    }else if(it == 2){
+                        return '包邮'
+                    }
                 }
+
             },
             discountType(){
-                if(this.PayMessage.GoodsList.goods.discountType=='1'){
-                    return '限时抢购'
-                }else if(this.PayMessage.GoodsList.goods.discountType=='2'){
-                    return '限量抢购'
+                return (it) =>{
+                    if(it=='1'){
+                        return '限时抢购'
+                    }else if(it=='2'){
+                        return '限量抢购'
+                    }
+                    else return '团购'
                 }
+
             }
         }
     }

@@ -37,6 +37,12 @@ import My from "../views/My";
 import OrderSubmit from "../views/OrderSubmit";
 import Start from "../views/Start";
 
+import TeamBuying from "../views/TeamBuying";
+import QuitDelegationSuccess from "../views/QuitDelegationSuccess";
+import QuitDelegaDetail from "../views/QuitDelegaDetail";
+import TeamResult from "../views/TeamResult";
+
+
 
 
 
@@ -102,6 +108,12 @@ const routes = [
   {path:'/reportCallBack',component:ReportCallBack},
   {path:'/reportStart',component:ReportStart},
   {path:'/shareEarn',component:ShareEarn},
+
+    //参团
+  {path:'/teamBuying',name:'TeamBuying',component:TeamBuying},//参团起始路由
+  {path:'/QuitDlDetail/QuitDlSuccess',name:'QuitSuccess',component:QuitDelegationSuccess},//退团成功路由
+  {path:'/teamResult/quit',component:QuitDelegaDetail},//退团路由
+  {path:'/teamResult',component:TeamResult},//参团结果路由
 
 
 

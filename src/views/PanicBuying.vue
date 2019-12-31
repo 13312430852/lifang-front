@@ -89,68 +89,7 @@
                 orderId:null,
                 selectAddressId:'', //用户选择的地址ID
                 userAddress:null,
-                /*userAddress:[
-                    /!*{
-                        "addressId": "0ace8abefa3cff3f3dd171b36fc21284",
-                        "userId": "123",
-                        "rcAddress": "我是更新过的地址更合适的规范化三个符合施工和法国大使馆佛挡杀佛收到货房间",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "0"
-                    }, {
-                        "addressId": "1e374e91b67550bb3a9ee3070e7ca55d",
-                        "userId": "123",
-                        "rcAddress": "添加的新地址",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "1"
-                    }, {
-                        "addressId": "ce927f53fd1d4d13ae1f37daa8252e58",
-                        "userId": "123",
-                        "rcAddress": "这是刚刚添加的地址",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "0"
-                    }, {
-                        "addressId": "d145a864057ecac2d3a23556839beb91",
-                        "userId": "123",
-                        "rcAddress": "添加",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "0"
-                    }*!/
-                    ]*/ //用户的地址
 
-               /* userGoodCaeds:[
-               /!*     {
-                    "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
-                    "cardsId": "4daa47fee1e3cf9378798d8036edb951",
-                    "userId": "123",
-                    "userCardsState": 1,
-                        'cardsOrder':5,
-                        'cardsPrice':2,
-                },
-                    {
-                        "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
-                        "cardsId": "4daa47fee1e3cf9378798d8036edb951",
-                        "userId": "123",
-                        "userCardsState": 1,
-                        'cardsOrder':10,
-                        'cardsPrice':3,
-                    },
-                    {
-                        "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
-                        "cardsId": "4daa47fee1e3cf9378798d8036edb951",
-                        "userId": "123",
-                        "userCardsState": 1,
-                        'cardsOrder':15,
-                        'cardsPrice':5,
-                    }*!/
-                    ],*/
                 userGoodCaeds:null,
                 cardsPrice:null,
                 chooseCar:null,
@@ -242,30 +181,7 @@
                 }
 
             },
-            toSubmitPage(){
-                let choosedAddress;
-
-                this.userAddress.forEach(item => {
-                    if(this.selectAddressId == item.addressId)
-                        choosedAddress = item;
-                });
-
-
-                    this.$set(this.propsData,'GoodsList',this.GoodsList);
-                    this.$set(this.propsData,'userAddress',choosedAddress);
-                    this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
-                    this.$set(this.propsData,'count',this.count);
-                    this.$set(this.propsData,'allPrice',this.allPrice)
-
-                this.$router.push({path:'/submitOrder',query:this.propsData});
-            },
-
-            submitOrder(){      //提交订单后返回一个订单ID
-                // 响应式添加订单对象
-
-                this.toSubmitPage();
-
-
+            createSubmitOrder(){
                 this.$set(this.createOrder,'goodsId',this.goodId);
                 this.$set(this.createOrder,'userId',this.userMsg.userId);
                 this.$set(this.createOrder,'ordersPrice',this.allPrice);
@@ -280,14 +196,36 @@
                     this.$set(this.createOrder,'discountId',this.chooseCar.cardsId);
                 }
                 console.log(this.createOrder);
+            },
+            toSubmitPage(){
+                var choosedAddress;
 
-                // this.$router.push('/submitOrder/123');
+                //把选中的这个ID的对象取出来
+                this.userAddress.forEach(item => {
+                    if(this.selectAddressId == item.addressId)
+                        choosedAddress = item;
+                });
+
+                    this.$set(this.propsData,'GoodsList',this.GoodsList);
+                    this.$set(this.propsData,'userAddress',choosedAddress);
+                    this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
+                    this.$set(this.propsData,'count',this.count);
+                    this.$set(this.propsData,'allPrice',this.allPrice);
+                    this.$set(this.propsData,'orderID',this.orderId)
+
+                this.$router.push({path:'/submitOrder',query:this.propsData});
+            },
+
+            submitOrder(){      //提交订单后返回一个订单ID
+                // 响应式添加订单对象
+
+                this.createSubmitOrder();
                 axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
                     .then(response =>{
                         this.orderId = response.data.data;          //成功后返回订单ID
                         console.log(response.data.data);
                         /*this.$router.push('/submitOrder'+this.orderId);*/
-                        this.$router.push('/submitOrder/'+this.orderId);        //将订单ID传过去
+                        this.toSubmitPage();
 
                     })
                     .catch(err => console.log(err));
@@ -295,16 +233,10 @@
         },
         created() {
 
-         /*   //测试时的
-            this.allPrice = this.GoodsList.goodsNorms.currentPrice;
-            this.goodsNormsId = this.GoodsList.goodsNorms.norms;
-            this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
-            //测试时的
-*/
 
             this.goodId = this.$route.params.goodId1;   //接收商品ID
             console.log(this.goodId);
-            axios.get(process.env.VUE_APP_URL + 'queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
+            axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
                 console.log(response.data.data);
                 this.allPrice = this.GoodsList.goodsNorms.currentPrice;
