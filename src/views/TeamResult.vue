@@ -3,7 +3,7 @@
         <div v-if="state==1" style="height: 100%; width: 100%">
             <div class="firstImage">
 
-                <img src="../assets/service/确认 (1).png"  width="100%"/></div>
+                <img src="../assets/true.png"width="100%"/></div>
             <!--图片部分-->
             <div class="joinTex">
                 <div class="joinTex1">
@@ -25,7 +25,8 @@
         </div>
         <div v-else style="height: 100%; width: 100%">
             <div class="firstImage">
-                <img src="../assets/service/错误.png"  width="100%"/></div>
+
+                <img src="../assets/error.png"  width="100%"/></div>
             <!--图片部分-->
             <div class="joinTex">
                 <div class="joinTex1">
@@ -66,7 +67,7 @@
             }
         },
         created() {
-            axios.get('/getMyTeam/{userId}/{goodsId}')
+            axios.get('')
                 .then()
         }
     }

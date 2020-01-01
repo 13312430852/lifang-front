@@ -1,9 +1,8 @@
 <template>
     <div id="PanicBuying">
-
         <!--        商品图片-->
         <div class="bigPhoto">
-            <img src="../assets/panicbuying.png" alt="">
+            <img :src="GoodsList.goods.goodsImageUrl" alt="">
         </div>
         <!--        价格-->
         <div class="sell">
@@ -16,13 +15,13 @@
             <div class="distribution" v-text="GoodsList.goods.consumeType">骑手配送</div>
         </div>
 
-        <div class="goods_desc" v-text="GoodsList.goods.goodsDesc">全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。</div>
+        <div class="goods_desc" v-html="GoodsList.goods.goodsDesc">全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。</div>
         <!--        地址-->
         <div class="Address">
             <div class="position">
                 <img src="../assets/position.png">
             </div>
-            <div class="address">贵阳市 花溪区 花溪大学城 学富路</div>
+            <div class="address" v-text="GoodsList.business.businessAddress">贵阳市 花溪区 花溪大学城 学富路</div>
         </div>
         <!--        选择规格-->
         <div class="select">选择</div>
@@ -38,7 +37,6 @@
             </div>
         </div>
         <!--        线-->
-<!--        <div class="line"></div>-->
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        规格-->
         <div class="Specification">
@@ -47,14 +45,15 @@
         </div>
         <!--        线-->
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
-<!--        <div class="line"></div>-->
         <!--        地址-->
         <div class="place">
             <!--            定好的-->
             <div class="receipt">收货地址</div>
             <!--            获取-->
-            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;direction: rtl">
-                     <option v-for="item in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
+
+            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                     <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
+
             </select>
         </div>
 
@@ -71,7 +70,6 @@
             </select>
 
         </div>
-
         <!--        立即购买-->
         <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
     </div>
@@ -85,72 +83,14 @@
         name: "PanicBuying",
         data() {
             return {
+                propsData:{},
                 goodId:12456,
                 theBusinessId:1111, //商家ID
                 orderId:null,
                 selectAddressId:'', //用户选择的地址ID
-                userAddress:[
-                    {
-                        "addressId": "0ace8abefa3cff3f3dd171b36fc21284",
-                        "userId": "123",
-                        "rcAddress": "我是更新过的地址更合适的规范化三个符合施工和法国大使馆佛挡杀佛收到货房间",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "0"
-                    }, {
-                        "addressId": "1e374e91b67550bb3a9ee3070e7ca55d",
-                        "userId": "123",
-                        "rcAddress": "添加的新地址",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "1"
-                    }, {
-                        "addressId": "ce927f53fd1d4d13ae1f37daa8252e58",
-                        "userId": "123",
-                        "rcAddress": "这是刚刚添加的地址",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "0"
-                    }, {
-                        "addressId": "d145a864057ecac2d3a23556839beb91",
-                        "userId": "123",
-                        "rcAddress": "添加",
-                        "addressName": "555",
-                        "addressTel": 123,
-                        "addressDel": 0,
-                        "defaultAddress": "0"
-                    }
-                    ], //用户的地址
+                userAddress:null,
 
-                userGoodCaeds:[
-                    {
-                    "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
-                    "cardsId": "4daa47fee1e3cf9378798d8036edb951",
-                    "userId": "123",
-                    "userCardsState": 1,
-                        'cardsOrder':5,
-                        'cardsPrice':2,
-                },
-                    {
-                        "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
-                        "cardsId": "4daa47fee1e3cf9378798d8036edb951",
-                        "userId": "123",
-                        "userCardsState": 1,
-                        'cardsOrder':10,
-                        'cardsPrice':3,
-                    },
-                    {
-                        "userCardsId": "0974cf6b1c0014c1dcf1449463fb924f",
-                        "cardsId": "4daa47fee1e3cf9378798d8036edb951",
-                        "userId": "123",
-                        "userCardsState": 1,
-                        'cardsOrder':15,
-                        'cardsPrice':5,
-                    }
-                    ],
+                userGoodCaeds:null,
                 cardsPrice:null,
                 chooseCar:null,
                 chooseCarId:null,
@@ -164,47 +104,8 @@
                 style1: false,
                 style2: false,
                 showcone: false,
-                GoodsList: {
-                    "goods": {
-                        "goodsId": "1",
-                        "goodsName": "商品名字",
-                        "goodsDesc": "商品描述",
-                        "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                        "goodsImageUrl": "商品封面地址",
-                        "goodsCount": 98,
-                        "consumeType": 1,
-                        "businessId": "1",
-                        "menuId": "1",
-                        "certificatePeriod": 2,
-                        "discountType": 1,
-                        "goodsDel": 0
-                    },
-                    "menu": {
-                        "menuId": "1",
-                        "menuName": "惊天美食",
-                        "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                        "menuDel": 0
-                    },
-                    "business": {
-                        "businessId": "05e1586f8515615d207cbacf5b927266",
-                        "businessName": "123456",
-                        "storeManger": "店长",
-                        "business":'贵州省华夏都很高的多岁的闪光点是读后感',
-                        "storeMangerTel": "店长电话",
-                        "storePrincipal": "负责人",
-                        "storePrincipalTel": "负责人电话",
-                        "storePrincipalWechat": "负责人微信",
-                        "businessDel": 0
-                    },
-                    "goodsNorms": {
-                        "goodsNormsId": "73c39bd647ecebfcfc857ccf64380c2c",
-                        "norms": "大份",
-                        "currentPrice": 13,
-                        "origiPrice": 888.88,
-                        "goodsId": "2a90ee18d212d2827e795668703a213d",
-                        "goodsNormsDel": 0
-                    }
-                },
+
+                GoodsList: null,
                 createOrder:{       //订单
                     'goodsId':this.goodId, //商品ID
 
@@ -243,7 +144,6 @@
             }
         },
         computed:{
-
             isUserCards(){      //用来判断是否达到使用此优惠券的
                 return (it) => {
                     return !(it.cardsOrder <= this.GoodsList.goodsNorms.currentPrice * this.count);
@@ -252,7 +152,9 @@
             isDefaultAddress(){
                 return (it) => {
                     if(it.defaultAddress == '1') return true
-                    else return false
+                    else{
+                        return false
+                    }
                 }
             }
         },
@@ -279,10 +181,7 @@
                 }
 
             },
-
-            submitOrder(){      //提交订单后返回一个订单ID
-                // 响应式添加订单对象
-                this.$router.push('/submitOrder/'+this.orderId);
+            createSubmitOrder(){
                 this.$set(this.createOrder,'goodsId',this.goodId);
                 this.$set(this.createOrder,'userId',this.userMsg.userId);
                 this.$set(this.createOrder,'ordersPrice',this.allPrice);
@@ -297,14 +196,36 @@
                     this.$set(this.createOrder,'discountId',this.chooseCar.cardsId);
                 }
                 console.log(this.createOrder);
+            },
+            toSubmitPage(){
+                var choosedAddress;
 
-                // this.$router.push('/submitOrder/123');
+                //把选中的这个ID的对象取出来
+                this.userAddress.forEach(item => {
+                    if(this.selectAddressId == item.addressId)
+                        choosedAddress = item;
+                });
+
+                    this.$set(this.propsData,'GoodsList',this.GoodsList);
+                    this.$set(this.propsData,'userAddress',choosedAddress);
+                    this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
+                    this.$set(this.propsData,'count',this.count);
+                    this.$set(this.propsData,'allPrice',this.allPrice);
+                    this.$set(this.propsData,'orderID',this.orderId)
+
+                this.$router.push({path:'/submitOrder',query:this.propsData});
+            },
+
+            submitOrder(){      //提交订单后返回一个订单ID
+                // 响应式添加订单对象
+
+                this.createSubmitOrder();
                 axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
                     .then(response =>{
                         this.orderId = response.data.data;          //成功后返回订单ID
                         console.log(response.data.data);
                         /*this.$router.push('/submitOrder'+this.orderId);*/
-                        this.$router.push('/submitOrder/'+this.orderId);        //将订单ID传过去
+                        this.toSubmitPage();
 
                     })
                     .catch(err => console.log(err));
@@ -312,16 +233,10 @@
         },
         created() {
 
-         /*   //测试时的
-            this.allPrice = this.GoodsList.goodsNorms.currentPrice;
-            this.goodsNormsId = this.GoodsList.goodsNorms.norms;
-            this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
-            //测试时的
-*/
 
             this.goodId = this.$route.params.goodId1;   //接收商品ID
             console.log(this.goodId);
-            axios.get(process.env.VUE_APP_URL + 'queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
+            axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
                 console.log(response.data.data);
                 this.allPrice = this.GoodsList.goodsNorms.currentPrice;

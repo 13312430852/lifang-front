@@ -37,6 +37,7 @@
         data(){
             return{
                 distance:0,
+                theUrl:null,
                 user:{
                    /* 'head_picture': require('../assets/headPicture1.png'),
                     'user_name': '用户昵称',
@@ -54,36 +55,50 @@
                 })
             }
         },
-        methods:{
+        methods: {
 
-            ToallOrder(){
-                this.distance = 0;
-                this.$router.push('/thehome/Order/My/AllOrder')
-
+            judgeUrl() {
+                this.theUrl = window.location.pathname;
+                if (this.theUrl.indexOf("/My") != -1) {
+                    this.distance = 0;
+                } else if (this.theUrl.indexOf("/MyShare") != -1) {
+                    this.distance = 25;
+                } else if (this.theUrl.indexOf("/myCards") != -1) {
+                    this.distance = 50;
+                } else if (this.theUrl.indexOf("/myaddress") != -1) {
+                    this.distance = 75;
+                }
             },
-            ToShare(){
+
+            ToallOrder() {
+                    this.distance = 0;
+                    this.$router.push('/thehome/Order/My/AllOrder')
+            },
+            ToShare() {
                 this.distance = 25;
                 this.$router.push('/thehome/Order/MyShare')
             },
-            toCardTicket(){
+            toCardTicket()
+            {
                 this.distance = 50;
                 this.$router.push('/thehome/Order/myCards')
             },
-            toAddress(){
+            toAddress()
+            {
                 this.distance = 75;
                 this.$router.push('/thehome/Order/myaddress');
             }
         },
         created() {
+            this.judgeUrl();
+
             //获取用户的基本信息
-            axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';
             axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
                 .then(re => {
                     this.user = re.data.data;
                     console.log(this.user);
                 })
-                .catch(err => alert('未请求到用户基本数据错误为：'+err))
+                .catch(err => alert('未请求到用户基本数据错误为：' + err))
         }
 
     }

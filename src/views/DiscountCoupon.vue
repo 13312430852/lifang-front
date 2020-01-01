@@ -14,7 +14,7 @@
         <!--我的优惠券总的大布局-->
         <div class="coupon" id="coupon">
             <!--            单个优惠券-->
-            <div class="coupon1" v-for="item in discountCouponList">
+            <div class="coupon1" v-for="item in CouponList">
                     <span style="margin:25% 20%;display: block">
                         <div style="display: flex">
                             <p style="float: left">满</p>
@@ -31,7 +31,7 @@
                            v-text="item.time"></p>
 
                         <button style="width: 80%;height: 3%;margin-left: 8%;margin-top: 2%;color: #4C90F5;font-size: 1em;
-                        border: none;background-color: transparent;outline: none;" v-text="item.cardsState"></button>
+                        border: none;background-color: transparent;outline: none;" v-text="cardsState(item.cardsState)"></button>
 
                     </span>
             </div>
@@ -44,50 +44,45 @@
         name: "DiscountCoupon",
         data() {
             return {
-                cardsState:'',
                 CouponList: '',
-                discountCouponList: [
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '已过期'},
-
-                ],
             }
         },
         methods:{
             del () {
-                axios.post('http://192.168.8.13:8090/usercards/deletePastUserCards/'+456)
+                axios.post(process.env.VUE_APP_URL + 'usercards/deletePastUserCards')
                     .then(re => {
                         console.log(re.data.message);
-                        axios.get('http://192.168.8.13:8090/usercards/queryUserCards/'+456)
+                        axios.get(process.env.VUE_APP_URL + 'usercards/queryUserCards')
                             .then(re => {this.discountCouponList = re.data.data;console.log(re.data.data)})
                             .catch()
                     })
                     .catch()
             }
-        }
+        },
+        computed:{
+            cardsState(){
+                return (tag) => {
+                    if(tag == 1) return '立即使用';
+                    else return '已过期';
+                }
 
-        /* created() {
-               axios.get('http://192.168.10.118:8090/usercards/queryUserCards/456').then(response =>{
+            }
+        },
+
+         created() {
+               axios.get(process.env.VUE_APP_URL + 'usercards/queryUserCards').then(response =>{
                    console.log(response.data.data);
                    this.CouponList = response.data.data;
-               }).catch()
-           }*/
+               }).catch(err => alert(err))
+           }
     }
 </script>
 
 <style scoped>
-    html, body, .root {
+   .root {
         padding-top: 3%;
-        height: 100%;
+        /*height: 100%;*/
+       overflow-y: scroll;
         /*background: #4c90f5;*/
     }
 
@@ -146,6 +141,7 @@
         background: #F6F5F4;
         margin: 0 auto;
         font-family: "PingFang SC";
+        overflow-y: scroll;
     }
 
     .coupon1 {

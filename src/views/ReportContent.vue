@@ -93,18 +93,13 @@
                 <div style="margin-top: 2%; font-size: 187.5%; color: #323131">描述信息：</div>
                 <div style="height: auto; width: 80%; margin: 10% auto;">
                     <textarea v-model="describeMessage" placeholder="这是测试" @input="handImput"
-                              style="font-size: 175%; color: #696969;
-                              margin-left: 5%; margin-top: 3%;
-                               height: auto; width: 100%; outline: none;">
+                              style="font-size: 175%; color: #696969; margin-left: 5%; margin-top: 3%; height: auto; width: 100%">
 
                     </textarea>
 
                 </div>
             </div>
-            <button style="height: 5.8%; width: 56%; margin-left: 22%;
-            background-color: #4c90f5; color: #ffffff; font-size: 175%;
-             font-family:PingFang SC; border-style: none; border-radius: 3px;
-             font-weight:400;" @click="pushTo">
+            <button class="submitReport">
                 提交
             </button>
         </div>
@@ -119,6 +114,7 @@
         name: "ReportContent",
         data(){
             return{
+                goodsId:null,
                 reportChose:'我还不会',
                 describeMessage:'请输入描述信息'
             }
@@ -128,11 +124,25 @@
                 e.target.style.height = 'auto';
                 e.target.style.height = e.target.scrollHeight + 'px';
             }
+        },
+        created() {
+            this.goodsId = this.$route.query;
+            console.log(this.goodsId);
         }
     }
 </script>
 
 <style scoped>
+    .submitReport{
+        height: 5.8%;
+        width: 56%;
+        margin-left: 22%;
+        background-color: #4c90f5;
+        color: #ffffff;
+        font-size: 175%;
+        font-family:PingFang SC;
+        font-weight:400;
+    }
     .content1{
         margin-top: 1.9%;
 

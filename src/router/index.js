@@ -12,10 +12,9 @@ import Service from "../views/Service";
 import Wallet from "../views/Wallet";
 import WalletRouter1 from "../views/WalletRouter1";
 import Withdraw from "../views/Withdraw";
-import Details from "../views/Details";
 import ReportCallBack from "../views/ReportCallBack";
 import ReportContent from "../views/ReportContent";
-import ReportStart from "../views/ReportStart";
+import ReportStart from "../components/ReportStart";
 import ShareEarn from "../views/ShareEarn";
 import Order from "../views/Order/Order";
 import AllOrder from "../views/Order/AllOrder";
@@ -36,6 +35,12 @@ import UpdateAdsuccess from "../views/UpdateAdsuccess";
 import My from "../views/My";
 import OrderSubmit from "../views/OrderSubmit";
 import Start from "../views/Start";
+
+import TeamBuying from "../views/TeamBuying";
+import QuitDelegationSuccess from "../views/QuitDelegationSuccess";
+import QuitDelegaDetail from "../views/QuitDelegaDetail";
+import TeamResult from "../views/TeamResult";
+
 
 
 
@@ -97,11 +102,16 @@ const routes = [
   },
 
   {path:'/withdraw',component:Withdraw},  //提现-李某
-  {path:'/details',component:Details},  //
   {path:'/reportContent',component:ReportContent},
   {path:'/reportCallBack',component:ReportCallBack},
   {path:'/reportStart',component:ReportStart},
   {path:'/shareEarn',component:ShareEarn},
+
+    //参团
+  {path:'/teamBuying',name:'TeamBuying',component:TeamBuying},//参团起始路由
+  {path:'/QuitDlDetail/QuitDlSuccess',name:'QuitSuccess',component:QuitDelegationSuccess},//退团成功路由
+  {path:'/teamResult/quit',component:QuitDelegaDetail},//退团路由
+  {path:'/teamResult',component:TeamResult},//参团结果路由
 
 
 
@@ -112,7 +122,7 @@ const routes = [
     //况某
   {path: '/MoreTravelOrder/buy/:goodId1', name:'PanicBuying', component:PanicBuying},
   {path:'/TheHome/moreBuying', name:'MoreBuying', component:MoreBuying},
-    {path:'/submitOrder/:orderID',component:OrderSubmit},
+    {path:'/submitOrder',component:OrderSubmit},
 
 
 

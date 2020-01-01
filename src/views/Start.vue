@@ -9,9 +9,7 @@
         <div style="height: 20.5%;margin-top: 4%;margin-bottom: 4%"><!--轮播部分-->
             <swiper :options="swiperOption" style="height: 100%;width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
-                    <div class="banner" @click="toDetail(item.goodsId)" :style="{backgroundImage:'url(' + item.bannerImageUrl + ')'}">
-
-                    </div>
+                    <div class="banner" @click="toDetail(item.goodsId)" :style="{backgroundImage:'url(' + item.bannerImageUrl + ')'}"></div>
                 </swiper-slide>
             </swiper>
         </div><!--轮播部分-->
@@ -32,14 +30,19 @@
                 <div class="noticeList" v-for="(item,index) in hotGoodsList" @click="toGoodsDetail(item.goods.goodsId)">
                     <div class="hotImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}">
                         <div class="theCoverBox">
-                            <div class="theCoverBox1">
-<!--                                <span>未开始</span>-->
-<!--                                <span>抢购时间结束</span>-->
-                                <count-down :time="2 * 24 * 60 * 60 * 1000">
+                            <!--限时-->
+                            <div v-if="item.goods.discountType == 1" class="theCoverBox1">
+                                <span v-if="item.status == 0">未开始</span>
+                                <span v-if="item.status == -1">已抢购结束</span>
+                                <count-down v-if="item.status == 1" :time="item.time">
                                     <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
                                         <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
                                     </template>
                                 </count-down>
+                            </div>
+                            <!--限量-->
+                            <div v-if="item.goods.discountType == 2" class="theCoverBox1">
+                                仅剩： <span v-text="item.num"></span> 份
                             </div>
                         </div>
                     </div>
@@ -74,457 +77,15 @@
                 searchInitValue:'花溪重庆火锅',
                 theGoods_1:[            //获取所有商品基本数据
 
-                    {
-                        "menuName": "惊天美食",
-                        "data": [
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            }
-                        ]
-                    },
-                    {
-                        "menuName": "热门抢购",
-                        "data": [
-                            {
-                                "goods": {
-                                    "goodsId": "77777",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl':require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            }
-                        ]
-                    },
-
-                    {
-                        "menuName": "惊天美食",
-                        "data": [
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "1",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/time1.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 103,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司hsjfh华回到家后福建师范设计费健身房'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            },
-                            {
-                                "goods": {
-                                    "goodsId": "2",
-                                    "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                                    "goodsCount": 98,
-                                    "businessId": "1",
-                                    "menuId": "1",
-                                    "certificatePeriod": 2,
-                                    "discountType": 1,
-                                    "goodsDel": 0,
-                                    'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                                    'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                                    'goodsDesc': '回家的后代就分手施工方是否公司'
-                                },
-                                "menu": {
-                                    "menuId": "1",
-                                    "menuName": "惊天美食",
-                                    "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                                    "menuDel": 0
-                                },
-                                "business": null,
-                                "goodsNormsList": []
-                            }
-                        ]
-                    }
                 ],
 
-
-
-
-
                 hotGoodsList:[],    //存放热门抢购商品
-                Icon:[
-                    {'menuName':'热门抢购',menuIconUrl:require('../assets/navIcon/购物车.png')},
-                    {'menuName':'惊天美食',menuIconUrl:require('../assets/navIcon/美食.png')},
-                    {'menuName':'休闲娱乐',menuIconUrl:require('../assets/navIcon/玩具.png')},
-                    {'menuName':'旅游景点',menuIconUrl:require('../assets/navIcon/旅游.png')},
-                    {'menuName':'饱餐住宿',menuIconUrl:require('../assets/navIcon/酒店.png')},
-                    {'menuName':'培训机构',menuIconUrl:require('../assets/navIcon/学习教育.png')},
-                    {'menuName':'敬请期待',menuIconUrl:require('../assets/navIcon/敬请期待.png')}
-                ],      //存放菜单
+                Icon:[],      //存放菜单
 
                 slide: [
-                    {'banner':{'bannerImageUrl':require('../assets/01.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/2.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/3.jpg')}},
+                    {'bannerImageUrl':require('../assets/01.jpg')},
+                 /*   {'bannerImageUrl':require('../assets/2.jpg')},
+                    {'bannerImageUrl':require('../assets/3.jpg')}*/
                 ],
                 //设置属性
                 swiperOption: {
@@ -555,21 +116,14 @@
                 // console.log(data);
                 this.$router.push('/goodDetail/'+id)      //url传参
             },
-            sortHot(){  //将限购的数据整理
-                this.theGoods_1.forEach(item => {
-                    if(item.menuName == '热门抢购'){
-                        this.hotGoodsList = item.data;
-                    }
-                })
-            },
+
             test(){
-                alert("qwe");
+                this.$nextTick();
             },
 
         },
         created() {
-           /* axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';*/
+
             axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
                 .then(response => {
                 this.Icon = response.data.data;
@@ -584,7 +138,12 @@
                   .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1)})
                   .catch();
 
-            this.sortHot();
+              axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
+                  .then(re => {
+                      this.hotGoodsList = re.data.data;
+                      console.log(re.data);
+                  })
+                  .catch(err => console.log('cccc'))
 
         }
     }
