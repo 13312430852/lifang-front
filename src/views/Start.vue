@@ -9,9 +9,7 @@
         <div style="height: 20.5%;margin-top: 4%;margin-bottom: 4%"><!--轮播部分-->
             <swiper :options="swiperOption" style="height: 100%;width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
-                    <div class="banner" @click="toDetail(item.goodsId)" :style="{backgroundImage:'url(' + item.bannerImageUrl + ')'}">
-
-                    </div>
+                    <div class="banner" @click="toDetail(item.goodsId)" :style="{backgroundImage:'url(' + item.bannerImageUrl + ')'}"></div>
                 </swiper-slide>
             </swiper>
         </div><!--轮播部分-->
@@ -32,14 +30,19 @@
                 <div class="noticeList" v-for="(item,index) in hotGoodsList" @click="toGoodsDetail(item.goods.goodsId)">
                     <div class="hotImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}">
                         <div class="theCoverBox">
-                            <div class="theCoverBox1">
-<!--                                <span>未开始</span>-->
-<!--                                <span>抢购时间结束</span>-->
-                                <count-down :time="2 * 24 * 60 * 60 * 1000">
+                            <!--限时-->
+                            <div v-if="item.goods.discountType == 1" class="theCoverBox1">
+                                <span v-if="item.status == 0">未开始</span>
+                                <span v-if="item.status == -1">已抢购结束</span>
+                                <count-down v-if="item.status == 1" :time="item.time">
                                     <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
                                         <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
                                     </template>
                                 </count-down>
+                            </div>
+                            <!--限量-->
+                            <div v-if="item.goods.discountType == 2" class="theCoverBox1">
+                                仅剩： <span v-text="item.num"></span> 份
                             </div>
                         </div>
                     </div>
@@ -76,16 +79,13 @@
 
                 ],
 
-
-
-
                 hotGoodsList:[],    //存放热门抢购商品
                 Icon:[],      //存放菜单
 
                 slide: [
-                    /*{'banner':{'bannerImageUrl':require('../assets/01.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/2.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/3.jpg')}}*/
+                    {'bannerImageUrl':require('../assets/01.jpg')},
+                    {'bannerImageUrl':require('../assets/2.jpg')},
+                    {'bannerImageUrl':require('../assets/3.jpg')}
                 ],
                 //设置属性
                 swiperOption: {

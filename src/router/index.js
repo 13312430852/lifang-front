@@ -15,7 +15,7 @@ import Withdraw from "../views/Withdraw";
 import Details from "../views/Details";
 import ReportCallBack from "../views/ReportCallBack";
 import ReportContent from "../views/ReportContent";
-import ReportStart from "../views/ReportStart";
+import ReportStart from "../components/ReportStart";
 import ShareEarn from "../views/ShareEarn";
 import Order from "../views/Order/Order";
 import AllOrder from "../views/Order/AllOrder";

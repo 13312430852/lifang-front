@@ -1,6 +1,11 @@
 <template>
     <div style="width: 100%;height: 100%;">
         <div class="goodImg" :style="{backgroundImage:'url(' + detailGood.goods.goodsImageUrl + ')'}">
+            <span class="report">
+                举报
+            </span>
+
+
             <span class="activeType" v-show="detailGood.goods.discountType == 2">仅剩：<!-- <span v-text="detailGood.rushList.rushNum"></span>--></span>
             <span class="activeType" v-show="detailGood.goods.discountType == 1">
                  <count-down :time="rushTime">

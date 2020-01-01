@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import MerchandiseModel from "../components/MerchandiseModel"
+    import MerchandiseModel from "./MerchandiseModel"
     export default {
         name: "ReportStart",
         components:{
