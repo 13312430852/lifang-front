@@ -137,45 +137,35 @@
                 // console.log(data);
                 this.$router.push('/goodDetail/'+id)      //url传参
             },
-            /*sortHot(){  //将限购的数据整理
-                this.theGoods_1.forEach(item => {
-                    if(item.menuName == '热门抢购'){
-                        this.hotGoodsList = item.data;
-                    }
-                })
-            },*/
+
             test(){
-                alert("qwe");
+                this.$nextTick();
             },
 
         },
         created() {
 			if(localStorage.getItem('userToken') != undefined && localStorage.getItem('userToken') != null){
-				axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-				axios.defaults.headers.common["userType"] = 'MINE';
-				axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
-				    .then(response => {
-				    this.Icon = response.data.data;
-				    console.log(response);
-					
-				}).catch()
-				
-				axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
-				    .then(re => {this.slide = re.data.data;console.log(this.slide)})
-				    .catch();
-				
-				  axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
-				      .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1)})
-				      .catch();
-				
-				  axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
-				      .then(re => {
-				          this.hotGoodsList = re.data.data;
-				          console.log(re.data);
-				      })
-				      .catch(err => console.log('cccc'))
+                axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
+                    .then(response => {
+                        this.Icon = response.data.data;
+                        console.log(response);
+                    }).catch()
+
+                axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
+                    .then(re => {this.slide = re.data.data;console.log(this.slide)})
+                    .catch();
+
+                axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
+                    .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1)})
+                    .catch();
+
+                axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
+                    .then(re => {
+                        this.hotGoodsList = re.data.data;
+                        console.log(re.data);
+                    })
+                    .catch(err => console.log('cccc'))
 			}
-           
         }
     }
 </script>

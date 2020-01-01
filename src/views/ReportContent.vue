@@ -92,16 +92,16 @@
             <div style="height: auto; width: 100%"><!--举报描述-->
                 <div style="margin-top: 2%; font-size: 187.5%; color: #323131">描述信息：</div>
                 <div style="height: auto; width: 80%; margin: 10% auto;">
-                    <textarea v-model="describeMessage" placeholder="这是测试" @input="handImput"
-                              style="font-size: 175%; color: #696969; margin-left: 5%; margin-top: 3%; height: auto; width: 100%">
+                    <textarea v-model="describeMessage" placeholder="请输入描述" @input="handImput"
+                              style="font-size: 175%; color: #696969; margin-left: 5%;
+                              margin-top: 3%; height: auto; width: 100%;
+                               outline: none; border-radius: 3px;">
 
                     </textarea>
 
                 </div>
             </div>
-            <button style="height: 5.8%; width: 56%; margin-left: 22%;
-            background-color: #4c90f5; color: #ffffff; font-size: 175%; font-family:PingFang SC;
-font-weight:400;">
+            <button class="submitReport" @click="pushTo">
                 提交
             </button>
         </div>
@@ -116,20 +116,41 @@ font-weight:400;">
         name: "ReportContent",
         data(){
             return{
-                reportChose:'我还不会',
-                describeMessage:'请输入描述信息'
+                goodsId:null,
+                reportChose:'',
+                describeMessage:''
             }
         },
         methods:{
             handImput(e){
                 e.target.style.height = 'auto';
                 e.target.style.height = e.target.scrollHeight + 'px';
+            },
+            pushTo(){
+
             }
+        },
+        created() {
+            this.goodsId = this.$route.query;
+            console.log(this.goodsId);
         }
     }
 </script>
 
 <style scoped>
+    .submitReport{
+        height: 5.8%;
+        width: 56%;
+        margin-left: 22%;
+        background-color: #4c90f5;
+        color: #ffffff;
+        font-size: 175%;
+        font-family:PingFang SC;
+        font-weight:400;
+        outline: none;
+        border-radius: 3px;
+        border-style: none;
+    }
     .content1{
         margin-top: 1.9%;
 

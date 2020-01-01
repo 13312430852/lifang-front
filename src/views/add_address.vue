@@ -30,12 +30,12 @@
                 <div class="makecenter">
                     手机号码:
                     <input
-                            type="text"
+                            type="tel"
                             class="text"
                             maxlength="11"
                             minlength="11"
                             placeholder="请输入11位手机号"
-                            style="font-size: 1.75rem; margin : auto 2%;
+                            style="font-size: 1.75rem;color: #8f8f8f; margin : auto 2%;
                              border-style: none; outline: none;"
                             v-model="address.addressTel"
                     />
@@ -46,15 +46,17 @@
             </div>
             <div class="list2">
                 <div class="addArea">
-                    <div style="margin-left: 5%">
+                    <div style="margin-left: 5%; ">
                         所在地区:
                     </div>
                     <textarea
-                            class="textarea1"
-                            placeholder="请输入您的正确地址"
-                            style="font-size: 1.75rem; margin-left: 2%;  outline: none; width: 70%"
-                            v-model="address.rcAddress" @input="zishiying"
-                    ></textarea>
+                        class="textarea1"
+                        placeholder="请输入您的正确地址"
+                        style="font-size: 1.75rem; margin: 2% 0% 0 3%; color: #8f8f8f;  outline: none; width: 65%; "
+                        v-model="address.rcAddress" @input="zishiying"
+                ></textarea>
+
+
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 <template>
     <div id="box1">
-        <div class="goods" v-for="(good,i) in goods">
+        <div class="goods" v-for="(good,i) in goods" @click="Todetail(goods[i])">
             <div id="picture">
                 <img :src="good.goodsImageUrl" width="100%" height="100%" alt="">
             </div>
@@ -22,16 +22,21 @@
         },
         created() {
 
-            axios.post('http://af7a8ace.ngrok.io/order/userQueryOrder',{
+            axios.post(process.env.VUE_APP_URL+'order/userQueryOrder',{
                 "ordersPayState":"0"
             })
                 .then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     this.goods = response.data.data.records;
                 }).catch(function (err) {
                 console.log(err);
             })
 
+        },
+        methods:{
+            Todetail(goods){
+                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            },
         }
     }
 </script>
