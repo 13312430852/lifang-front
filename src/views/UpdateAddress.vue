@@ -2,12 +2,44 @@
     <div style="height: 100%;width: 100%; ">
         <div class="headline_add-address">修改收货地址</div>
         <div class="div_content">
-            <div class="list1"><div class="makecenter"><input type="text" placeholder="请输入收货人姓名" class="text" v-model="address.addressName"></div></div>
-            <div class="list1"><div class="makecenter" ><input type="text" placeholder="请输入收货人联系电话" maxlength="11" minlength="11"
-                                                               class="text" v-model="address.addressTel"></div></div>
-            <div class="list2"><div class="makecenter" ><textarea placeholder="请输入收货人地址" class="textarea1"v-model="address.rcAddress"></textarea></div>
+            <div class="list1">
+                <div class="makecenter">
+                    <div style=" width: 20%; ">
+                        姓名：
+                    </div>
+                    <input type="text" placeholder="请输入收货人姓名" class="text" v-model="address.addressName">
+                </div>
+                <div class="addHr">
+
+                </div>
             </div>
             <div class="list1">
+                <div class="makecenter" >
+                    <div style="width: 20%; ">
+                    联系电话：
+                    </div>
+                <input type="tel" placeholder="请输入收货人联系电话" maxlength="11" minlength="11"
+                                                               class="text" v-model="address.addressTel">
+            </div>
+                <div class="addHr">
+
+                </div>
+            </div>
+            <div class="list2">
+                <div class="list2-1" >
+                    <div style="  width: 20%; ">
+                        地址:
+                    </div>
+                    <textarea placeholder="请输入收货人地址" @input="gengxin" class="textarea1" v-model="address.rcAddress" >
+
+                    </textarea>
+                </div>
+
+            </div>
+            <div class="addHr">
+
+            </div>
+            <div class="list1" style="padding-top: 8%">
                 <div class="makecenter">
                     设为默认地址
                     <div class="switch-btn">
@@ -72,6 +104,10 @@
                         console.log(response.data);
                     });
             },
+            gengxin(e){
+                e.target.style.height = 'auto';
+                e.target.style.height = e.target.scrollHeight + 'px';
+            }
 
         },
         created() {
@@ -91,6 +127,20 @@
 </script>
 
 <style scoped>
+    .list2-1{
+        background-color: white;
+        height: auto;
+        margin-left: 5%;
+        width: 100%;
+        font-size: 1.75rem;
+        display: flex;
+    }
+    .addHr{
+        background-color:#b8b8b8;
+        height: 1px;
+        width: 92%;
+        margin: 0 auto;
+    }
     .saveFont{
         color: white!important;
     }
@@ -119,34 +169,40 @@
     .text{
         height: 50%;
         width: 60%;
+        margin: auto 2%;
+        border-style: none;
+        outline: none;
     }
     .list1{
-        height: 7.3%;
+        height: 8%;
         width: 100%;
         list-style-type: none;
         background:white;
         font-size: 1.5rem;
     }
     .list2{
-        height: 24%;
+        height: auto;
         width: 100%;
         background: white;
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         display: flex;
-        align-items: center;
+
     }
     .makecenter{
         height: 80%;
         margin-left: 5%;
         width: 100%;
-        background: white;
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         display: flex;
         align-items: center;
     }
     .textarea1{
-        width: 50%;
-        height: 70%;
+        width: 60%;
+        height: auto;
+        outline: none;
+        margin: 4% 0% 2% 2%;
+        border-radius: 2px;
+
     }
     .btn_position{
         display: flex;
