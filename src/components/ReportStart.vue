@@ -1,7 +1,6 @@
 <template>
     <div style="height: 100%; width: 100%; font-family:PingFang SC; font-weight:400;">
 
-        <MerchandiseModel></MerchandiseModel>
         <div class="reportBtn">
             <div class="btn1" >
                 <img src="../assets/report/矢量智能对象.png" width="100%" @click="lover"/>

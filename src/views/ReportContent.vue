@@ -99,9 +99,7 @@
 
                 </div>
             </div>
-            <button style="height: 5.8%; width: 56%; margin-left: 22%;
-            background-color: #4c90f5; color: #ffffff; font-size: 175%; font-family:PingFang SC;
-font-weight:400;">
+            <button class="submitReport">
                 提交
             </button>
         </div>
@@ -116,6 +114,7 @@ font-weight:400;">
         name: "ReportContent",
         data(){
             return{
+                goodsId:null,
                 reportChose:'我还不会',
                 describeMessage:'请输入描述信息'
             }
@@ -125,11 +124,25 @@ font-weight:400;">
                 e.target.style.height = 'auto';
                 e.target.style.height = e.target.scrollHeight + 'px';
             }
+        },
+        created() {
+            this.goodsId = this.$route.query;
+            console.log(this.goodsId);
         }
     }
 </script>
 
 <style scoped>
+    .submitReport{
+        height: 5.8%;
+        width: 56%;
+        margin-left: 22%;
+        background-color: #4c90f5;
+        color: #ffffff;
+        font-size: 175%;
+        font-family:PingFang SC;
+        font-weight:400;
+    }
     .content1{
         margin-top: 1.9%;
 

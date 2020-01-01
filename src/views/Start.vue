@@ -84,8 +84,8 @@
 
                 slide: [
                     {'bannerImageUrl':require('../assets/01.jpg')},
-                    {'bannerImageUrl':require('../assets/2.jpg')},
-                    {'bannerImageUrl':require('../assets/3.jpg')}
+                 /*   {'bannerImageUrl':require('../assets/2.jpg')},
+                    {'bannerImageUrl':require('../assets/3.jpg')}*/
                 ],
                 //设置属性
                 swiperOption: {
@@ -116,21 +116,14 @@
                 // console.log(data);
                 this.$router.push('/goodDetail/'+id)      //url传参
             },
-            /*sortHot(){  //将限购的数据整理
-                this.theGoods_1.forEach(item => {
-                    if(item.menuName == '热门抢购'){
-                        this.hotGoodsList = item.data;
-                    }
-                })
-            },*/
+
             test(){
-                alert("qwe");
+                this.$nextTick();
             },
 
         },
         created() {
-           /* axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';*/
+
             axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
                 .then(response => {
                 this.Icon = response.data.data;
@@ -151,8 +144,6 @@
                       console.log(re.data);
                   })
                   .catch(err => console.log('cccc'))
-
-
 
         }
     }

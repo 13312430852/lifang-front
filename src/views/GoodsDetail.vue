@@ -1,15 +1,16 @@
 <template>
     <div style="width: 100%;height: 100%;">
+        <report-start v-if="isReport"></report-start>
         <div class="goodImg" :style="{backgroundImage:'url(' + detailGood.goods.goodsImageUrl + ')'}">
-            <span class="report">
+            <span class="report" @click="toRepot">
                 举报
             </span>
 
-
-            <span class="activeType" v-show="detailGood.goods.discountType == 2">仅剩：<!-- <span v-text="detailGood.rushList.rushNum"></span>--></span>
-            <span class="activeType" v-show="detailGood.goods.discountType == 1">
+            <span class="activeType" v-if="istype == 2">仅剩： <span v-text="detailGood.rushList.rushNum"></span></span>
+            <span class="activeType" v-if="istype == 1" style="display: block;z-index: 999">
                  <count-down :time="rushTime">
-                                    <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
+                                    <template slot-scope="pro">
+                                        <div style="margin-left: 1%">距结束：</div>
                                         <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
                                     </template>
                  </count-down>
@@ -20,7 +21,7 @@
             <div class="price_type">
                 <span class="rePrice" v-text="detailGood.goodsNorms.currentPrice">￥13</span>
                 <span class="oldPrice" v-text="detailGood.goodsNorms.origiPrice">￥13</span>
-                <span class="activeType" v-show="card.length != 0" @click="getCar(detailGood.goods.goodsId)"><span style="color: #4c90f5">领取</span>  优惠券</span>
+                <span class="activeType" v-if="card.length != 0" @click="getCar(detailGood.goods.goodsId)"><span style="color: #4c90f5">领取</span>  优惠券</span>
 
             </div>
             <div class="tip" v-if="isShow">领取成功</div>
@@ -73,14 +74,21 @@
 <script>
     import PurchaseAndShareBottom from "../components/PurchaseAndShareBottom";
     import PurchaseAddTogeter from "../components/PurchaseAddTogeter";
+    import ReportStart from "../components/ReportStart";
+    import CountDown from '@chenfengyuan/vue-countdown';
+
     export default {
         name: "GoodsDetail",
         components: {
             PurchaseAndShareBottom,
-            PurchaseAddTogeter
+            PurchaseAddTogeter,
+            ReportStart,
+            CountDown
         },
         data(){
             return{
+                isReport:false,
+
                 pro:{
                     '小时':1,
                     '分钟':1,
@@ -99,11 +107,16 @@
                 ],
 
                 detailGood:null,
-                countType:null,
+                countType:1,
                 id:'',
             }
         },
         computed:{
+            istype(){
+                if(this.countType == 1) return 1
+                else if(this.countType == 2) return 2
+                else return 3
+            },
             discountType(){
                 return (it) => {
                     if(it == 1) return '限时抢购'
@@ -120,12 +133,18 @@
             }
         },
         methods:{
+            toRepot(){
+                this.isReport = !this.isReport;
+                this.$router.push({path:'/reportContent',query:this.id})
+            },
+
             compte(nowDate,startDate,endDate){
                 startDate= this.StringToDate(startDate);
                 endDate= this.StringToDate(endDate);
                 if(nowDate < endDate) this.rushTime = endDate - nowDate;
                 else if(nowDate < startDate) this.rushTime = -1;
                 else this.rushTime = 0;
+                console.log(this.rushTime);
             },
             StringToDate(date){
                 date = date.substring(0,19);
@@ -174,10 +193,14 @@
                     console.log(this.detailGood);
                     this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
                     this.countType =  this.detailGood.goods.discountType;
+                    console.log(this.countType);
                     /*let allcards = this.detailGood.cardsList;
                     this.card = */
                     this.card= this.detailGood.cardsList;        // 商品的优惠券
-                    this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
+                    if(this.countType == 1){
+                        this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
+                    }
+
                 })
         },
 
@@ -187,6 +210,14 @@
 </script>
 
 <style scoped>
+    .report{
+        font-family: "PingFang SC";
+        color: lightblue;
+        font-size: 1.8rem;
+        position: absolute;
+        top: 2%;
+        right: 5%;
+    }
     .theImg{
         width: 100%;
     }
@@ -208,7 +239,6 @@
         align-items:center;
     }
 
-
     .address{
         float: left;
         height: 80%;
@@ -225,10 +255,6 @@
         width: 5.7%;
         height: 34%;
         float: left;
-        /*background-color: #4c90f5;*/
-        /*background-image: url("../assets/adrressIcon.png");*/
-        /*background-repeat: no-repeat;*/
-
     }
     .addressBox{
         width: 100%;
@@ -241,12 +267,10 @@
         height: 22%;
         margin-left: 1.5%;
         margin-top: 8%;
-
         font-size:1.75rem;
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(117,117,117,1);
-
         overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
     }
     .useType span{

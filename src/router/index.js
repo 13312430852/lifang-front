@@ -12,7 +12,6 @@ import Service from "../views/Service";
 import Wallet from "../views/Wallet";
 import WalletRouter1 from "../views/WalletRouter1";
 import Withdraw from "../views/Withdraw";
-import Details from "../views/Details";
 import ReportCallBack from "../views/ReportCallBack";
 import ReportContent from "../views/ReportContent";
 import ReportStart from "../components/ReportStart";
@@ -103,7 +102,6 @@ const routes = [
   },
 
   {path:'/withdraw',component:Withdraw},  //提现-李某
-  {path:'/details',component:Details},  //
   {path:'/reportContent',component:ReportContent},
   {path:'/reportCallBack',component:ReportCallBack},
   {path:'/reportStart',component:ReportStart},
