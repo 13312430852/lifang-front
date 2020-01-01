@@ -3,27 +3,37 @@
         <div class="searchBox"><!--搜索部分-->
             <!--            <input class="search" type="text" @click="toSearch" v-model="searchInitValue">-->
             <input class="search" type="text" v-model="searchInitValue" @click="toSearch">
-
         </div><!--搜索部分-->
 			
         <div style="height: 20.5%;margin-top: 4%;margin-bottom: 4%"><!--轮播部分-->
-            <LoadingD v-if="slide == null"></LoadingD>
+            <LoadingD v-if="slide == null">
+            </LoadingD>
 			<swiper :options="swiperOption" style="height: 100%;max-width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
                     <div class="banner" @click="toDetail(item.goodsId)">
 						<el-image
 						      style="width: 100%; height: 100%"
 						      :src="item.bannerImageUrl"
-						      :fit="fill"></el-image>
+						      :fit="fill"
+                              lazy>
+                        </el-image>
 					</div>
                 </swiper-slide>
             </swiper>
         </div><!--轮播部分-->
 
         <div class="nav"><!--菜单部分-->
-			<LoadingF v-if="Icon == null"></LoadingF>
+			<LoadingF v-if="Icon == null">
+            </LoadingF>
             <div class="realyNav" v-for="item in Icon" @click="toMore(item.menuName)">
-                <div class="menuIcon"><img style="height: 100%" :src="item.menuIconUrl"></div>
+                <div class="menuIcon">
+                    <el-image
+                            style="width: 100%; height: 100%"
+                            :src="item.menuIconUrl"
+                            :fit="fill"
+                            lazy>
+                    </el-image>
+                </div>
                 <div class="menuTitle" v-text="item.menuName"></div>
             </div>
         </div>    <!--菜单部分-->
@@ -61,7 +71,8 @@
         <goods-list :theGoods_2="theGoods_1">
 		</goods-list> <!--商品展示-->
 
-        <footer class="footer"></footer>
+        <footer class="footer">
+        </footer>
     </div>
 </template>
 
@@ -71,6 +82,7 @@
 	import LoadingD from "../components/loadingD";
 	import LoadingF from "../components/loadingF";
 	import LoadingB from "../components/loadingB";
+	import Footer from "../components/BottomNavigation"
 	
 
     export default {
@@ -80,7 +92,8 @@
             CountDown,
 			LoadingD,
 			LoadingF,
-			LoadingB
+			LoadingB,
+            Footer
         },
         data(){
             return{
@@ -149,7 +162,7 @@
                     .then(response => {
                         this.Icon = response.data.data;
                         console.log(response);
-                    }).catch()
+                    }).catch();
 
                 axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
                     .then(re => {this.slide = re.data.data;console.log(this.slide)})

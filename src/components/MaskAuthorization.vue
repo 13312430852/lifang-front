@@ -38,28 +38,19 @@
                 /*当用户点击了确认后，跳转至授权链接*/
                 window.location.href = this.url;   //跳转至外部 url
             },
-            getURL(i){
+            getURL(){
                 axios.get(process.env.VUE_APP_URL + 'wechat/login')  //获取授权链接
                     .then(re => {
-						if(re.status == 200){
-							this.url = re.data;
-							this.isLoading = false;
-						}else{
-							alert("请检查网络！")
-						}
-                    })
-                    .catch(err=>{
-                        if(i<0){
-                            alert('请求链接失败:'+err);
-                        }else {
-                            this.getURL(i-1)  //失败后再继续请求
-                        }
+                        this.url = re.data;
+                        this.isLoading = false;
+                    }).catch(err=>{
+                        this.getURL();
                     });
             }
         },
         created() {
             console.log(this.ip);
-            this.getURL(4);
+            this.getURL();
         }
     }
 </script>

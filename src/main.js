@@ -7,9 +7,9 @@ import 'swiper/dist/css/swiper.css'  //引入样式
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-Vue.config.productionTip = false
-Vue.use(ElementUI)
-Vue.use(vueSwiper)
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
+Vue.use(vueSwiper);
 
 
 
@@ -28,21 +28,31 @@ axios.interceptors.request.use(function (config) {
 
 
 
-/*
-//响应拦截器
-axios.interceptors.response.use(function (response) {
-  // 在发送请求之前做些什么，例如加入token
-
-  return response;
-}, function (error) {
-  // 对请求错误做些什么
-  return Promise.reject(error);
-});
-*/
+// 路由响应拦截
+// http response 拦截器
+axios.interceptors.response.use(
+    response => {
+      if (response.status == 200){
+        switch (response.data.code) {
+          case 200:
+            ElementUI.Message.success("数据请求成功！");
+            break
+          default:
+            ElementUI.Message.error("数据获取失败，错误码："+response.data.code);
+        }
+      }else {
+        ElementUI.Message.error("请求失败，请求的错误码："+response.status);
+      }
+      return response;
+    },
+    error => {
+      ElementUI.Message.error('请求失败，请检查网络！');
+      return Promise.reject(error.response);   // 返回接口返回的错误信息
+    });
 
 
 
 new Vue({
   router,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

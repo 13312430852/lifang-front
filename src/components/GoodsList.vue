@@ -1,31 +1,48 @@
 <template>
     <div class="listBox">
-		<LoadingE v-if="theGoods_2 == null || theGoods_2 == undefined"></LoadingE>
+		<LoadingE v-if="theGoods_2 == null || theGoods_2 == undefined">
+        </LoadingE>
         <div v-for="typeList in theGoods_2" style="height: 100%;margin-top: 3.5%">
             <div style="height: 4%;width: 100%;">
+                <el-divider direction="vertical">
+                </el-divider>
                 <span class="theMenuTitle" v-text="typeList.menuName">惊天美食</span>
-                <span class="moreGoods" @click="toMore(typeList.menuName)">更多</span>
+                <span class="moreGoods" @click="toMore(typeList.menuName)"><i class="el-icon-more"></i></span>
             </div>
 <!--sesasfa-->
             <div class="goodsList">
-                <div class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4"  @click="toGoodsDetail(item.goods.goodsId)">
-<!--                        <img class="goodImg" :src="item.goods.goodsImageUrl" alt="">-->
-                        <div class="goodImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}"></div>  <!--图片-->
-                        <div class="detail">    <!--信息-->
-                            <div class="name_price">
-                                <div class="goodName" v-text="item.goods.goodsName"></div>
-                                <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
+                        <el-card class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4"  @click="toGoodsDetail(item.goods.goodsId)" :body-style="{ padding: '0px' }">
+                            <el-image
+                                    class="goodImg"
+                                    :src="item.goods.goodsImageUrl"
+                                    :fit="fill">
+                                <div slot="error"  >
+                                    <el-image   :lazy="true"  fit="cover"  src="../assets/imageError.jpg" >
+                                    </el-image>
+                                </div>
+                                <div slot="placeholder"  >
+                                    <loading-e>
+                                    </loading-e>
+                                </div>
+                            </el-image>
+                            <div style="padding: 14px;">
+                                <div class="detail">    <!--信息-->
+                                    <div class="name_price">
+                                        <div class="goodName" v-text="item.goods.goodsName"></div>
+                                        <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
+                                    </div>
+                                    <!--                            <div class="goodsDesc">合适的时光飞逝</div>-->
+                                    <div class="goodOption">
+                                        <div class="type" v-text="consuType(item.goods.consumeType)"></div>
+                                        <div class="earnMoney">
+                                            <el-button class="theButton el-button el-button--primary" @click="toEarnMoney"  type="primary" icon="el-icon-share">
+                                            </el-button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-<!--                            <div class="goodsDesc">合适的时光飞逝</div>-->
-                            <div class="goodOption">
-                                <div class="type" v-text="consuType(item.goods.consumeType)"></div>
-                                <div class="earnMoney"><button class="theButton" @click="toEarnMoney">赚佣金</button></div>
-                                <div class="purchase"><button class="theButton1" @click.stop="toBuy">抢购</button></div>
-                            </div>
-                        </div>
-                </div>
+                        </el-card>
             </div>
-
         </div>
     </div>
 
@@ -81,43 +98,31 @@
 <style scoped>
 
     .moreGoods{
-        font-size:1.75rem;
-        font-family:PingFang SC;
-        font-weight:500;
-        color:rgba(92,92,92,1);
+        display: block;
         float: right;
-        margin-right: 3.5%;
+        margin-right: 20px;
+        margin-top: 5px;
+        font-size: 18px;
+        color: #409EFF;
     }
     .theMenuTitle{
-        font-size:1.875rem;
-        font-family:PingFang SC;
-        font-weight:bold;
-        color:rgba(20,20,20,1);
-        margin-left: 3.5%;
+        font-size: 18px;
+        color: #5f5f5f;
+    }
+    .el-divider--vertical{
+        margin: 0 5px 0 15px;
+        height: 1.3em;
     }
 
-    .theButton1{
-        width: 90%;
-        height: 80%;
-        border-radius:4px;
-        font-size:1.5rem;
-        border-style: none;
-        font-family:PingFang SC;
-        font-weight:500;
-        color:#FFFFFF;
-        background-color: #4c90f5;
-        margin-right: 4%;
-    }
     .theButton{
-        width: 90%;
-        height: 80%;
+        width: 40%;
+        height: 100%;
         border:1px solid rgba(173,173,173,1);
         border-radius:4px;
         font-size:1.5rem;
         font-family:PingFang SC;
-        font-weight:500;
-        color:rgba(40,40,40,1);
         margin-right: 4%;
+        padding: 1px 5px 1px 5px;
     }
     .purchase{
         flex: 2;
@@ -196,7 +201,7 @@
         flex-direction: column;
     }
     .goodImg{
-        height: 63%;
+        height: 13em;
         width: 100%;
         /*min-height: 116px;*/
         /*border: 1px solid red;*/
@@ -205,7 +210,7 @@
     }
     .realyGood{
         width: 45%;
-        min-height: 192px;
+        height: 192px;
         margin-left: 3%;
         border-radius: 4px;
         border:1px solid rgba(229,229,229,1);
