@@ -1,5 +1,6 @@
 <template>
     <div class="listBox">
+		<LoadingE v-if="theGoods_2 == null || theGoods_2 == undefined"></LoadingE>
         <div v-for="typeList in theGoods_2" style="height: 100%;margin-top: 3.5%">
             <div style="height: 4%;width: 100%;">
                 <span class="theMenuTitle" v-text="typeList.menuName">惊天美食</span>
@@ -31,9 +32,13 @@
 </template>
 
 <script>
+	import LoadingE from "./loadingE";
     // 需要传递商品列表参数，格式为：分为几大菜单，每一菜单的data里面都有属于这个菜单下面的数据
     export default {
         name: "GoodsList",
+		components:{
+			LoadingE
+		},
         props:{
             theGoods_2:{
                 type:Array,

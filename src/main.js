@@ -4,10 +4,11 @@ import App from './App.vue'
 import router from './router'
 import vueSwiper from 'vue-awesome-swiper'  //引入vue-awesome-swiper
 import 'swiper/dist/css/swiper.css'  //引入样式
-
-
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.config.productionTip = false
+Vue.use(ElementUI)
 Vue.use(vueSwiper)
 
 

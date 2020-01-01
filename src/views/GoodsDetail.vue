@@ -68,35 +68,8 @@
                 haveCard:false,
 
                 card:null,
-                cards_get:[
-                    {'cardID':'123'}
-                ],
-                detailGood:{
-                    "goods": {
-                        "goodsId": "1",
-                        "goodsName": "商品名字",
-                        "goodsDesc": "商品描述",
-                        "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                        "goodsImageUrl": "商品封面地址",
-                        "goodsCount": 98,
-                        "consumeType": 1,
-                        "businessId": "1",
-                        "menuId": "1",
-                        "certificatePeriod": 2,
-                        "discountType": 1,
-                        "goodsDel": 0
-                    },
-                    "menu": {
-                        "menuId": "1",
-                        "menuName": "惊天美食",
-                        "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                        "menuDel": 0
-                    },
-
-
-                    "business": null,
-                    "goodsNormsList": []
-                },
+                cards_get:null,
+                detailGood:null,
                 id:'',
             }
         },
@@ -128,12 +101,12 @@
             },
         created() {
             this.id = this.$route.params.goodsDetail;
-         /*  console.log(this.$route.params.goodsDetail);
-            axios.post(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/'+this.id).then(response=>{
-                this.cards=response.data.data
-            }).catch(function (err) {
-                console.log(err)
-            })*/
+			  console.log(this.$route.params.goodsDetail);
+			axios.post(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/'+this.id).then(response=>{
+					this.cards=response.data.data
+				}).catch(function (err) {
+					console.log(err)
+				})
             axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
                 .then(re =>{
                     this.detailGood = re.data.data;
