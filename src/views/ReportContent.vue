@@ -92,14 +92,16 @@
             <div style="height: auto; width: 100%"><!--举报描述-->
                 <div style="margin-top: 2%; font-size: 187.5%; color: #323131">描述信息：</div>
                 <div style="height: auto; width: 80%; margin: 10% auto;">
-                    <textarea v-model="describeMessage" placeholder="这是测试" @input="handImput"
-                              style="font-size: 175%; color: #696969; margin-left: 5%; margin-top: 3%; height: auto; width: 100%">
+                    <textarea v-model="describeMessage" placeholder="请输入描述" @input="handImput"
+                              style="font-size: 175%; color: #696969; margin-left: 5%;
+                              margin-top: 3%; height: auto; width: 100%;
+                               outline: none; border-radius: 3px;">
 
                     </textarea>
 
                 </div>
             </div>
-            <button class="submitReport">
+            <button class="submitReport" @click="pushTo">
                 提交
             </button>
         </div>
@@ -115,14 +117,17 @@
         data(){
             return{
                 goodsId:null,
-                reportChose:'我还不会',
-                describeMessage:'请输入描述信息'
+                reportChose:'',
+                describeMessage:''
             }
         },
         methods:{
             handImput(e){
                 e.target.style.height = 'auto';
                 e.target.style.height = e.target.scrollHeight + 'px';
+            },
+            pushTo(){
+
             }
         },
         created() {
@@ -142,6 +147,9 @@
         font-size: 175%;
         font-family:PingFang SC;
         font-weight:400;
+        outline: none;
+        border-radius: 3px;
+        border-style: none;
     }
     .content1{
         margin-top: 1.9%;
