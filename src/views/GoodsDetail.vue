@@ -1,17 +1,33 @@
 <template>
     <div style="width: 100%;height: 100%;">
-        <div class="goodImg"><img style="width: 100%;height: 100%" :src="detailGood.goods.goodsImageUrl" alt=""></div> <!--展示图-->
+        <div class="goodImg" :style="{backgroundImage:'url(' + detailGood.goods.goodsImageUrl + ')'}">
+            <span class="report">
+                举报
+            </span>
+
+
+            <span class="activeType" v-show="detailGood.goods.discountType == 2">仅剩：<!-- <span v-text="detailGood.rushList.rushNum"></span>--></span>
+            <span class="activeType" v-show="detailGood.goods.discountType == 1">
+                 <count-down :time="rushTime">
+                                    <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
+                                        <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
+                                    </template>
+                 </count-down>
+            </span>
+        </div> <!--展示图-->
+
         <div class="baseMessege">
             <div class="price_type">
                 <span class="rePrice" v-text="detailGood.goodsNorms.currentPrice">￥13</span>
                 <span class="oldPrice" v-text="detailGood.goodsNorms.origiPrice">￥13</span>
-                <span class="activeType" v-show="card != null" @click="toShow = !toShow">领取  优惠券</span>
+                <span class="activeType" v-show="card.length != 0" @click="getCar(detailGood.goods.goodsId)"><span style="color: #4c90f5">领取</span>  优惠券</span>
+
             </div>
             <div class="tip" v-if="isShow">领取成功</div>
 
             <div class="name_useType">
                 <div class="DianName" v-text="detailGood.goods.goodsName">花溪重庆火锅换句话说几号放假设计费会使肌肤好几十福建省是否火花塞</div>
-                <div class="useType"><span v-text="detailGood.goods.consumeType">到店消费</span></div>
+                <div class="useType"><span v-text="consumType(detailGood.goods.consumeType)">到店消费</span></div>
             </div>
             <div class="goodDesc" v-html="detailGood.goods.goodsDesc">
                 和胜股份公司符合施工方见好就收福建省福建师范是否合适手机号健身房和数据恢复及时发货时
@@ -31,12 +47,14 @@
         <div class="carbox" v-if="toShow">
             <div class="car1" v-for="(item1,i) in card">
                 <div class="left">
-                    <div class="car_price" v-text="item1.cards_price"></div>
-                    <div class="car_condition" v-text="item1.cards_order"></div>
+                    满
+                    <span class="car_condition" v-text="item1.cardsOrder"></span>
+                    减
+                    <span class="car_price" v-text="item1.cardsPrice"></span>
                 </div>
                 <div class="right">
                     <div class="getBtn">
-                        <div class="font" @click="lingqu(),toShow=!toShow" >领取</div>
+                        <div class="font" @click="lingqu(item1.cardsId),toShow=!toShow" >领取</div>
                     </div>
                 </div>
             </div>
@@ -45,10 +63,10 @@
         </div>
 
         <!--没有参与团购的-->
-        <purchase-and-share-bottom :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
+        <purchase-and-share-bottom v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
 
         <!--参与了团购的-->
-        <!--<purchase-add-togeter :price="67" :isGroupPrice="15"></purchase-add-togeter>-->
+        <purchase-add-togeter v-if="countType == 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId" :isGroupPrice="detailGood.goodsTeam.discountPrice"></purchase-add-togeter>
     </div>
 </template>
 
@@ -63,38 +81,86 @@
         },
         data(){
             return{
+                pro:{
+                    '小时':1,
+                    '分钟':1,
+                    '秒':1,
+                },
+
+                rushTime:null,
                 toShow:false,
                 isShow:false,
                 haveCard:false,
-
                 card:null,
                 cards_get:null,
                 detailGood:null,
+                cards_get:[
+                    {'cardID':'123'}
+                ],
+
+                detailGood:null,
+                countType:null,
                 id:'',
             }
         },
+        computed:{
+            discountType(){
+                return (it) => {
+                    if(it == 1) return '限时抢购'
+                    else if(it == 2) return '限量抢购'
+                    else if(it == 3) return 'gfgdggfhghghhhhhhhhhhhh'
+                }
+            },
+            consumType(){
+                return (tag) => {
+                    if (tag == 1) return '包邮'
+                    else return '到店消费'
+
+                }
+            }
+        },
         methods:{
-            getCar(){
-                this.toShow=!this.toShow;
-                // console.log(this.toShow)
+            compte(nowDate,startDate,endDate){
+                startDate= this.StringToDate(startDate);
+                endDate= this.StringToDate(endDate);
+                if(nowDate < endDate) this.rushTime = endDate - nowDate;
+                else if(nowDate < startDate) this.rushTime = -1;
+                else this.rushTime = 0;
+            },
+            StringToDate(date){
+                date = date.substring(0,19);
+                date = date.replace(/-/g,'/');
+                var timestamp = new Date(date).getTime();
+                return timestamp;
+            },
+            getCar(goodid){
+                this.toShow = !this.toShow;
+                axios.get(process.env.VUE_APP_URL + 'allcards/queryCardsByGoodsId/' + goodid)
+                    .then(re => {
+                        console.log(re.data);
+                        this.card = re.data.data;
+                    })
+
             },
 
-            lingqu(){
-                axios.post(process.env.VUE_APP_URL+'usercards/addUserCards',
-                    {
-                        "cardsId":'456'
-                    }
-                    ).then(response=>{
-                    console.log(response)
+            lingqu(cardsId){
+                axios.post(process.env.VUE_APP_URL+'usercards/addUserCards/'+cardsId)
+                    .then(response=>{
+                        console.log(response.data);
+                        if(response.data.flag){
+                            this.isShow=true;
+                            setTimeout(
+                                () => {
+                                    this.isShow=false
+                                }
+                                ,1500)
+                        }else{
+                            alert(response.data.message);
+                        }
+                    // console.log(response)
                 }).catch(function (err) {
                     console.log(err)
                 });
-                this.isShow=true;
-                setTimeout(
-                    () => {
-                        this.isShow=false
-                    }
-                ,2000)
 
 
             }
@@ -107,11 +173,17 @@
 				}).catch(function (err) {
 					console.log(err)
 				})
+
             axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
                 .then(re =>{
                     this.detailGood = re.data.data;
+                    console.log(this.detailGood);
                     this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
-                    this.card= this.detailGood.card;        // 商品的优惠券
+                    this.countType =  this.detailGood.goods.discountType;
+                    /*let allcards = this.detailGood.cardsList;
+                    this.card = */
+                    this.card= this.detailGood.cardsList;        // 商品的优惠券
+                    this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
                 })
         },
 
@@ -252,6 +324,12 @@
         background-color: #4c90f5;
         margin: 2.32% auto 0 auto;
         border-radius: 3px;
+        background-repeat: no-repeat;
+        /*background-size: cover;*/
+        background-size: 100% 100%;
+        display: flex;
+        flex-direction: column-reverse;
+        text-align: right;
     }
     .carbox{
         width: 90%;
@@ -268,15 +346,16 @@
         height: 25%;
         display: flex;
         background-color: #ff4400;
-        /*border-radius: 6px;*/
-        /*border: 1px solid black;*/
+        border-radius: .8rem;
         margin: 5% auto;
 
     }
     .left{
+        text-align: center;
         width: 80%;
         height: 100%;
         background-color: #ffbb4d;
+        border-radius: .8rem;
     }
     .right{
         width: 20%;
@@ -302,6 +381,7 @@
         font-family: "PingFang SC";
         text-align: center;
         color: #ff4400;
+
         /*background-color: #67ffc2;*/
     }
     .getBtn{

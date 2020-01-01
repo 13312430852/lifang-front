@@ -2,7 +2,14 @@
     <div style="height: 100%;width: 100%; font-family: 'PingFang SC'">
         <div class="headline_add-address">添加收货地址</div>
         <div class="div_content">
-
+            <div class="list1">
+                <div class="makecenter">
+                    用户ID:
+                    <span v-text="address.userId" style="margin: auto 4%;
+                    font-size: 1.75rem; color: #8f8f8f; outline: none;"></span>
+                </div>
+                <div class="addUnderline"></div>
+            </div>
             <div class="list1">
                 <div class="makecenter">
                     收货人:
@@ -10,9 +17,13 @@
                             type="text"
                             placeholder="请输入您的姓名"
                             class="text"
-                            style="font-size: 1.75rem"
+                            style="font-size: 1.75rem; margin: auto 6%;
+                            border-style: none; color: #8f8f8f; outline: none;"
                             v-model="address.addressName"
                     />
+                </div>
+                <div class="addUnderline">
+
                 </div>
             </div>
             <div class="list1">
@@ -24,19 +35,25 @@
                             maxlength="11"
                             minlength="11"
                             placeholder="请输入11位手机号"
-                            style="font-size: 1.75rem"
+                            style="font-size: 1.75rem; margin : auto 2%;
+                             border-style: none; outline: none;"
                             v-model="address.addressTel"
                     />
                 </div>
+                <div class="addUnderline">
+
+                </div>
             </div>
             <div class="list2">
-                <div class="makecenter">
-                    所在地区:
+                <div class="addArea">
+                    <div style="margin-left: 5%">
+                        所在地区:
+                    </div>
                     <textarea
                             class="textarea1"
                             placeholder="请输入您的正确地址"
-                            style="font-size: 1.75rem"
-                            v-model="address.rcAddress"
+                            style="font-size: 1.75rem; margin-left: 2%;  outline: none; width: 70%"
+                            v-model="address.rcAddress" @input="zishiying"
                     ></textarea>
                 </div>
             </div>
@@ -73,7 +90,7 @@
             return {
                 defaultAddress123:false,
                 address: {
-                    userId: null,
+                    userId: '我是大傻逼，如果你不信你来看看'/*null*/,
                     addressName: null,
                     addressTel: null,
                     rcAddress: null,
@@ -94,6 +111,10 @@
                         console.log(response.data);
                     }).catch();
             },
+            zishiying(e){
+                e.target.style.height = 'auto';
+                e.target.style.height = e.target.scrollHeight + 'px';
+            }
 
         }
     };
@@ -105,6 +126,7 @@
     }
     .saveFont:link{
         text-decoration:none;
+
     }
     .headline_add-address {
         height: 6.8%;
@@ -119,11 +141,9 @@
         justify-content: center;
     }
     .div_content {
-        margin: 0 auto;
-        width: 92%;
+        width: 100%;
         height: 93.2%;
-        padding-top: 8%;
-        /*background: red;*/
+        background: #ffffff;
     }
     .text {
         height: 50%;
@@ -133,18 +153,24 @@
         height: 7.3%;
         width: 100%;
         list-style-type: none;
-        background: white;
         font-size: 1.75rem;
     }
     .list2 {
-        height: 24%;
+        height: auto;
+        width: 100%;
+        font-size: 1.75rem;
+        align-items: center;
+        margin: 5% auto;
+    }
+    .makecenter {
+        height: 97%;
+        margin: 1% 5%;
         width: 100%;
         background: white;
         font-size: 1.75rem;
         display: flex;
         align-items: center;
     }
-
     .textarea1 {
         width: 50%;
         height: 70%;
@@ -212,5 +238,14 @@
         -moz-transition: All 0.3s ease;
         -o-transition: All 0.3s ease;
         transition: All 0.3s ease;
+    }
+    .addUnderline{
+        background-color:#b8b8b8;
+        height: 1px;
+        width: 92%;
+        margin: 1% auto;
+    }
+    .addArea{
+        display: flex;
     }
 </style>

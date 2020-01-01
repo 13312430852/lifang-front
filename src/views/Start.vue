@@ -38,14 +38,19 @@
                 <div class="noticeList" v-for="(item,index) in hotGoodsList" @click="toGoodsDetail(item.goods.goodsId)">
                     <div class="hotImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}">
                         <div class="theCoverBox">
-                            <div class="theCoverBox1">
-<!--                                <span>未开始</span>-->
-<!--                                <span>抢购时间结束</span>-->
-                                <count-down :time="2 * 24 * 60 * 60 * 1000">
+                            <!--限时-->
+                            <div v-if="item.goods.discountType == 1" class="theCoverBox1">
+                                <span v-if="item.status == 0">未开始</span>
+                                <span v-if="item.status == -1">已抢购结束</span>
+                                <count-down v-if="item.status == 1" :time="item.time">
                                     <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
                                         <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
                                     </template>
                                 </count-down>
+                            </div>
+                            <!--限量-->
+                            <div v-if="item.goods.discountType == 2" class="theCoverBox1">
+                                仅剩： <span v-text="item.num"></span>
                             </div>
                         </div>
                     </div>
@@ -170,6 +175,7 @@
 				      })
 				      .catch(err => console.log('cccc'))
 			}
+           
         }
     }
 </script>

@@ -25,7 +25,6 @@
                         </div>
 
 
-
                     </div>
                 </div>
             </div>
@@ -101,8 +100,7 @@
                 detailsSpen:'100',
                 merName:'花溪大学城重庆火锅店',
                 Url:'../assets/details/定位.png',
-                detail: {'detailsSum':'110','detailsTime':'2019年11月29日','detailsFinash':'2019年11月29日'}
-                ,
+                detail: {'detailsSum':'110','detailsTime':'2019年11月29日','detailsFinash':'2019年11月29日'},
                 mer:{'merName':'我是啦啦啦','merLocal':'花溪贵州大学','merPhone':'13007808520'}
             }
         }

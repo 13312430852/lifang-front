@@ -2,8 +2,8 @@
     <div class="joinAll">
         <div v-if="state==1" style="height: 100%; width: 100%">
             <div class="firstImage">
-                <img src="../assets/service/确认 (1).png" width="100%"/>
-            </div>
+
+                <img src="../assets/true.png"width="100%"/></div>
             <!--图片部分-->
             <div class="joinTex">
                 <div class="joinTex1">
@@ -26,7 +26,7 @@
         <div v-else style="height: 100%; width: 100%">
             <div class="firstImage">
 
-                <img src="../assets/service/错误.png"  width="100%"/></div>
+                <img src="../assets/error.png"  width="100%"/></div>
             <!--图片部分-->
             <div class="joinTex">
                 <div class="joinTex1">
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="joinBtn">
-                <button class="joinBtn1" @click="toHame">
+                <button class="joinBtn1" @click="toHome">
                     返回首页
                 </button>
             </div>
@@ -53,14 +53,15 @@
         name: "JoinResult",
         data(){
             return{
-                state:0,
+                state:1,
             }
         },
         methods:{
             toCheck(){
-                console.log('我是大帅逼')
+                console.log('我是大帅逼');
+                this.$router.push('/teamResult/quit');
             },
-            toHame(){
+            toHome(){
                 console.log('去首页');
                 this.$router.push('/thehome')
             }

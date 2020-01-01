@@ -14,7 +14,7 @@
                         <div class="detail">    <!--信息-->
                             <div class="name_price">
                                 <div class="goodName" v-text="item.goods.goodsName"></div>
-                                <div class="goodPrice"><span style="margin-right: 4%">￥{{item.current_price}}</span></div>
+                                <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
                             </div>
                             <div class="goodsDesc" v-text="item.goods.goodsDesc"></div>
                             <div class="goodOption">

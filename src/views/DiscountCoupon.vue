@@ -14,7 +14,7 @@
         <!--我的优惠券总的大布局-->
         <div class="coupon" id="coupon">
             <!--            单个优惠券-->
-            <div class="coupon1" v-for="item in discountCouponList">
+            <div class="coupon1" v-for="item in CouponList">
                     <span style="margin:25% 20%;display: block">
                         <div style="display: flex">
                             <p style="float: left">满</p>
@@ -31,7 +31,7 @@
                            v-text="item.time"></p>
 
                         <button style="width: 80%;height: 3%;margin-left: 8%;margin-top: 2%;color: #4C90F5;font-size: 1em;
-                        border: none;background-color: transparent;outline: none;" v-text="item.cardsState"></button>
+                        border: none;background-color: transparent;outline: none;" v-text="cardsState(item.cardsState)"></button>
 
                     </span>
             </div>
@@ -44,23 +44,28 @@
         name: "DiscountCoupon",
         data() {
             return {
-                cardsState:'',
                 CouponList: '',
-                discountCouponList: [
-                    {'order': '123', 'price': '123', 'goodsName': '花溪牛肉粉', 'time': '2019-11-23', 'cardsState': '立即使用'},
-                ],
             }
         },
         methods:{
             del () {
-                axios.post(process.env.VUE_APP_URL + 'usercards/deletePastUserCards/'+456)
+                axios.post(process.env.VUE_APP_URL + 'usercards/deletePastUserCards')
                     .then(re => {
                         console.log(re.data.message);
-                        axios.get(process.env.VUE_APP_URL + 'usercards/queryUserCards/'+456)
+                        axios.get(process.env.VUE_APP_URL + 'usercards/queryUserCards')
                             .then(re => {this.discountCouponList = re.data.data;console.log(re.data.data)})
                             .catch()
                     })
                     .catch()
+            }
+        },
+        computed:{
+            cardsState(){
+                return (tag) => {
+                    if(tag == 1) return '立即使用';
+                    else return '已过期';
+                }
+
             }
         },
 
