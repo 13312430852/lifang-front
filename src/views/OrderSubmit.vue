@@ -239,7 +239,6 @@
     .Fno1{
         width: 26.34%;
         height: 100%;
-        background-color: red;
         margin: 4.23% 0;
 
     }

@@ -8,7 +8,7 @@
 
 <script>
 	import MaskAuthorization from "./components/MaskAuthorization";
-	
+
 	export default {
 		components: {
 			MaskAuthorization
@@ -58,15 +58,7 @@
 					if (localStorage.getItem('userToken') != null) this.nologined = false;
 					else this.nologined = true;
 				}
-				
-				/*     //获取用户的基本信息
-				     axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-				     axios.defaults.headers.common["userType"] = 'MINE';
-				     axios.get('http://50558287.ngrok.io/mine/getUserInfo')                                                 //通过...码获取用户基本信息
-				         .then(re => {
-				            this.userMsg = re.data.data;
-				         })
-				        .catch(err => alert('未请求到用户基本数据错误为：'+err))*/
+
 			},
 
 			theHight() { //解决安卓端软键盘弹出压缩页面
@@ -80,11 +72,10 @@
 		},
 		created() {
 			console.log(this.url);
-			// localStorage.removeItem('userToken');
+			localStorage.removeItem('userToken');
 			this.initTheREM(); //初始化单位 rem
 			this.getThisUrl('token'); //获取用户xxx码，如果返回此码，则说明已经授权，然后把此码传给后台，后台返回用户基本信息。
 			//从后台获取用户ID来判断用户是否授权
-			/*axios.get('http://00d901c3.ngrok.io/wechat/login').then(re => this.userId = re.data.data).catch(err => console.log(err));*/
 		}
 	}
 </script>

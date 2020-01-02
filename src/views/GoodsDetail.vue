@@ -7,22 +7,21 @@
             </span>
 
             <span class="activeType" v-if="istype == 2">仅剩： <span v-text="detailGood.rushList.rushNum"></span></span>
-            <span class="activeType" v-if="istype == 1" style="display: block;z-index: 999">
+        </div> <!--展示图-->
+        <div class="activeType-time" v-if="istype == 1" style="display: block;z-index: 999">
                  <count-down :time="rushTime">
                                     <template slot-scope="pro">
-                                        <div style="margin-left: 1%">距结束：</div>
-                                        <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
+                                        <span style="margin-left: 1%">活动时间剩余：</span>
+                                        <span class="right-time">{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</span>
                                     </template>
                  </count-down>
-            </span>
-        </div> <!--展示图-->
-
+        </div>
         <div class="baseMessege">
             <div class="price_type">
-                <span class="rePrice" v-text="detailGood.goodsNorms.currentPrice">￥13</span>
-                <span class="oldPrice" v-text="detailGood.goodsNorms.origiPrice">￥13</span>
+                <span class="rePrice" v-text="'￥'+detailGood.goodsNorms.currentPrice"></span>
+                <s><span class="oldPrice" v-text="'￥'+detailGood.goodsNorms.origiPrice"></span></s>
                 <span class="activeType" v-if="card.length != 0" @click="getCar(detailGood.goods.goodsId)"><span style="color: #4c90f5">领取</span>  优惠券</span>
-
+                <div class="clear"></div>
             </div>
             <div class="tip" v-if="isShow">领取成功</div>
 
@@ -107,7 +106,7 @@
                 ],
 
                 detailGood:null,
-                countType:1,
+                countType:null,
                 id:'',
             }
         },
@@ -244,7 +243,9 @@
         justify-content:center;
         align-items:center;
     }
-
+    .clear{
+        clear: none;
+    }
     .address{
         float: left;
         height: 80%;
@@ -273,10 +274,10 @@
         height: 22%;
         margin-left: 1.5%;
         margin-top: 8%;
-        font-size:1.75rem;
+        font-size:14px;
         font-family:PingFang SC;
         font-weight:500;
-        color:rgba(117,117,117,1);
+        color:#7b7b7b;
         overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
     }
     .useType span{
@@ -293,6 +294,8 @@
         height: 100%;
         float: left;
         margin-top: 3%;
+        font-size: 14px;
+        color: #5d5d5d;
     }
     .DianName{
         width: 70%;
@@ -300,7 +303,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size:1.875rem;
+        font-size:18px;
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(20,20,20,1);
@@ -308,10 +311,21 @@
         margin-left: 1%;
         float: left;
     }
+    .right-time{
+        float: right;
+    }
+    .activeType-time{
+        width: 95%;
+        margin: 0 auto;
+        padding: 5px 10px;
+        font-size: 14px;
+        background-color: red;
+        color: #FFFFFF;
+        font-weight: bold;
+    }
     .name_useType{
         width: 100%;
         height: 16%;
-
     }
     .activeType{
         float: right;
@@ -333,8 +347,8 @@
 
     }
     .price_type{
-        width: 100%;
         height: 12.45%;
+        float: right;
     }
     .baseMessege{
         height:28.9%;

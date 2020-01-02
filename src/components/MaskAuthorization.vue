@@ -37,6 +37,7 @@
             isSure(){
                 /*当用户点击了确认后，跳转至授权链接*/
                 window.location.href = this.url;   //跳转至外部 url
+                this.isLoading = true;
             },
             getURL(){
                 axios.get(process.env.VUE_APP_URL + 'wechat/login')  //获取授权链接

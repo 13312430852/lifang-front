@@ -7,8 +7,9 @@
 
             <div class="yue">
                 <div class="yue1" style="font-size: 1.85rem; width: 50%">
-                    <!--￥{{ user.user_all_money }}-->
-                    ￥599
+                    ￥<span v-text="user_all_money"></span>
+                    <!--{{ user.user_all_money }}-->
+                    <!--￥599-->
                 </div>
                 <button  @click="toWithdraw" style="border: none;  background-color: #ffffff; margin-top: 1%">提现</button>
             </div>
@@ -19,11 +20,17 @@
         <div id="Detailed"><!--详细部分-->
             <div id="money" ><!--第二部分-->
                 <div class="Moneytop"><!--状态明细-->
-                    <div :class="{'Moneytop1':true,'chose':theOne}" @click="lllla"  >
-                        支出明细：{{ outMoney}}元
+                    <div class="Moneytop1" @click="lllla"  >
+                        收入明细：{{ outMoney}}元
+                        <div class="walletHr" v-show="theOne">
+
+                        </div>
                     </div>
-                    <div :class="{'Moneytop1':true,'chose':theTwo}" @click="lllla2">
-                        收入明细：{{countMoney}}元
+                    <div class="Moneytop1" @click="lllla2">
+                        支出明细：{{countMoney}}元
+                        <div class="walletHr" v-show="theTwo">
+
+                        </div>
                     </div>
                     <!--<div class="Moneytop1" @click="lllla" >支出明细：元</div>
                     <div class="Moneytop1" @click="lllla2">收入明细：元</div>-->
@@ -38,9 +45,7 @@
                         <hr>
                     </div><!--顶部结束-->
                     <router-view/>
-
                     <!--顶部结束-->
-
 
                 </div>
 
@@ -59,66 +64,53 @@
         components: {BottomNavigation },
         data(){
             return{
-                user:{//测试用的数据-对象
-                    'user_all_money':24.5,
-                    'name':'lcf'
-                },
+                user_all_money:0,
                 num:0,
                 userId:"",
                 countMoney:"",
                 outMoney:"",
                 testList:[],
                 moneyOutList:[
-                    {moneyId: "21235689",
-                        userId: "user-001",
-                        moneyTime: "2019-12-20 15:29:49",
-                        moneyPrice: 55,
-                        moneyState: 0,
-                        moneyDetails: "分享了辣条"}
-                ],
-                moneyList:[
-                     {moneyId: "2ba9942e69b724ee59b3ea386bbe36b7",
-                         userId: "user-001",
-                         moneyTime: "2019-12-20 15:29:49",
-                         moneyPrice: 34,
-                         moneyState: 1,
-                         moneyDetails: "分享了辣条"},
-                     {moneyId: "2ba9942e69b724ee59b3ea386bbe36b7",
-                         userId: "user-001",
-                         moneyTime: "2019-12-20 15:29:49",
-                         moneyPrice: 34,
-                         moneyState: 1,
-                         moneyDetails: "分享了辣条"}
-                    /*{'time':'2019-76-09','money':-6,'detail':'呼叫分机电话就是京哈大幅减少'},
-                    {'time':'2019-78-09','money':-6,'detail':'呼叫分机电话就是京哈大幅减少'},
-                    {'time':'2019-77-09','money':-6,'detail':'呼叫分机电话就是京哈大幅减少'},
-                    {'time':'2019-79-09','money':-6,'detail':'呼叫分机电话就是京哈大幅减少'}*/
 
                 ],
-                /*testList:moneyList,*/
+                moneyList:[
+
+
+                ],
                 theOne:true,
                 theTwo:false,
                 //对样式进行控制
             }
         },
-       /* created(){
-            axios.get('http://192.168.8.111:8090/mineWallet/queryInMoney/'+'user-001')
+        created(){
+            axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryInMoney')
                 .then(response => {
                     this.moneyList = response.data.data.moneyList;
                     this.countMoney = response.data.data.countMoney;
                     console.log(this.moneyList);
                     console.log(this.countMoney);
                 })
-                .catch()
+                .catch(err => alert('网络错误'))
 
-        axios.get('http://192.168.8.111:8090/mineWallet/queryOutMoney/'+'user-001')
+        axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
             .then(response => {
                 this.moneyOutList = response.data.data.moneyList;
                 this.outMoney = response.data.data.countMoney;
                 console.log(this.moneyOutList);
             })
-            .catch()
-    },*/
+            .catch(err => alert('网络错误'))
+
+            //获取用户的基本信息
+       axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
+                .then(re => {
+                    console.log(re.data)
+                    this.user_all_money= re.data.data.userAllMoney;
+                   /* if(this.user.user_all_money == null){
+                        this.user.user_all_money = 0
+                    }*/
+                })
+           .catch(err => alert('未请求到用户基本数据错误为：' + err))
+    },
 
         methods:{
             toWithdraw(){
@@ -184,8 +176,8 @@
 
     .Moneytop{
         display: flex; width: 92%;
-        height: 30%;
-        /*background-color: red;*/
+        height: 100%;
+/*        background-color: red;*/
         margin: 5.33% auto;
 
 
@@ -196,8 +188,7 @@
         font-weight:bold;
         font-size: 1.625rem;
         color: #6e6e6e;
-        background: url("../assets/bottom/未选中收入.png");
-        background-size: 100% 100%;
+
         /*border: solid;*/
 
     }
@@ -219,8 +210,12 @@
         color:rgba(110,110,110,1);
         font-size: 1.5rem;
     }
-    .chose{
-        color: #ffffff;
-        background-color: #6e6e6e;
+    .walletHr{
+        height: 3px;
+        width: 50%;
+        background-color: #4c90f5;
+        border-radius: 2px;
+        margin: 1% 0;
     }
+
 </style>

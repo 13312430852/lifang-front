@@ -1,29 +1,28 @@
 <template>
     <div id="teamBuy">
-        <div class="picture">
+        <div class="picture" :style="{backgroundImage:'url(' + goods.goods.goodsImageUrl + ')'}">
             <div class="time" v-text="GoodsAsg[0].times">
                 <!--                02:30.27-->
             </div><!--限时-->
         </div>
         <!--        价格-->
         <div class="sell">
-            <div class="nowSell" v-text="GoodsAsg[0].price"><!--￥10--></div>
-            <div class="edSell">原价￥23</div>
+            <div class="nowSell" v-text="goods.goodsNorms.currentPrice"><!--￥10--></div>
+            <div class="edSell">原价￥<span v-text="goods.goodsNorms.origiPrice"></span>23</div>
         </div>
         <!--        信息-->
         <div class="Goods">
-            <div class="GoodsName" v-text="GoodsAsg[0].goodsName">
+            <div class="GoodsName" v-text="goods.goods.goodsName">
                 <!--                花溪重庆火锅-->
             </div>
-            <div class="distribution">骑手配送</div>
+            <div class="distribution" v-text="consumType(goods.goods.consumeType)">骑手配送</div>
         </div>
         <!--        描述-->
-        <div class="goods_desc" v-text="GoodsAsg[0].goodsDesc">
-            <!--            全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。-->
-        </div>
+        <div class="goods_desc" v-html="goods.goods.goodsDesc">商品描述</div>
 
         <hr style="width: 92%;margin: 0 auto">
         <!--数量-->
+
         <div class="number">
             <div class="number1">数量</div>
             <div class="number2">1
@@ -33,16 +32,11 @@
         <hr style="width: 92%;margin: 0 auto">
         <!--        地址-->
         <div class="place">
-            <!--            定好的-->
             <div class="receipt">收货地址</div>
-            <!--            获取-->
-            <select class="Place" style="  overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                    v-model="userList">
-                <option :value="item.addressID" style="font-size: 1.75em;" v-for="item in user"
-                        v-text="item.rc_address">
-                    <!--贵州省花溪区花溪大道收拾收拾搜索--></option>
-                <<!--option value="">花溪锁屏结构解耦我即可搜集都按时将调集大概</option>
-                <option value="">花溪是否交接给弄我小轿车现在没刺客列传窘境</option>-->
+            <select class="Place" v-model="selectAddressId"
+                    style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+                <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)"
+                        :value="item.addressId"></option>
             </select>
         </div>
 
@@ -65,23 +59,31 @@
         name: "TeamBuying",
         data() {
             return {
-                hours: '02',
-                minutes: '30',
-                seconds: '00',
+                theBusinessId:1111, //商家ID
+                goodsID: '',
                 goods: '',
+                //地址
+                selectAddressId: null,
+                // userList: '',
+                address: '',
+
+                allPrice: 13,  //商品的总价
+                goodsPrice: null,
+                goodsNormsId: null,
+
                 GoodsAsg: [
                     {
-                        'goodsId': 'o1',
+                        'goodsId': '',
                         'goods_image_url': '',
                         'times': '02:30:57',
-                        'price': '',
+                        'price': '11',
                         'goodsName': '花溪牛肉粉',
                         'goodsDesc': '全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。',
 
                     }
                 ],
 
-                userList: '',
+
                 user: [
                     {'addressID': '01', 'rc_address': '贵州省花溪区花溪大道收拾收拾搜索'},
                     {'addressID': '02', 'rc_address': '花溪锁屏结构解耦我即可搜集都按时将调集大概'},
@@ -89,61 +91,72 @@
                     {'addressID': '04', 'rc_address': '贵州省花溪区花溪大道收拾收拾搜索'},
                     {'addressID': '05', 'rc_address': '花溪是否交接给弄我小轿车现在没刺客列传窘境'}
 
-                ]
+                ],
+                createOrder: {
+                    'businessId':this.theBusinessId,
+                    'goodsPrice': this.goodsPrice,           //价格
+                    'goodsId': this.goodId,                  //商品ID
+                    'addressId': this.selectAddressId,         //地址ID
+                }
             }
         },
 
-        methods: {
-            /*toTeam() {
-                console.log(this.userList);
-               /!* axios.post(url + user[0].addressID).then(re => {
-                console.log(re.data.data)
-                }).catch(err =>alert(err))*!/
-            },*/
-            toResult() {
-                this.$router.push('/TeamBuying/toResult')
+        computed: {
+            consumType(){
+                return (tag) => {
+                    if (tag == 1) return '包邮'
+                    else return '到店消费'
+
+                }
             },
-
-            timekeeping() {
-                var _this = this;
-                var time = window.setInterval(function () {
-                    if (_this.seconds === 0 && _this.minutes === 0 && _this.hours !== 0) {
-                        _this.seconds = 59;
-                        _this.minutes = 59;
-                        _this.hours -= 1;
-                    } else if (_this.seconds === 0 && _this.minutes !== 0 && _this.hours === 0) {
-                        _this.seconds = 59;
-                        _this.minutes -= 1;
-                        _this.hours = 0;
-                    } else if (_this.seconds === 0 && _this.minutes !== 0 && _this.hours !== 0) {
-                        _this.seconds = 59;
-                        _this.minutes -= 1;
-                        _this.hours = this.hours;
-                    } else if (_this.seconds === 0 && _this.minutes === 0 && _this.hours === 0) {
-                        _this.seconds = 0;
-                        _this.minutes = 0;
-                        _this.hours = 0;
-                        window.clearInterval(time)
-                    } else {
-                        _this.minutes -= 1;
-                        _this.hours -= 1;
+            isDefaultAddress() {
+                return (it) => {
+                    if (it.defaultAddress == '1') return true;
+                    else {
+                        return false
                     }
+                }
+            }
+        },
+        methods: {
+            toResult() {
+                if(this.selectAddressId != null){
+                    // alert('hhhh')
+                    axios.post(process.env.VUE_APP_URL + 'team/jointeam/' + this.goodsID + '/' + this.selectAddressId)
+                        .then(re => {
+                            // console.log(re.data);
+                            let flag = re.data.flag;
+                            this.$router.push({path:'/teamResult',query:{'goodsId':this.goodsID,'flag':flag}})
+                        })
 
-                })
+                }else {
+                    alert('请选择收货地址');
+                }
 
             },
         },
-        /* created() {
-                 axios.get().then(response =>{
-                     this.goods = response.data.data
-                 }).catch(err => alert(err));
-                 axios.get().then(response =>{
-                     this.userList = response.data.data
-                 }).catch(err => alert(err))
-             }*/
         created() {
-            /*this.userList = this.user[0].addressID;
-            this.GoodsAsg[0].price = this.$router.query.price*/
+
+            this.goodsID = this.$route.query.goodId;
+
+            console.log(this.$route.query);
+
+            axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/' + this.goodsID)
+                .then(response => {
+                    this.goods = response.data.data;
+                    console.log(this.goods);
+                }).catch(err => alert('网络错误'));
+
+            axios.get(process.env.VUE_APP_URL + 'address/findAddressById/')      //获取地址
+                .then(response =>{
+                    this.userAddress = response.data.data;
+                    console.log(response);
+                    this.userAddress.forEach(item => {
+                        if(item.defaultAddress == '1'){
+                            this.selectAddressId = item.addressId;
+                        }
+                    })
+                }).catch(err => console.log(err));
         }
     }
 
@@ -154,7 +167,7 @@
     .picture {
         height: 25%;
         width: 92%;
-        background-image: url("../assets/panicbuying.png");
+        /*background-image: url("../assets/panicbuying.png");*/
         background-size: cover;
         /*background-color: #B8D2FB;*/
         margin: 1% auto;
