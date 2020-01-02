@@ -4,14 +4,14 @@
         <div class="logistics">
             <div class="logistics1">
                 <div class="logistics_Icon">
-                    <img src="../../assets/car.png" height="60%" width="58%"/>
+                    <img src="../../assets/car.png" height="40%" width="30%"/>
                 </div>
                 <div class="logistics_Message" v-text="ordersExperssState123"></div>
             </div>
             <hr style="background-color: lightgrey">
             <div class="logistics2">
                 <div class="logistics_Icon">
-                    <img src="../../assets/position.png" height="70%" width="50%"/></div>
+                    <img src="../../assets/position.png" height="50%" width="30%"/></div>
                 <div class="logistics_Message" v-text="goods.rcAddress"></div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <div class="message">
                         <div class="message_1" v-text="goods.goodsName"></div>
                         <div class="message_2">
-                            <div class="discript" v-text="goods.goodsDesc"></div>
+                            <div class="discript" v-html="goods.goodsDesc"></div>
                             <div class="price" v-text="goods.goodsPrice"></div>
                         </div>
                     </div>
@@ -48,7 +48,10 @@
                 </div>
             </div>
             <div class="btn1">
-                <button class="tuikuan" @click="toservice">联系客服退款</button>
+                <button class="tuikuan" @click="toservice" v-show="tuikuan">联系客服退款</button>
+            </div>
+            <div class="btn1">
+                <button class="pay" @click="toSubmitPage" v-show="pay">继续付款</button>
             </div>
         </div>
     </div>
@@ -61,21 +64,11 @@
         name: "OrderDetail",
         data() {
             return {
-                goods:
-                    {
-                        'ordersExperssState': 'n',
-                        'rcAddress': '贵安数字经济产业园',
-                        'goodsImageUrl': require('../../assets/clothse.jpg'),
-                        'businessName': '安踏官方旗舰店',
-                        'goodsPrice': '55',
-                        'goodsNum': '1',
-                        'ordersPrice': '55',
-                        'ordersTime': '2019.11.11',
-                        'ordersPayState': '0',
-                        'goodsName': '表情包T恤',
-                        'goodsDesc': '这是一件很骚的表情包T恤不吃白不吃举措啥时间你不压车'
-                    },
+                propsData:{},
 
+                goods: {},
+                tuikuan:true,
+                pay:false
             }
         },
         created(){
@@ -93,8 +86,12 @@
             },
             ordersPayState123(){
                 if(this.goods.ordersPayState=='0'){
+                    this.tuikuan=false,
+                        this.pay=true
                     return '未支付'
                 }else if(this.goods.ordersPayState=='1'){
+                    this.tuikuan=true;
+                        this.pay=false;
                     return '已支付'
                 }
             }
@@ -102,6 +99,20 @@
         methods:{
             toservice(){
                 this.$router.push('/service')
+            },
+
+            toSubmitPage(){
+                axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.goods.ordersId)
+                    .then(re => {
+                        if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
+                            alert(re.data.message);
+                            this.$router.push('/thehome/Order/My/AllOrder')
+                        }
+                    })
+                    .catch(err => {
+                        alert('网络错误');
+                    })
+
             },
 
         }
@@ -275,6 +286,18 @@
         border-radius: 15px;
         border: 0px solid #f40;
         float: right;
-        /*margin-right: 5%;*/
+
+    }
+    .pay{
+        width: 30%;
+        height: 20%;
+        color: white;
+        font-size: 1.2rem;
+        background-color: #f40;
+        border-radius: 15px;
+        border: 0px solid #f40;
+        float: right;
+        margin-left: 50%;
+
     }
 </style>

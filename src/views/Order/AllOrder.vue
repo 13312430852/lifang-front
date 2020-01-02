@@ -1,68 +1,49 @@
 <template>
     <div id="box1">
+        <loading-b v-if="goods==null"></loading-b>
         <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
             <div id="picture">
                 <img :src="good.goodsImageUrl" width="100%" height="100%">
             </div>
             <div id="message">
                 <div id="good_title" v-text="good.goodsName"></div>
-                <div id="goodmessage" v-text="good.goodsDesc"></div>
+                <div id="goodmessage" v-html="good.goodsDesc"></div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import LoadingD from "../../components/loadingD";
+    import LoadingF from "../../components/loadingF";
+    import LoadingB from "../../components/loadingB";
     export default {
         name: "AllOrder",
+        components:{
+            LoadingD,
+            LoadingF,
+            LoadingB
+        },
         data(){
             return{
                 url:process.env.VUE_APP_URL,
-                goods:[
-                 /*   {   'ordersId':'1234446',
-                        'goodsImageUrl': 'http://ww1.sinaimg.cn/large/0069q4eTgy1gaactp9rlbj30dw0agt97.jpg',
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {   'ordersId':'sbhab',
-                        'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goodsImageUrl': require('../../assets/1235.jpg'),
-                        'goodsName':'T恤',
-                        'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},*/
-                ],
+                goods:null,
             }
         },
         created() {
             axios.post(process.env.VUE_APP_URL+'order/userQueryOrder',{})
                 .then(response => {
-                    // console.log(response.data);
-                this.goods = response.data.data.records;
-            }).catch(function (err) {
-                console.log(err);
-            })
+                    console.log(response.data);
+                    console.log('scnjbscb');
+                    console.log(response.data.data);
+                this.goods = response.data.data;
 
+            }).catch(function (err) {
+                console.log(err)
+            })
+            // if(this.goods==null){
+            //     this.$router.push('空值页面')
+            // }
         },
         methods:{
             Todetail(goods){
@@ -77,7 +58,7 @@
         width: 100%;
         height: 92%;
         margin: 2% auto;
-        background-color: white;
+        /*background-color: red;*/
         font-family: "PingFang SC";
     }
     .goods{
@@ -89,13 +70,13 @@
         margin: 6% auto;
     }
     #picture{
-        width: 28%;
-        /*height: 100%;*/
+        width: 35%;
+        height: 15vh;
         /*margin-left: 2%;*/
         /*background-color: green;*/
     }
     #message{
-        width: 60%;
+        width: 53%;
         height: 100%;
         margin-left: 10%;
         font-family: "PingFang SC";
@@ -107,17 +88,21 @@
         color: #2C2C2C;
         font-family: "PingFang SC";
         font-size: 1.75rem;
+        margin-top: 2%;
         /*background-color: yellow;*/
     }
     #goodmessage{
         width: 100%;
-        height: 50%;
+        height: 7vh;
+
         color:#2C2C2C;
         font-family: "PingFang SC";
         font-size: 1.5rem;
-        margin-top: 15%;
+        margin-top: 2%;
         /*background-color: blueviolet;*/
         overflow: hidden;
+        display:table-cell;
+        vertical-align:bottom;
     }
 
 </style>

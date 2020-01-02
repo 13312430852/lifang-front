@@ -19,7 +19,7 @@
         <div class="commodity">
             <div class="commodityFirst">
                 <div class="Fno1">
-                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%">
+                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%" height="100%">
                 </div>
                 <div class="Fno2">
                     <div v-text="PayMessage.GoodsList.goods.goodsName" class="Fno2-1">
@@ -118,9 +118,9 @@
             toPay(){
                 axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.PayMessage.orderID)
                     .then(re => {
-                        console.log(re.data);
                         if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
-                            this.$router.push('/theOrderDetail')
+                            alert(re.data.message);
+                            this.$router.push('/thehome/Order/My/AllOrder')
                         }
                     })
                     .catch(err => {
@@ -131,10 +131,8 @@
 
         created() {
             let newgoods=this.$route.query;
-
-                    this.PayMessage=newgoods
-                    console.log(this.PayMessage)
-
+                    this.PayMessage=newgoods;
+                    console.log(this.$route.query)
         }
         ,
         computed:{
@@ -204,6 +202,7 @@
         width: 78.4%;
         height: 42%;
         display: flex;
+        margin-bottom: 2%;
     }
     .tubiao{
         width: 5.45%;
@@ -240,7 +239,6 @@
     .Fno1{
         width: 26.34%;
         height: 100%;
-        background-color: red;
         margin: 4.23% 0;
 
     }
@@ -262,7 +260,7 @@
     .Fno2-2{
         height: 43.85%;
         width: 100%;
-        background-color: #ececec;
+        /*background-color: #ececec;*/
         color: #545454;
         margin: 3.6% 0;
         font-size: 150%;

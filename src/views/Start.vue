@@ -46,7 +46,7 @@
                                 <span v-if="item.status == 0">未开始</span>
                                 <span v-if="item.status == -1">已抢购结束</span>
                                 <count-down v-if="item.status == 1" :time="item.time">
-                                    <template slot-scope="pro"><div style="margin-left: 1%">距结束：</div>
+                                    <template slot-scope="pro">
                                         <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
                                     </template>
                                 </count-down>
@@ -98,21 +98,9 @@
                 theGoods_1:null,
 
                 hotGoodsList:null,    //存放热门抢购商品
-                Icon: null/* [
-                    {'menuName':'热门抢购',menuIconUrl:require('../assets/navIcon/购物车.png')},
-                    {'menuName':'惊天美食',menuIconUrl:require('../assets/navIcon/美食.png')},
-                    {'menuName':'休闲娱乐',menuIconUrl:require('../assets/navIcon/玩具.png')},
-                    {'menuName':'旅游景点',menuIconUrl:require('../assets/navIcon/旅游.png')},
-                    {'menuName':'饱餐住宿',menuIconUrl:require('../assets/navIcon/酒店.png')},
-                    {'menuName':'培训机构',menuIconUrl:require('../assets/navIcon/学习教育.png')},
-                    {'menuName':'敬请期待',menuIconUrl:require('../assets/navIcon/敬请期待.png')}
-                ] */,      //存放菜单
+                Icon: null,      //存放菜单
 
-                slide: null /* [
-                    {'banner':{'bannerImageUrl':require('../assets/01.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/2.jpg')}},
-                    {'banner':{'bannerImageUrl':require('../assets/3.jpg')}},
-                ] */,
+                slide: null,
                 //设置属性
                 swiperOption: {
                     //自动轮播
@@ -233,6 +221,8 @@
         height: 100%;
         color: rgba(255,254,253,0.69);
         padding-top: 1%;
+        font-family: "PingFang SC";
+        font-size: 1.5rem;
     }
     .hotImg{
         max-width: 100%;
