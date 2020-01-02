@@ -32,16 +32,8 @@ axios.interceptors.request.use(function (config) {
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
-      if (response.status == 200){
-        switch (response.data.code) {
-          case 200:
-            ElementUI.Message.success("数据请求成功！");
-            break
-          default:
-            ElementUI.Message.error("数据获取失败，错误码："+response.data.code);
-        }
-      }else {
-        ElementUI.Message.error("请求失败，请求的错误码："+response.status);
+      if (response.status != 200){
+          ElementUI.Message.error("请求失败，请求的错误码："+response.status);
       }
       return response;
     },
