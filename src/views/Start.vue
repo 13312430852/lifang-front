@@ -15,7 +15,7 @@
                         <el-image
                                 style="width: 100%; height: 100%"
                                 :src="item.bannerImageUrl"
-                                :fit="fill">
+                               >
                         </el-image>
                     </div>
                 </swiper-slide>

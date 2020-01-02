@@ -11,35 +11,36 @@
             </div>
 <!--sesasfa-->
             <div class="goodsList">
-                <coming-soon v-if="typeList.data.length==0 || typeList.data==undefined">
-                </coming-soon>
-                        <el-card class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4"  @click="toGoodsDetail(item.goods.goodsId)" :body-style="{ padding: '0px' }">
-                            <el-image
-                                    class="goodImg"
-                                    :src="item.goods.goodsImageUrl"
-                                    :fit="fill">
-                                <div slot="error"  >
-                                    <el-image   :lazy="true"  fit="cover"  src="../assets/imageError.jpg" >
-                                    </el-image>
-                                </div>
-                                <div slot="placeholder"  >
-                                    <loading-e>
-                                    </loading-e>
-                                </div>
-                            </el-image>
-                            <div style="padding: 14px;">
-                                <div class="detail">    <!--信息-->
-                                    <div class="name_price">
-                                        <div class="goodName" v-text="item.goods.goodsName"></div>
-                                        <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
+                <coming-soon v-if="typeList.data.length==0 || typeList.data==undefined"></coming-soon>
+                        <el-card class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4" :body-style="{ padding: '0px' }">
+                            <div @click="toGoodsDetail(item.goods.goodsId)">
+                                <el-image
+                                        class="goodImg"
+                                        :src="item.goods.goodsImageUrl"
+                                        >
+                                    <div slot="error"  >
+                                        <el-image   :lazy="true"  fit="cover"  src="../assets/imageError.jpg" >
+                                        </el-image>
                                     </div>
-                                    <el-divider></el-divider>
-                                    <!--                            <div class="goodsDesc">合适的时光飞逝</div>-->
-                                    <div class="goodOption">
-                                        <div class="type" v-text="consuType(item.goods.consumeType)"></div>
-                                        <div class="earnMoney">
-                                            <el-button class="theButton el-button el-button--primary" @click="toEarnMoney"  type="primary" icon="el-icon-share">
-                                            </el-button>
+                                    <div slot="placeholder"  >
+                                        <loading-e>
+                                        </loading-e>
+                                    </div>
+                                </el-image>
+                                <div style="padding: 14px;">
+                                    <div class="detail">    <!--信息-->
+                                        <div class="name_price">
+                                            <div class="goodName" v-text="item.goods.goodsName"></div>
+                                            <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
+                                        </div>
+                                        <el-divider></el-divider>
+                                        <!--                            <div class="goodsDesc">合适的时光飞逝</div>-->
+                                        <div class="goodOption">
+                                            <div class="type" v-text="consuType(item.goods.consumeType)"></div>
+                                            <div class="earnMoney">
+                                                <el-button class="theButton el-button el-button--primary" @click="toEarnMoney"  type="primary" icon="el-icon-share">
+                                                </el-button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -84,6 +85,7 @@
             }
         },
         methods:{
+
             toMore(menuName){
                 this.$router.push('/MoreTravel/' + menuName)
             },
@@ -96,7 +98,8 @@
             toGoodsDetail(goodId2){
                 this.$router.push('/goodDetail/'+goodId2);
             }
-        }
+        },
+
     }
 </script>
 
