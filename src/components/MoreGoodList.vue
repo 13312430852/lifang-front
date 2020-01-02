@@ -31,6 +31,7 @@
                             <div class="goodOption">
                                 <div class="type" v-text="consuType(item.goods.consumeType)"></div>
                                 <div class="earnMoney">
+                                    <div v-html="item.goods.goodsDesc"></div>
                                 </div>
                             </div>
                         </div>
@@ -87,6 +88,7 @@
         flex: 2;
         display: flex;
         justify-content: flex-end;
+        font-size: 18px;
         /*border: 1px solid red;*/
     }
     .type{
@@ -101,7 +103,9 @@
         height: 100%;
         width: 100%;
         display: flex;
-        margin-top: 5%;
+    }
+    .el-divider--horizontal{
+        margin: 12px 0;
     }
     .goodPrice{
         width: 37%;
