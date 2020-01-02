@@ -27,16 +27,13 @@
             </div>
             <div class="list2">
                 <div class="list2-1" >
-                    <div style="  width: 20%; ">
+                    <div class="address_name" style="  width: 20%; ">
                         地址:
                     </div>
                     <textarea placeholder="请输入收货人地址" @input="gengxin" class="textarea1" v-model="address.rcAddress" >
 
                     </textarea>
                 </div>
-
-            </div>
-            <div class="addHr">
 
             </div>
             <div class="list1" style="padding-top: 8%">
@@ -56,7 +53,7 @@
             </div>
 
             <div class="btn_position">
-                <button type="submit" class="btn2" @click="save"><router-link to="/address/addSuccess" class="saveFont">确认修改</router-link></button>
+                <button type="submit" class="btn2" @click="save">确认修改</button>
             </div>
 
         </div>
@@ -66,13 +63,15 @@
 <script>
     // import { AxiosInstance as axios } from "axios";
 
+    import ElementUI from "element-ui";
+
     export default {
         name: "add_address",
 
         data() {
             return {
                 defaultAddress123:false,
-                addressID:null,     //要修改的地址id
+                address_old:null,     //要修改的地址id
                 userMsg:null,       //用户基本信息
                 address: {
                     addressId:'',
@@ -91,9 +90,6 @@
         },
         methods: {
             save() {
-                this.$set(this.address,'addressId',this.addressID);
-
-
                 let address = this.address;
                 console.log(address);
                 axios.put(
@@ -101,6 +97,11 @@
                     JSON.parse(JSON.stringify(address))
                 )
                     .then(response => {
+                        if (response.data.code != 400){
+                            this.$router.push("/thehome/Order/myaddress");
+                        }else {
+                            ElementUI.Message.error("地址修改失败！");
+                        }
                         console.log(response.data);
                     });
             },
@@ -111,9 +112,9 @@
 
         },
         created() {
-            this.addressID = this.$route.params.addressId;      //获取要修改的地址ID
-
-
+            this.address = this.$route.query;      //获取要修改的地址ID
+            console.log("address_old");
+            console.log(this.address);
        /*     //获取用户的基本信息
             axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
             axios.defaults.headers.common["userType"] = 'MINE';
@@ -127,6 +128,9 @@
 </script>
 
 <style scoped>
+    .address_name{
+        margin:auto 0;
+    }
     .list2-1{
         background-color: white;
         height: auto;
@@ -198,7 +202,7 @@
     }
     .textarea1{
         width: 60%;
-        height: auto;
+        min-height: 40px;
         outline: none;
         margin: 4% 0% 2% 2%;
         border-radius: 2px;

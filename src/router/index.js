@@ -129,7 +129,7 @@ const routes = [
     //邱某
   { path:'/addMyAddress',component:add_address},
   { path:'/address/addSuccess',component:addsuccess},
-  { path:'/updateAd/:addressId',component:UpdateAddress},
+  { path:'/updateAd',component:UpdateAddress},
   { path:'/update',component:UpdateInfo},
   { path:'/update/updating',component:UpdatingInfo},
   {path:'/updatesuccess',component:UpdateSuccess},

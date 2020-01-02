@@ -21,7 +21,7 @@
                 </div>
                 <div class="option" v-if="!willOption"><span @click="option">编辑</span></div>
                 <div class="option" v-if="willOption">
-                    <div class="col_1"><button class="updataBut" @click="toUpdate(item.addressId)">修改</button></div>
+                    <div class="col_1"><button class="updataBut" @click="toUpdate(item)">修改</button></div>
                     <div class="col_1"><button class="deleteBut" @click="deleteAdd(item.addressId)">删除</button></div>
                 </div>
             </div>
@@ -43,9 +43,7 @@
                 willOption:false,
                 userMsg:{userId:1},
 
-                address:[
-
-                ],
+                address:[],
             }
         },
         methods:{
@@ -62,8 +60,10 @@
                     })
                     .catch(err => console.log(err))
             },
-            toUpdate(addressID1){
-                this.$router.push('/updateAd/' + addressID1);
+            toUpdate(address){
+                console.log("toUpdateAddress");
+                console.log(address);
+                this.$router.push({path:'/updateAd',query:address});
             },
             option(){
                 this.willOption = true;
