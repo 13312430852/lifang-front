@@ -76,7 +76,6 @@
 			this.initTheREM(); //初始化单位 rem
 			this.getThisUrl('token'); //获取用户xxx码，如果返回此码，则说明已经授权，然后把此码传给后台，后台返回用户基本信息。
 			//从后台获取用户ID来判断用户是否授权
-			/*axios.get('http://00d901c3.ngrok.io/wechat/login').then(re => this.userId = re.data.data).catch(err => console.log(err));*/
 		}
 	}
 </script>

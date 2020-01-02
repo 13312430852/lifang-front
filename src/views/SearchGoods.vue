@@ -38,7 +38,7 @@
                         if(this.searchResaultList == null) this.haveResault =false;
                         else this.haveResault =true;
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => alert('网络错误'))
             }
         },
         directives:{
