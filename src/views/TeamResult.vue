@@ -1,6 +1,6 @@
 <template>
     <div class="joinAll">
-        <div v-if="state==1" style="height: 100%; width: 100%">
+        <div v-if="flag" style="height: 100%; width: 100%">
             <div class="firstImage">
 
                 <img src="../assets/true.png"width="100%"/></div>
@@ -10,11 +10,9 @@
                     参团成功！
                 </div>
                 <div class="joinTex1">
-                    当前参团人数：{{joinedPeople}}/{{planPeople}}
+                    当前参团人数：<span v-text="teamMsg.nowNumber"></span> / <span v-text="teamMsg.groupNumber"></span>
                 </div>
-                <div class="joinTex1">
-                    参团剩余时间：{{joinTime}}
-                </div>
+
             </div>
             <div class="joinBtn">
                 <button class="joinBtn1" @click="toCheck">
@@ -54,12 +52,14 @@
         data(){
             return{
                 state:1,
+                teamMsg:null,
+                flag: false,
+                goodsId:null
             }
         },
         methods:{
             toCheck(){
-                console.log('我是大帅逼');
-                this.$router.push('/teamResult/quit');
+                this.$router.push({path:'/teamResult/quit',query:{'goodId':this.goodsId,'teamMSG':this.teamMsg}});
             },
             toHome(){
                 console.log('去首页');
@@ -67,8 +67,19 @@
             }
         },
         created() {
-            axios.get('')
-                .then()
+
+            this.flag = this.$route.query.flag;
+            this.goodsId = this.$route.query.goodsId;
+            console.log(this.flag);
+            console.log(this.goodsId);
+
+            axios.get(process.env.VUE_APP_URL + 'team/getMyTeam/' + this.goodsId)
+                .then(re => {
+                    // console.log(re.data);
+                    this.teamMsg = re.data.data;
+                }).catch(err => {
+                    alert('网络错误');
+            })
         }
     }
 </script>

@@ -106,7 +106,7 @@
                 ],
 
                 detailGood:null,
-                countType:1,
+                countType:null,
                 id:'',
             }
         },

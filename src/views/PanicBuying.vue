@@ -44,13 +44,9 @@
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        地址-->
         <div class="place">
-            <!--            定好的-->
             <div class="receipt">收货地址</div>
-            <!--            获取-->
-
             <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                      <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
-
             </select>
         </div>
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
@@ -85,6 +81,7 @@
                 goodId:12456,
                 theBusinessId:1111, //商家ID
                 orderId:null,
+
                 selectAddressId:'', //用户选择的地址ID
                 userAddress:null,
 
@@ -149,7 +146,7 @@
             },
             isDefaultAddress(){
                 return (it) => {
-                    if(it.defaultAddress == '1') return true
+                    if(it.defaultAddress == '1') return true;
                     else{
                         return false
                     }
@@ -231,27 +228,29 @@
         },
         created() {
 
-
             this.goodId = this.$route.params.goodId1;   //接收商品ID
             console.log(this.goodId);
+
             axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
                 console.log(response.data.data);
+
                 this.allPrice = this.GoodsList.goodsNorms.currentPrice;
                 this.goodsNormsId = this.GoodsList.goodsNorms.norms;
                 this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
+
             }).catch();
 
             axios.get(process.env.VUE_APP_URL + 'address/findAddressById/')      //获取地址
                 .then(re =>{
                     this.userAddress = re.data.data;
-                    this.userAddress.forEach(item => {
+                    console.log(this.userAddress);
+                    this.userAddress.forEach(item => {      //获取默认地址
                         if(item.defaultAddress == '1'){
                             this.selectAddressId = item.addressId;
                         }
                     })
-                })
-                .catch(err => console.log(err));
+                }).catch(err => console.log(err));
 
 
 

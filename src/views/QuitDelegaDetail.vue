@@ -4,13 +4,12 @@
         <div class="baseMessege">
             <div class="Dialog" id="dialog">
                 <div><p style="margin-top: 8%;margin-left: 5%">提示</p><br>
-                    <p style="margin-top: 5%;margin-left: 5%">您确定要退团吗?</p>
+                    <p style="margin-top: 5%;margin-left: 25%;color:gray">您确定要退团吗?</p>
                 </div>
                 <div class="dialog">
-                    <button style="font-size: 1.75rem;font-family:PingFang SC;width: 25% ;color:white;border-radius: 3px;
-                    border: solid 1px gray;background: gray; margin-left: 35%;"@click="" >
-                        <router-link to='/QuitDlDetail/QuitDlSuccess'class="linkstyle">确定
-                        </router-link>
+                    <button style="font-size: 1.75rem;font-family:PingFang SC;width: 25% ;color:white;border-radius: 3px;height: 5vh;
+                    border: solid 1px gray;background: gray; margin-left: 35%;"@click="toSure" >
+                        <span class="linkstyle">确定</span>
                     </button>
                     <button style="margin-left: 5%;width: 25% ;font-size: 1.75rem;font-family:PingFang SC; color:white;border-radius: 3px;
                     border: solid 1px #4c90f5;background: #4c90f5;" @click="cancel">取消</button>
@@ -24,7 +23,7 @@
                 <div class="DianName" v-text="detailGood.goods.goodsName">花溪重庆火锅换句话说几号放假设计费会使肌肤好几十福建省是否火花塞</div>
                 <div class="useType"><span v-text="detailGood.goods.consumeType">到店消费</span></div>
             </div>
-            <div class="goodDesc" v-text="detailGood.goods.goodsDesc">
+            <div class="goodDesc" v-html="detailGood.goods.goodsDesc">
                 和胜股份公司符合施工方见好就收福建省福建师范是否合适手机号健身房和数据恢复及时发货时
             </div>
             <div class="addressBox">
@@ -42,7 +41,7 @@
             <!--商品详情下面的购买按钮，需要传的参数有购买价格（price）,活动类型(isGroupBuy)数据类型暂定-->
             <div style="width: 100%;height: 100%;display: flex;">
                 <div class="number">
-                    <span style="margin-top: 7%;display: block">人数:{{PeopleNumber}}</span>
+                    <span style="margin-top: 7%;display: block">人数:<span v-text="teamMsg.nowNumber"></span> / <span v-text="teamMsg.groupNumber"></span></span>
                 </div>
                 <div class="Quitdele" @click="show"  >
                     <div style="margin-top: 7%;display: block" @click="show">退团</div>
@@ -62,52 +61,23 @@
         },
         data(){
             return{
+                teamMsg:null,
                 detailGood: {
-                    "goods": {
-                        "goodsId": "1",
-                        "goodsName": "商品名字",
-                        "goodsDesc": "商品描述",
-                        "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                        "goodsImageUrl": "商品封面地址",
-                        "goodsCount": 98,
-                        "consumeType": 1,
-                        "businessId": "1",
-                        "menuId": "1",
-                        "certificatePeriod": 2,
-                        "discountType": 1,
-                        "goodsDel": 0
-                    },
-                    "menu": {
-                        "menuId": "1",
-                        "menuName": "惊天美食",
-                        "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                        "menuDel": 0
-                    },
-                    "business": {
-                        "businessId": "05e1586f8515615d207cbacf5b927266",
-                        "businessName": "123456",
-                        "storeManger": "店长",
-                        "business":'贵州省华夏都很高的多岁的闪光点是读后感',
-                        "storeMangerTel": "店长电话",
-                        "storePrincipal": "负责人",
-                        "storePrincipalTel": "负责人电话",
-                        "storePrincipalWechat": "负责人微信",
-                        "businessDel": 0
-                    },
-                    "goodsNorms": {
-                        "goodsNormsId": "73c39bd647ecebfcfc857ccf64380c2c",
-                        "norms": "123456",
-                        "currentPrice": 999.99,
-                        "origiPrice": 888.88,
-                        "goodsId": "2a90ee18d212d2827e795668703a213d",
-                        "goodsNormsDel": 0
-                    }
                 },
                 id:'',
                 PeopleNumber:'111'
             }
         },
         methods:{
+            toSure(){
+                axios.post(process.env.VUE_APP_URL + 'team/outteam/' + this.id)
+                    .then(re => {
+                        alert(re.data.message);
+                        document.getElementById("dialog").style.display="none"
+
+                    })
+                // this.$router.push('/QuitDlDetail/QuitDlSuccess');
+            },
             show()
             {
                 document.getElementById("dialog").style.display="none"
@@ -120,6 +90,7 @@
                     document.getElementById("dialog").style.display="none";
                 }
             },
+
     cancel()
             {
                 var value = document.getElementById("dialog").style.display;
@@ -134,10 +105,31 @@
 
         },
         created() {
-            this.id = this.$route.params;
-            console.log(this.$route.params);
-            axios.get('http://123.207.18.77:8090/goods_details/queryGoodsWithDetailsById/1').then(re => this.detailGood = re.data.data)
-            axios.get('http://123.207.18.77:8090/goods_details/queryGoodsWithDetailsById/1').then(re => this.PeopleNumber = re.data.data)
+            this.id = this.$route.query.goodId;
+            this.teamMsg = this.$route.query.teamMSG;
+            console.log(this.$route.query);
+
+            axios.post(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/'+this.id).then(response=>{
+                this.cards=response.data.data
+            }).catch(function (err) {
+                console.log(err)
+            })
+
+            axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
+                .then(re =>{
+                    this.detailGood = re.data.data;
+                    console.log(this.detailGood);
+                    this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
+                    this.countType =  this.detailGood.goods.discountType;
+                    console.log(this.countType);
+                    /*let allcards = this.detailGood.cardsList;
+                    this.card = */
+                    this.card= this.detailGood.cardsList;        // 商品的优惠券
+                    if(this.countType == 1){
+                        this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
+                    }
+
+                })
         }
     }
 </script>
@@ -175,20 +167,20 @@
         height:30%;
         /*background:#EFF2F7;*/
         background: white;
-        box-shadow: lightgrey 0px 0px 5px 2px;
+        box-shadow: lightgrey 0px 0px 5px 5px;
         font-size: 2rem;
         font-family:PingFang SC;
         display: none;
         text-align: left;
-        position: fixed;
-        margin-top: 5%;
-        margin-left: 20%;
+        position: absolute;
+        left: 22%;
+        border-radius:5px;
     }
     .dialog{
         display: flex;
         flex-direction: row;
         justify-content: center;
-        margin-top: 28%;
+        margin-top: 15%;
         font-size: 1.75rem;font-family:PingFang SC;color:white;
 
     }
