@@ -1,22 +1,22 @@
 <template>
     <div id="biggest">
         <div class="message">
-            <div class="head-picture1">
-                <img :src="user.headimgurl" width="100%" height="100%" style="border-radius: 60%">
-                <!--<div class="square">
-                    <div class="content"></div> &lt;!&ndash;头像&ndash;&gt;
-                </div>-->
+            <div class="user_info">
+                <el-avatar :src="user.headimgurl" :size="80"></el-avatar>
+                <dl class="list1">
+                    <dd v-text="user.user_name"></dd>   <!--用户电话，需自己添加，添加后才能显示-->
+                    <dd>
+                        <span v-text="user.userName"></span><span class="user_item" v-text="sex(user.userSex)"></span>
+                    </dd>
+                    <dd>
+                        注册时间：
+                    </dd>
+                    <dd>
+                        <span v-text="user.userRegistTime"></span>
+                    </dd>
+                </dl>
+                <div class="clear"></div>
             </div>
-            <dl class="list1">
-                <dd v-text="user.user_name"></dd>   <!--用户电话，需自己添加，添加后才能显示-->
-                <dd v-text="sex(user.userSex)"></dd>
-                <dd>
-                    昵称：<span v-text="user.userName"></span>
-                </dd>
-                <dd>
-                    注册时间：<span v-text="user.userRegistTime"></span>
-                </dd>
-            </dl>
         </div>
         <ul id="navList">
             <li @click="ToallOrder()">我的订单</li>
@@ -50,8 +50,8 @@
         computed:{
             sex(){
                 return (re => {
-                    if(re == "2") return '男'
-                    else if(re == "1") return '女'
+                    if(re == "1") return '男';
+                    else if(re == "2") return '女';
                 })
             }
         },
@@ -105,6 +105,16 @@
 </script>
 
 <style scoped>
+    dd{
+        margin-top: 5px;
+    }
+    .user_item{
+        margin-left: 40px;
+    }
+    .user_info{
+        margin: auto;
+        display: flex;
+    }
     .borderBottom{
         width: 25%;
         height: 4px;
@@ -162,8 +172,7 @@
     }
     .list1 {
         height: 8.6%;
-        margin-top: 5%;
-        margin-left: 5%;
+        margin-left: 10px;
         color: white;
         font-size: 1.9rem;
         font-family:PingFang SC;
