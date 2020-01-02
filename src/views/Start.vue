@@ -3,37 +3,29 @@
         <div class="searchBox"><!--搜索部分-->
             <!--            <input class="search" type="text" @click="toSearch" v-model="searchInitValue">-->
             <input class="search" type="text" v-model="searchInitValue" @click="toSearch">
+
         </div><!--搜索部分-->
-			
+
         <div style="height: 20.5%;margin-top: 4%;margin-bottom: 4%"><!--轮播部分-->
             <LoadingD v-if="slide == null">
             </LoadingD>
-			<swiper :options="swiperOption" style="height: 100%;max-width: 92%;border-radius: 0.6rem">
+            <swiper :options="swiperOption" style="height: 100%;max-width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
                     <div class="banner" @click="toDetail(item.goodsId)">
-						<el-image
-						      style="width: 100%; height: 100%"
-						      :src="item.bannerImageUrl"
-						      :fit="fill"
-                              lazy>
+                        <el-image
+                                style="width: 100%; height: 100%"
+                                :src="item.bannerImageUrl"
+                                :fit="fill">
                         </el-image>
-					</div>
+                    </div>
                 </swiper-slide>
             </swiper>
         </div><!--轮播部分-->
 
         <div class="nav"><!--菜单部分-->
-			<LoadingF v-if="Icon == null">
-            </LoadingF>
+            <LoadingF v-if="Icon == null"></LoadingF>
             <div class="realyNav" v-for="item in Icon" @click="toMore(item.menuName)">
-                <div class="menuIcon">
-                    <el-image
-                            style="width: 100%; height: 100%"
-                            :src="item.menuIconUrl"
-                            :fit="fill"
-                            lazy>
-                    </el-image>
-                </div>
+                <div class="menuIcon"><img style="height: 100%" :src="item.menuIconUrl"></div>
                 <div class="menuTitle" v-text="item.menuName"></div>
             </div>
         </div>    <!--菜单部分-->
@@ -44,7 +36,8 @@
                 <div class="moreFont" @click="toMore('热门抢购')">更多限购</div>
             </div>
             <div class="noticeListBox">
-				<LoadingB v-if="hotGoodsList == null"></LoadingB>
+                <LoadingB v-if="hotGoodsList == null">
+                </LoadingB>
                 <div class="noticeList" v-for="(item,index) in hotGoodsList" @click="toGoodsDetail(item.goods.goodsId)">
                     <div class="hotImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}">
                         <div class="theCoverBox">
@@ -60,39 +53,38 @@
                             </div>
                             <!--限量-->
                             <div v-if="item.goods.discountType == 2" class="theCoverBox1">
-                                仅剩： <span v-text="item.num"></span>
+                                仅剩： <span v-text="item.num"></span> 份
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div><!--限购部分-->
-		
-        <goods-list :theGoods_2="theGoods_1">
-		</goods-list> <!--商品展示-->
 
-        <footer class="footer">
-        </footer>
+        <goods-list :theGoods_2="theGoods_1">
+        </goods-list> <!--商品展示-->
+
+        <footer class="footer"></footer>
     </div>
 </template>
 
 <script>
     import GoodsList from "../components/GoodsList";
     import CountDown from '@chenfengyuan/vue-countdown';
-	import LoadingD from "../components/loadingD";
-	import LoadingF from "../components/loadingF";
-	import LoadingB from "../components/loadingB";
-	import Footer from "../components/BottomNavigation"
-	
+    import Footer from "../components/BottomNavigation";
+    import LoadingD from "../components/loadingD";
+    import LoadingF from "../components/loadingF";
+    import LoadingB from "../components/loadingB";
+
 
     export default {
         name: "Start",
         components:{
             GoodsList,
             CountDown,
-			LoadingD,
-			LoadingF,
-			LoadingB,
+            LoadingD,
+            LoadingF,
+            LoadingB,
             Footer
         },
         data(){
@@ -150,19 +142,28 @@
                 // console.log(data);
                 this.$router.push('/goodDetail/'+id)      //url传参
             },
-
+            /*sortHot(){  //将限购的数据整理
+                this.theGoods_1.forEach(item => {
+                    if(item.menuName == '热门抢购'){
+                        this.hotGoodsList = item.data;
+                    }
+                })
+            },*/
             test(){
-                this.$nextTick();
+                alert("qwe");
             },
 
         },
         created() {
-			if(localStorage.getItem('userToken') != undefined && localStorage.getItem('userToken') != null){
+            if(localStorage.getItem('userToken') != undefined && localStorage.getItem('userToken') != null){
+                axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
+                axios.defaults.headers.common["userType"] = 'MINE';
                 axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
                     .then(response => {
                         this.Icon = response.data.data;
                         console.log(response);
-                    }).catch();
+
+                    }).catch()
 
                 axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
                     .then(re => {this.slide = re.data.data;console.log(this.slide)})
@@ -178,7 +179,8 @@
                         console.log(re.data);
                     })
                     .catch(err => console.log('cccc'))
-			}
+            }
+
         }
     }
 </script>
@@ -221,8 +223,10 @@
     .theCoverBox{
         width: 100%;
         height: 30%;
-        background:linear-gradient(0deg,rgba(0,0,0,0.77) 26%,rgba(255,255,255,0) 100%);
+        background:linear-gradient(0deg,rgba(0,0,0,1) 26%,rgba(255,255,255,0) 100%);
         text-align: right;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
     .theCoverBox1{
         width: 91.2%;
@@ -239,6 +243,8 @@
         background-size: cover;
         display: flex;
         flex-direction: column-reverse;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px #888888;
     }
     .noticeListBox {
         width: 100%;
@@ -247,6 +253,7 @@
         box-sizing: border-box;
         overflow: scroll;
         white-space: nowrap;
+        padding-right: 10px;
     }
 
     .noticeListBox::-webkit-scrollbar {
@@ -277,7 +284,7 @@
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(92,92,92,1);
-        font-size: 1.75rem;
+        font-size: 14px;
         text-align: right;
         margin-right: 3.6%;
     }
@@ -286,7 +293,7 @@
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(20,20,20,1);
-        font-size: 1.88rem;
+        font-size: 18px;
         margin-left: 3.6%;
     }
     .popularBox{
@@ -300,7 +307,7 @@
         flex: 1;
         display: flex;
         margin-bottom: 6%;
-		
+
         /*background-color: #4c90f5;*/
         /*height: 22%;*/
     }
