@@ -184,13 +184,16 @@
             }
             },
         created() {
+
             this.id = this.$route.params.goodsDetail;
+
 			  console.log(this.$route.params.goodsDetail);
+
 			axios.post(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/'+this.id).then(response=>{
 					this.cards=response.data.data
 				}).catch(function (err) {
 					console.log(err)
-				})
+				});
 
             axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
                 .then(re =>{
