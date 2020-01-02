@@ -11,6 +11,8 @@
             </div>
 <!--sesasfa-->
             <div class="goodsList">
+                <coming-soon v-if="typeList.data.length==0 || typeList.data==undefined">
+                </coming-soon>
                         <el-card class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4"  @click="toGoodsDetail(item.goods.goodsId)" :body-style="{ padding: '0px' }">
                             <el-image
                                     class="goodImg"
@@ -31,6 +33,7 @@
                                         <div class="goodName" v-text="item.goods.goodsName"></div>
                                         <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
                                     </div>
+                                    <el-divider></el-divider>
                                     <!--                            <div class="goodsDesc">合适的时光飞逝</div>-->
                                     <div class="goodOption">
                                         <div class="type" v-text="consuType(item.goods.consumeType)"></div>
@@ -50,11 +53,13 @@
 
 <script>
 	import LoadingE from "./loadingE";
+    import ComingSoon from "./ComingSoon";
     // 需要传递商品列表参数，格式为：分为几大菜单，每一菜单的data里面都有属于这个菜单下面的数据
     export default {
         name: "GoodsList",
 		components:{
-			LoadingE
+			LoadingE,
+            ComingSoon
 		},
         props:{
             theGoods_2:{
@@ -96,7 +101,9 @@
 </script>
 
 <style scoped>
-
+    .el-divider--horizontal{
+        margin: 4px 0;
+    }
     .moreGoods{
         display: block;
         float: right;
@@ -138,7 +145,7 @@
     }
     .type{
         flex: 2;
-        font-size:1.5rem;
+        font-size:12px;
         font-family:PingFang SC;
         font-weight:400;
         color:rgba(95,95,95,1);
@@ -174,7 +181,8 @@
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(23,23,23,1);
-        font-size: 1.75rem;
+        font-size: 12px;
+        color: red;
         float: right;
         text-align: right;
     }
@@ -186,9 +194,9 @@
         text-overflow: ellipsis;
         margin-left: 2%;
         font-family:PingFang SC;
-        font-weight:500;
+        font-weight:bold;
         color:rgba(95,95,95,1);
-        font-size: 1.75rem;
+        font-size: 14px;
     }
     .name_price{
         margin-top: 2%;

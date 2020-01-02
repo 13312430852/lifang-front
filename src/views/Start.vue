@@ -170,7 +170,7 @@
                     .catch();
 
                 axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
-                    .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1)})
+                    .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1);})
                     .catch();
 
                 axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
