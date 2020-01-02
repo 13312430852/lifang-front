@@ -26,7 +26,6 @@
         data(){
             return{
                 theUrl:null,
-
                 isHome : false,
                 isWallet:false,
                 isService:false,
@@ -133,9 +132,10 @@
     .coll-2{
         flex: 2;
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 10px;
         font-family:PingFang SC;
-        font-weight:400;
+        font-weight:200;
+        margin-top: 5px;
         color:rgba(20,20,20,1);
     }
     .font-color{

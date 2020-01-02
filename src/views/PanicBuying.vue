@@ -28,13 +28,10 @@
         <!--        数量-->
         <div class="number">
             <div class="number1">数量</div>
-            <div class="number2">
-                <button class="btn" style="border: none;background-color: transparent;outline: none; "
-                        @click="subtract()" :class="{ 'active1':style1 }">-</button>
-                <div class="digit">{{count}}</div>
-                <button class="btn" style="border: none;background-color: transparent;outline: none; "
-                @click="add()":class="{active1: style2}">+</button>
-            </div>
+            <el-input-number class="number2" size="mini" v-model="count" :min="1" :max="GoodsList.goods.goodsCount" label="描述文字">
+                <span role="button" @click="subtract()" class="el-input-number__decrease is-disabled"><i class="el-icon-minus"></i></span>
+                <span role="button" @click="add()" class="el-input-number__increase"><i class="el-icon-plus"></i></span>
+            </el-input-number>
         </div>
         <!--        线-->
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
@@ -56,9 +53,10 @@
 
             </select>
         </div>
-
-
         <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
+        <div class="address_nr">
+
+        </div>
         <!--        优惠-->
         <div class="Coupon">
             <div class="couponLeft">优惠券</div>
@@ -399,7 +397,6 @@
         cursor: pointer;
         border: none;background-color: transparent;outline: none;
     }
-
     .number {
         margin: 0 auto;
         display: flex;
@@ -419,12 +416,7 @@
     }
 
     .number2 {
-        display: flex;
-        width: 30%;
-        height: 100%;
-        font-size: 1.75em;
-        font-family: PingFang-SC-Medium;
-
+        margin-top: 2%;
     }
 
     .digit {
