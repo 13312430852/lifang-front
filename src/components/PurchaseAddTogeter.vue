@@ -18,6 +18,7 @@
 <script>
     export default {
         name: "PurchaseAddTogeter",
+
         props: {
             price: {
                 type: Number,
@@ -35,11 +36,10 @@
         },
         methods: {
             toTeam() {
-                this.$router.push({
-                    path:'/teamBuying',
-                    query:{price:this.props}
+                let price123 = this.goodId;
+                // console.log(price123);
 
-                });
+                this.$router.push({path:'/TeamBuying', query:{'goodId':price123}});
             },
             toBuy() {
                 this.$router.push('/MoreTravelOrder/buy/' + this.goodId);

@@ -34,7 +34,6 @@
             search(){           //将要搜索的参数给后台搜索，获得数据后传给列表组件显示
                 axios.get(process.env.VUE_APP_URL + 'goods_details_search/searchByLikeName?likeName=' + this.searchInitValue)
                     .then(re => {
-                        console.log(re.data)
                         this.searchResaultList = re.data.data;
                         if(this.searchResaultList == null) this.haveResault =false;
                         else this.haveResault =true;
