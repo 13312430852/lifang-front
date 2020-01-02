@@ -9,9 +9,9 @@
                             <div class="goodName" v-text="item.goods.goodsName"></div>
                             <div class="goodPrice"><span style="margin-right: 4%">￥{{item.current_price}}</span></div>
                         </div>
-                        <div class="goodsDesc" v-text="item.goods.goodsDesc"></div>
+<!--                        <div class="goodsDesc">回到家爱上安静的大概</div>-->
                         <div class="goodOption">
-                            <div class="type" v-text="item.goods.consumeType"></div>
+                            <div class="type" v-text="consuType(item.goods.consumeType)"></div>
                             <div class="earnMoney"><button class="theButton" @click="toEarnMoney">赚佣金</button></div>
                             <div class="purchase"><button class="theButton1" @click.stop="toBuy">抢购</button></div>
                         </div>
@@ -30,6 +30,21 @@
                 type:Array,
                 required:true
             },
+        },
+        computed:{
+            consuType(){
+                return (tag) => {
+                    if (tag == 1){
+                        return '包邮'
+                    }
+                    else if(tag == 2){
+                        return '到店消费'
+                    }
+                    else {
+                        return null;
+                    }
+                }
+            }
         },
         methods:{
             toMore(menuName){

@@ -7,14 +7,23 @@
         </div><!--搜索部分-->
 
         <div style="height: 20.5%;margin-top: 4%;margin-bottom: 4%"><!--轮播部分-->
-            <swiper :options="swiperOption" style="height: 100%;width: 92%;border-radius: 0.6rem">
+            <LoadingD v-if="slide == null">
+            </LoadingD>
+            <swiper :options="swiperOption" style="height: 100%;max-width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
-                    <div class="banner" @click="toDetail(item.goodsId)" :style="{backgroundImage:'url(' + item.bannerImageUrl + ')'}"></div>
+                    <div class="banner" @click="toDetail(item.goodsId)">
+                        <el-image
+                                style="width: 100%; height: 100%"
+                                :src="item.bannerImageUrl"
+                               >
+                        </el-image>
+                    </div>
                 </swiper-slide>
             </swiper>
         </div><!--轮播部分-->
 
         <div class="nav"><!--菜单部分-->
+            <LoadingF v-if="Icon == null"></LoadingF>
             <div class="realyNav" v-for="item in Icon" @click="toMore(item.menuName)">
                 <div class="menuIcon"><img style="height: 100%" :src="item.menuIconUrl"></div>
                 <div class="menuTitle" v-text="item.menuName"></div>
@@ -27,6 +36,8 @@
                 <div class="moreFont" @click="toMore('热门抢购')">更多限购</div>
             </div>
             <div class="noticeListBox">
+                <LoadingB v-if="hotGoodsList == null">
+                </LoadingB>
                 <div class="noticeList" v-for="(item,index) in hotGoodsList" @click="toGoodsDetail(item.goods.goodsId)">
                     <div class="hotImg" :style="{backgroundImage:'url(' + item.goods.goodsImageUrl + ')'}">
                         <div class="theCoverBox">
@@ -49,7 +60,9 @@
                 </div>
             </div>
         </div><!--限购部分-->
-        <goods-list :theGoods_2="theGoods_1"></goods-list> <!--商品展示-->
+
+        <goods-list :theGoods_2="theGoods_1">
+        </goods-list> <!--商品展示-->
 
         <footer class="footer"></footer>
     </div>
@@ -57,13 +70,22 @@
 
 <script>
     import GoodsList from "../components/GoodsList";
-    import CountDown from '@chenfengyuan/vue-countdown'
+    import CountDown from '@chenfengyuan/vue-countdown';
+    import Footer from "../components/BottomNavigation";
+    import LoadingD from "../components/loadingD";
+    import LoadingF from "../components/loadingF";
+    import LoadingB from "../components/loadingB";
+
 
     export default {
         name: "Start",
         components:{
             GoodsList,
-            CountDown
+            CountDown,
+            LoadingD,
+            LoadingF,
+            LoadingB,
+            Footer
         },
         data(){
             return{
@@ -72,27 +94,31 @@
                     '分钟':1,
                     '秒':1,
                 },
-
-
                 searchInitValue:'花溪重庆火锅',
-                theGoods_1:[            //获取所有商品基本数据
+                theGoods_1:null,
 
-                ],
+                hotGoodsList:null,    //存放热门抢购商品
+                Icon: null/* [
+                    {'menuName':'热门抢购',menuIconUrl:require('../assets/navIcon/购物车.png')},
+                    {'menuName':'惊天美食',menuIconUrl:require('../assets/navIcon/美食.png')},
+                    {'menuName':'休闲娱乐',menuIconUrl:require('../assets/navIcon/玩具.png')},
+                    {'menuName':'旅游景点',menuIconUrl:require('../assets/navIcon/旅游.png')},
+                    {'menuName':'饱餐住宿',menuIconUrl:require('../assets/navIcon/酒店.png')},
+                    {'menuName':'培训机构',menuIconUrl:require('../assets/navIcon/学习教育.png')},
+                    {'menuName':'敬请期待',menuIconUrl:require('../assets/navIcon/敬请期待.png')}
+                ] */,      //存放菜单
 
-                hotGoodsList:[],    //存放热门抢购商品
-                Icon:[],      //存放菜单
-
-                slide: [
-                    {'bannerImageUrl':require('../assets/01.jpg')},
-                    {'bannerImageUrl':require('../assets/2.jpg')},
-                    {'bannerImageUrl':require('../assets/3.jpg')}
-                ],
+                slide: null /* [
+                    {'banner':{'bannerImageUrl':require('../assets/01.jpg')}},
+                    {'banner':{'bannerImageUrl':require('../assets/2.jpg')}},
+                    {'banner':{'bannerImageUrl':require('../assets/3.jpg')}},
+                ] */,
                 //设置属性
                 swiperOption: {
                     //自动轮播
                     autoplay: {
                         disableOnInteraction: false,
-                        delay: 1500
+                        delay: 2500
                     },
                     //开启循环模式
                     loop: true,
@@ -129,30 +155,31 @@
 
         },
         created() {
-           /* axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';*/
-            axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
-                .then(response => {
-                this.Icon = response.data.data;
-                console.log(response);
-            }).catch()
+            if(localStorage.getItem('userToken') != undefined && localStorage.getItem('userToken') != null){
+                axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
+                axios.defaults.headers.common["userType"] = 'MINE';
+                axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
+                    .then(response => {
+                        this.Icon = response.data.data;
+                        console.log(response);
 
-            axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
-                .then(re => {this.slide = re.data.data;console.log(this.slide)})
-                .catch();
+                    }).catch()
 
-              axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
-                  .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1)})
-                  .catch();
+                axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
+                    .then(re => {this.slide = re.data.data;console.log(this.slide)})
+                    .catch();
 
-              axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
-                  .then(re => {
-                      this.hotGoodsList = re.data.data;
-                      console.log(re.data);
-                  })
-                  .catch(err => console.log('cccc'))
+                axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
+                    .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1);})
+                    .catch();
 
-
+                axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
+                    .then(re => {
+                        this.hotGoodsList = re.data.data;
+                        console.log(re.data);
+                    })
+                    .catch(err => console.log('cccc'))
+            }
 
         }
     }
@@ -196,8 +223,10 @@
     .theCoverBox{
         width: 100%;
         height: 30%;
-        background:linear-gradient(0deg,rgba(0,0,0,0.77) 26%,rgba(255,255,255,0) 100%);
+        background:linear-gradient(0deg,rgba(0,0,0,1) 26%,rgba(255,255,255,0) 100%);
         text-align: right;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
     .theCoverBox1{
         width: 91.2%;
@@ -214,6 +243,8 @@
         background-size: cover;
         display: flex;
         flex-direction: column-reverse;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px #888888;
     }
     .noticeListBox {
         width: 100%;
@@ -222,6 +253,7 @@
         box-sizing: border-box;
         overflow: scroll;
         white-space: nowrap;
+        padding-right: 10px;
     }
 
     .noticeListBox::-webkit-scrollbar {
@@ -252,17 +284,16 @@
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(92,92,92,1);
-        font-size: 1.75rem;
+        font-size: 14px;
         text-align: right;
         margin-right: 3.6%;
     }
     .listTitle{
         flex: 1;
-
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(20,20,20,1);
-        font-size: 1.88rem;
+        font-size: 18px;
         margin-left: 3.6%;
     }
     .popularBox{
@@ -275,7 +306,8 @@
     .hot_col-1{
         flex: 1;
         display: flex;
-        margin-bottom: 4%;
+        margin-bottom: 6%;
+
         /*background-color: #4c90f5;*/
         /*height: 22%;*/
     }

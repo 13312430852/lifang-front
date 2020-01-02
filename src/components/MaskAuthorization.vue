@@ -1,5 +1,8 @@
 <template>
     <div class="mask">
+		<transition name="fade">
+		    <loading v-if="isLoading"></loading>
+		</transition>
         <div class="ensure">
             <div class="tips">亲，您还没有登录，</div>
             <div class="tips1">请同意微信授权哦。</div>
@@ -12,14 +15,19 @@
 </template>
 
 <script>
-
+	import Loading from "./loading";
+	
     export default {
+		components: {
+			Loading
+		},
         name: "MaskAuthorization",
         data(){
             return{
                 // showThisComponent:2,
                 url:null,
                 ip:process.env.VUE_APP_URL,
+				isLoading: true
             }
         },
         methods:{
@@ -30,23 +38,19 @@
                 /*当用户点击了确认后，跳转至授权链接*/
                 window.location.href = this.url;   //跳转至外部 url
             },
-            getURL(i){
+            getURL(){
                 axios.get(process.env.VUE_APP_URL + 'wechat/login')  //获取授权链接
                     .then(re => {
                         this.url = re.data;
-                    })
-                    .catch(err=>{
-                        if(i<0){
-                            alert('请求链接失败:'+err);
-                        }else {
-                            this.getURL(i-1)  //失败后再继续请求
-                        }
+                        this.isLoading = false;
+                    }).catch(err=>{
+                        this.getURL();
                     });
             }
         },
         created() {
             console.log(this.ip);
-            this.getURL(4);
+            this.getURL();
         }
     }
 </script>
