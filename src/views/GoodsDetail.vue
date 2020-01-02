@@ -189,26 +189,17 @@
 
 			  console.log(this.$route.params.goodsDetail);
 
-			axios.post(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/'+this.id).then(response=>{
-					this.cards=response.data.data
-				}).catch(function (err) {
-					console.log(err)
-				});
-
             axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
                 .then(re =>{
                     this.detailGood = re.data.data;
-                    console.log(this.detailGood);
                     this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
                     this.countType =  this.detailGood.goods.discountType;
-                    console.log(this.countType);
                     /*let allcards = this.detailGood.cardsList;
                     this.card = */
                     this.card= this.detailGood.cardsList;        // 商品的优惠券
                     if(this.countType == 1){
                         this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
                     }
-
                 })
         },
 

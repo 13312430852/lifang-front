@@ -78,11 +78,11 @@
         data() {
             return {
                 propsData:{},
-                goodId:12456,
-                theBusinessId:1111, //商家ID
+                goodId:null,
+                theBusinessId:null, //商家ID
                 orderId:null,
 
-                selectAddressId:'', //用户选择的地址ID
+                selectAddressId:null, //用户选择的地址ID
                 userAddress:null,
 
                 userGoodCaeds:null,
@@ -91,8 +91,8 @@
                 chooseCarId:null,
                 userMsg:{userId:123},
 
-                count:1,  //商品购买数量
-                allPrice:13,  //商品的总价
+                count:null,  //商品购买数量
+                allPrice:null,  //商品的总价
                 goodsPrice:null,
                 goodsNormsId:null,
 
@@ -206,7 +206,7 @@
                     this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
                     this.$set(this.propsData,'count',this.count);
                     this.$set(this.propsData,'allPrice',this.allPrice);
-                    this.$set(this.propsData,'orderID',this.orderId)
+                    this.$set(this.propsData,'orderID',this.orderId);
 
                 this.$router.push({path:'/submitOrder',query:this.propsData});
             },
@@ -233,11 +233,12 @@
 
             axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+this.goodId).then(response => {  //获取商品的基本信息
                 this.GoodsList = response.data.data;
-                console.log(response.data.data);
-
+                console.log(this.GoodsList);
+                console.log("test");
                 this.allPrice = this.GoodsList.goodsNorms.currentPrice;
                 this.goodsNormsId = this.GoodsList.goodsNorms.norms;
                 this.goodsPrice = this.GoodsList.goodsNorms.currentPrice;
+                this.theBusinessId = this.GoodsList.business.businessId;
 
             }).catch();
 
