@@ -51,7 +51,7 @@
                 <button class="tuikuan" @click="toservice" v-show="tuikuan">联系客服退款</button>
             </div>
             <div class="btn1">
-                <button class="pay" @click="toOrderSubmit()" v-show="pay">继续付款</button>
+                <button class="pay" @click="toSubmitPage" v-show="pay">继续付款</button>
             </div>
         </div>
     </div>
@@ -64,20 +64,9 @@
         name: "OrderDetail",
         data() {
             return {
-                goods:
-                    {
-                       /* 'ordersExperssState': 'n',
-                        'rcAddress': '贵安数字经济产业园',
-                        'goodsImageUrl': require('../../assets/clothse.jpg'),
-                        'businessName': '安踏官方旗舰店',
-                        'goodsPrice': '55',
-                        'goodsNum': '1',
-                        'ordersPrice': '55',
-                        'ordersTime': '2019.11.11',
-                        'ordersPayState': '0',
-                        'goodsName': '表情包T恤',
-                        'goodsDesc': '这是一件很骚的表情包T恤不吃白不吃举措啥时间你不压车'*/
-                    },
+                propsData:{},
+
+                goods: {},
                 tuikuan:true,
                 pay:false
             }
@@ -111,9 +100,20 @@
             toservice(){
                 this.$router.push('/service')
             },
-            toOrderSubmit(){
-                this.$router.push({path:'/submitOrder'})
-            }
+
+            toSubmitPage(){
+                axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.goods.ordersId)
+                    .then(re => {
+                        if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
+                            alert(re.data.message);
+                            this.$router.push('/thehome/Order/My/AllOrder')
+                        }
+                    })
+                    .catch(err => {
+                        alert('网络错误');
+                    })
+
+            },
 
         }
     }
