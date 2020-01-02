@@ -2,11 +2,11 @@
     <div style="height: 100%">
         <div class="searchBox"><!--搜索部分-->
             <input v-focus class="search" type="text" v-model="searchInitValue">
-            <div class="searchClick"></div>
+            <div class="searchClick" @click="search"></div>
         </div><!--搜索部分-->
 
         <div class="title">搜索结果</div>
-        <div class="line" @click="search"></div>
+        <div class="line"></div>
 
        <goods-list-no-title :theGoods_2="searchResaultList" v-if="haveResault"></goods-list-no-title>
         <div class="noPage" v-if="!haveResault">
@@ -25,86 +25,19 @@
         data(){
             return{
 
-                searchInitValue:'',
+                searchInitValue:null,
                 haveResault:false,  //是否搜索到
-                searchResaultList:[
-                    {
-                    "goods": {
-                        "goodsId": "2",
-                        "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                        "goodsCount": 98,
-                        "businessId": "1",
-                        "menuId": "1",
-                        "certificatePeriod": 2,
-                        "discountType": 1,
-                        "goodsDel": 0,
-                        'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                        'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                        'goodsDesc': '回家的后代就分手施工方是否公司'
-                    },
-                    "menu": {
-                        "menuId": "1",
-                        "menuName": "惊天美食",
-                        "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                        "menuDel": 0
-                    },
-                    "business": null,
-                    "goodsNormsList": []
-                },
-                    {
-                        "goods": {
-                            "goodsId": "2",
-                            "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                            "goodsCount": 98,
-                            "businessId": "1",
-                            "menuId": "1",
-                            "certificatePeriod": 2,
-                            "discountType": 1,
-                            "goodsDel": 0,
-                            'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                            'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                            'goodsDesc': '回家的后代就分手施工方是否公司'
-                        },
-                        "menu": {
-                            "menuId": "1",
-                            "menuName": "惊天美食",
-                            "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                            "menuDel": 0
-                        },
-                        "business": null,
-                        "goodsNormsList": []
-                    },
-                    {
-                        "goods": {
-                            "goodsId": "2",
-                            "goodsDetailsUrl": "\"[\"132\",\"4654\",\"654\"]\"",
-                            "goodsCount": 98,
-                            "businessId": "1",
-                            "menuId": "1",
-                            "certificatePeriod": 2,
-                            "discountType": 1,
-                            "goodsDel": 0,
-                            'consumeType': '到店消费', 'goodsImageUrl': require('../assets/h2.png'),
-                            'goodsName': '花溪重庆火锅嘤嘤嘤有多少', 'current_price': 13,
-                            'goodsDesc': '回家的后代就分手施工方是否公司'
-                        },
-                        "menu": {
-                            "menuId": "1",
-                            "menuName": "惊天美食",
-                            "menuIconUrl": "http://39.108.234.130:8080/images/menuIconUrl/美食.png",
-                            "menuDel": 0
-                        },
-                        "business": null,
-                        "goodsNormsList": []
-                    }],
+                searchResaultList:null,
             }
         },
         methods:{
             search(){           //将要搜索的参数给后台搜索，获得数据后传给列表组件显示
-                axios.get('http:hjhfsjdhfjh/'+this.searchInitValue)
+                axios.get(process.env.VUE_APP_URL + 'goods_details_search/searchByLikeName?likeName=' + this.searchInitValue)
                     .then(re => {
+                        console.log(re.data)
                         this.searchResaultList = re.data.data;
-                        if(this.searchResaultList == null) this.haveResault =true;
+                        if(this.searchResaultList == null) this.haveResault =false;
+                        else this.haveResault =true;
                     })
                     .catch(err => console.log(err))
             }

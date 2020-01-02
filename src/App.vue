@@ -58,15 +58,7 @@
 					if (localStorage.getItem('userToken') != null) this.nologined = false;
 					else this.nologined = true;
 				}
-				
-				/*     //获取用户的基本信息
-				     axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-				     axios.defaults.headers.common["userType"] = 'MINE';
-				     axios.get('http://50558287.ngrok.io/mine/getUserInfo')                                                 //通过...码获取用户基本信息
-				         .then(re => {
-				            this.userMsg = re.data.data;
-				         })
-				        .catch(err => alert('未请求到用户基本数据错误为：'+err))*/
+
 			},
 
 			theHight() { //解决安卓端软键盘弹出压缩页面
