@@ -12,10 +12,8 @@
             <swiper :options="swiperOption" style="height: 100%;max-width: 92%;border-radius: 0.6rem">
                 <swiper-slide class="swiper-slide" v-for="(item,index) in slide" :key="index">
                     <div class="banner" @click="toDetail(item.goodsId)">
-                        <el-image
-                                style="width: 100%; height: 100%"
-                                :src="item.bannerImageUrl"
-                               >
+                        <el-image style="width: 100%; height: 100%"
+                                :src="item.bannerImageUrl">
                         </el-image>
                     </div>
                 </swiper-slide>
@@ -24,7 +22,7 @@
 
         <div class="nav"><!--菜单部分-->
             <LoadingF v-if="Icon == null"></LoadingF>
-            <div class="realyNav" v-for="item in Icon" @click="toMore(item.menuName)">
+            <div class="realyNav" v-for="item in Icon" @click="toMore(item.menuName,item.menuId)">
                 <div class="menuIcon"><img style="height: 100%" :src="item.menuIconUrl"></div>
                 <div class="menuTitle" v-text="item.menuName"></div>
             </div>
@@ -79,7 +77,7 @@
 
     export default {
         name: "Start",
-        components:{
+        components: {
             GoodsList,
             CountDown,
             LoadingD,
@@ -87,17 +85,17 @@
             LoadingB,
             Footer
         },
-        data(){
-            return{
-                pro:{
-                    '小时':1,
-                    '分钟':1,
-                    '秒':1,
+        data() {
+            return {
+                pro: {
+                    '小时': 1,
+                    '分钟': 1,
+                    '秒': 1,
                 },
-                searchInitValue:'花溪重庆火锅',
-                theGoods_1:null,
+                searchInitValue: '花溪重庆火锅',
+                theGoods_1: null,
 
-                hotGoodsList:null,    //存放热门抢购商品
+                hotGoodsList: null,    //存放热门抢购商品
                 Icon: null,      //存放菜单
 
                 slide: null,
@@ -115,20 +113,20 @@
                 }
             }
         },
-        methods:{
+        methods: {
 
-            toMore(menuName1){
-                this.$router.push('/MoreTravel/' + menuName1)
+            toMore(menuName1,menuId) {
+                this.$router.push('/MoreTravel/' + menuName1 + '/' + menuId)
             },
-            toSearch(){
+            toSearch() {
                 this.$router.push('/searchgoods');
             },
-            toGoodsDetail(goodId2){
-                this.$router.push('/goodDetail/'+goodId2);
+            toGoodsDetail(goodId2) {
+                this.$router.push('/goodDetail/' + goodId2);
             },
-            toDetail(id){
+            toDetail(id) {
                 // console.log(data);
-                this.$router.push('/goodDetail/'+id)      //url传参
+                this.$router.push('/goodDetail/' + id)      //url传参
             },
             /*sortHot(){  //将限购的数据整理
                 this.theGoods_1.forEach(item => {
@@ -137,29 +135,36 @@
                     }
                 })
             },*/
-            test(){
+            test() {
                 alert("qwe");
             },
 
         },
         created() {
-            if(localStorage.getItem('userToken') != undefined && localStorage.getItem('userToken') != null){
+            if (localStorage.getItem('userToken') != undefined && localStorage.getItem('userToken') != null) {
                 axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
                 axios.defaults.headers.common["userType"] = 'MINE';
                 axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
                     .then(response => {
                         this.Icon = response.data.data;
+                        console.log('打印菜单');
                         console.log(response);
 
-                    }).catch()
+                    }).catch();
 
                 axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
-                    .then(re => {this.slide = re.data.data;console.log(this.slide)})
+                    .then(re => {
+                        this.slide = re.data.data;
+                        console.log(this.slide)
+                    })
                     .catch();
 
                 axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
-                    .then(re => {this.theGoods_1 = re.data.data;console.log(this.theGoods_1);})
-                    .catch();
+                    .then(re => {
+                        this.theGoods_1 = re.data.data;
+
+                        console.log(this.theGoods_1);
+                    }).catch();
 
                 axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
                     .then(re => {
@@ -174,29 +179,32 @@
 </script>
 
 <style scoped>
-    .menuTitle{
+    .menuTitle {
         height: 28%;
         width: 100%;
         margin-left: 20%;
-        font-size:1.75rem;
-        font-family:PingFang SC;
-        font-weight:400;
-        color:rgba(85,85,85,1);
+        font-size: 1.75rem;
+        font-family: PingFang SC;
+        font-weight: 400;
+        color: rgba(85, 85, 85, 1);
         margin-top: 3%;
     }
-    .menuIcon{
+
+    .menuIcon {
         height: 65%;
         background-repeat: no-repeat;
         margin-left: 25%;
     }
-    .realyNav{
+
+    .realyNav {
         width: 24%;
         height: 11.5vh;
         float: left;
         margin-left: .7%;
         margin-bottom: 3%;
     }
-    .nav{
+
+    .nav {
         width: 100%;
         /*height: 26.83%;*/
         /*height: 27vh;*/
@@ -208,26 +216,29 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .theCoverBox{
+
+    .theCoverBox {
         width: 100%;
         height: 30%;
-        background:linear-gradient(0deg,rgba(0,0,0,1) 26%,rgba(255,255,255,0) 100%);
+        background: linear-gradient(0deg, rgba(0, 0, 0, 1) 26%, rgba(255, 255, 255, 0) 100%);
         text-align: right;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-    .theCoverBox1{
+
+    .theCoverBox1 {
         width: 91.2%;
         height: 100%;
-        color: rgba(255,254,253,0.69);
+        color: rgba(255, 254, 253, 0.69);
         padding-top: 1%;
         font-family: "PingFang SC";
         font-size: 1.5rem;
     }
-    .hotImg{
+
+    .hotImg {
         max-width: 100%;
         height: 90%;
-        background-color:rebeccapurple;
+        background-color: rebeccapurple;
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
@@ -236,6 +247,7 @@
         border-radius: 10px;
         box-shadow: 1px 1px 5px #888888;
     }
+
     .noticeListBox {
         width: 100%;
         height: 100vh;
@@ -250,50 +262,57 @@
         display: none;
     }
 
-    .noticeList{
+    .noticeList {
         display: inline-block;
         border-radius: 0.4rem;
         /*width:260px;*/
-        width:34.6%;
-        height:100%;
+        width: 34.6%;
+        height: 100%;
         /*border: 1px solid red;*/
         margin-right: 2%;
     }
 
-    .hotGoods{
+    .hotGoods {
         float: left;
-        width:260px;
-        height:150px;
-        border-radius:2px;
+        width: 260px;
+        height: 150px;
+        border-radius: 2px;
         margin-right: 16px;
         /*background-color: #4c90f5;*/
         /*border: 1px solid red;*/
     }
-    .moreFont{
+
+    .moreFont {
         flex: 1;
-        font-family:PingFang SC;
-        font-weight:500;
-        color:rgba(92,92,92,1);
+        font-family: PingFang SC;
+        font-weight: 500;
+        color: rgba(92, 92, 92, 1);
         font-size: 14px;
         text-align: right;
         margin-right: 3.6%;
     }
-    .listTitle{
+
+    .listTitle {
         flex: 1;
-        font-family:PingFang SC;
-        font-weight:bold;
-        color:rgba(20,20,20,1);
+        font-family: PingFang SC;
+        font-weight: bold;
+        color: rgba(20, 20, 20, 1);
         font-size: 18px;
         margin-left: 3.6%;
     }
-    .popularBox{
+
+    .popularBox {
         margin-top: 2%;
         height: 22.4%;
         display: flex;
         flex-direction: column;
     }
-    .popularBox::-webkit-scrollbar { width: 0 !important }
-    .hot_col-1{
+
+    .popularBox::-webkit-scrollbar {
+        width: 0 !important
+    }
+
+    .hot_col-1 {
         flex: 1;
         display: flex;
         margin-bottom: 6%;
@@ -301,13 +320,14 @@
         /*background-color: #4c90f5;*/
         /*height: 22%;*/
     }
-    .hot_col-5{
+
+    .hot_col-5 {
         flex: 5;
         overflow: scroll;
     }
 
 
-    .searchBox{
+    .searchBox {
         display: flex;
         justify-content: center;
         height: 6.74%;
@@ -316,10 +336,11 @@
         margin-top: 3%;
         /*background-color: #4C90F5;*/
     }
-    .search{
-        width:76%;
+
+    .search {
+        width: 76%;
         height: 98.7%;
-        background-color: rgba(231,231,231,1);
+        background-color: rgba(231, 231, 231, 1);
         border-style: none;
         border-radius: 0.75rem;
         margin-top: 1.2%;
@@ -329,10 +350,10 @@
         background-repeat: no-repeat;
         background-position: 5%;
 
-        color: rgba(138,138,138,1);
+        color: rgba(138, 138, 138, 1);
         font-size: 1.75rem;
-        font-family:PingFang SC;
-        font-weight:400;
+        font-family: PingFang SC;
+        font-weight: 400;
         padding-left: 16%;
     }
 
@@ -345,18 +366,20 @@
         overflow: hidden;
     }
 
-    .banner{
+    .banner {
         height: 100%;
         width: 100%;
         background-repeat: no-repeat;
         background-size: cover;
 
     }
-    footer{
+
+    footer {
         height: 98px;
         width: 100%;
     }
-    .footer{
+
+    .footer {
         height: 98px;
         width: 100%;
         display: block;
