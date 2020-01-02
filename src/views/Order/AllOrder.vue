@@ -6,7 +6,7 @@
             </div>
             <div id="message">
                 <div id="good_title" v-text="good.goodsName"></div>
-                <div id="goodmessage" v-text="good.goodsDesc"></div>
+                <div id="goodmessage" v-html="good.goodsDesc"></div>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
             return{
                 url:process.env.VUE_APP_URL,
                 goods:[
-                 /*   {   'ordersId':'1234446',
+                    /*{   'ordersId':'1234446',
                         'goodsImageUrl': 'http://ww1.sinaimg.cn/large/0069q4eTgy1gaactp9rlbj30dw0agt97.jpg',
                         'goodsName':'T恤',
                         'goodsDesc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
@@ -57,12 +57,17 @@
         created() {
             axios.post(process.env.VUE_APP_URL+'order/userQueryOrder',{})
                 .then(response => {
-                    // console.log(response.data);
-                this.goods = response.data.data.records;
-            }).catch(function (err) {
-                console.log(err);
-            })
+                    console.log(response.data);
+                    console.log('scnjbscb');
+                    console.log(response.data.data);
+                this.goods = response.data.data;
 
+            }).catch(function (err) {
+                console.log(err)
+            })
+            // if(this.goods==null){
+            //     this.$router.push('空值页面')
+            // }
         },
         methods:{
             Todetail(goods){
@@ -101,12 +106,13 @@
         font-family: "PingFang SC";
         /*background-color: red;*/
     }
-    #good_title{
+    #good_title {
         width: 100%;
         height: 50%;
         color: #2C2C2C;
         font-family: "PingFang SC";
         font-size: 1.75rem;
+        margin-top: 2%;
         /*background-color: yellow;*/
     }
     #goodmessage{

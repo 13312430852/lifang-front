@@ -219,20 +219,30 @@
             submitOrder(){      //提交订单后返回一个订单ID
                 // 响应式添加订单对象
 
-                this.createSubmitOrder();
-                axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
-                    .then(response =>{
-                        this.orderId = response.data.data;          //成功后返回订单ID
-                        console.log(response.data.data);
-                        /*this.$router.push('/submitOrder'+this.orderId);*/
-                        this.toSubmitPage();
+                if(this.selectAddressId!= 0){
+                    this.createSubmitOrder();
+                    axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
+                        .then(response =>{
+                            this.orderId = response.data.data;          //成功后返回订单ID
+                            console.log(response.data.data);
+                            /*this.$router.push('/submitOrder'+this.orderId);*/
+                            this.toSubmitPage();
+                            console.log(this.selectAddressId)
 
-                    })
-                    .catch(err => console.log(err));
+                        })
+                        .catch(err => console.log(err));
+
+                    console.log(this.selectAddressId)
+                }else {
+                    alert('请输入收货地址！！！')
+                }
+
             }
         },
         created() {
-
+            this.$route.query;    //继续付款传过来的数据
+            console.log('传过来的数据');
+            console.log(this.$route.query);
 
             this.goodId = this.$route.params.goodId1;   //接收商品ID
             console.log(this.goodId);

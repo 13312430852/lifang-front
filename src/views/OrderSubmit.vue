@@ -120,7 +120,7 @@
                     .then(re => {
                         console.log(re.data);
                         if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
-                            this.$router.push('/details')
+                            // this.$router.push('/details')
                         }
                     })
                     .catch(err => {
@@ -131,10 +131,8 @@
 
         created() {
             let newgoods=this.$route.query;
-
                     this.PayMessage=newgoods
                     console.log(this.PayMessage)
-
         }
         ,
         computed:{
