@@ -2,7 +2,7 @@
     <div class="listBox">
 		<LoadingE v-if="theGoods_2 == null || theGoods_2 == undefined">
         </LoadingE>
-        <div v-for="typeList in theGoods_2" style="height: 100%;margin-top: 3.5%">
+        <div v-if="typeList.menuName!=null || typeList.menuName!=undefined" v-for="typeList in theGoods_2" style="height: 100%;margin-top: 3.5%">
             <div style="height: 4%;width: 100%;">
                 <el-divider direction="vertical">
                 </el-divider>
@@ -47,6 +47,44 @@
                             </div>
                         </el-card>
             </div>
+        </div>
+        <div v-for="typeList in theGoods_2" class="goodsList">
+            <coming-soon v-if="typeList.length==0 || typeList == undefined">
+            </coming-soon>
+            <el-card class="realyGood" v-for="(item,key) in typeList" v-if="key < 4" :body-style="{ padding: '0px' }">
+                <div @click="toGoodsDetail(item.goods.goodsId)">
+                    <el-image
+                            class="goodImg"
+                            :src="item.goods.goodsImageUrl"
+                    >
+                        <div slot="error"  >
+                            <el-image   :lazy="true"  fit="cover"  src="../assets/imageError.jpg" >
+                            </el-image>
+                        </div>
+                        <div slot="placeholder"  >
+                            <loading-e>
+                            </loading-e>
+                        </div>
+                    </el-image>
+                    <div style="padding: 14px;">
+                        <div class="detail">    <!--信息-->
+                            <div class="name_price">
+                                <div class="goodName" v-text="item.goods.goodsName"></div>
+                                <div class="goodPrice"><span style="margin-right: 4%">￥{{item.goodsNorms.currentPrice}}</span></div>
+                            </div>
+                            <el-divider></el-divider>
+                            <!--                            <div class="goodsDesc">合适的时光飞逝</div>-->
+                            <div class="goodOption">
+                                <div class="type" v-text="consuType(item.goods.consumeType)"></div>
+                                <div class="earnMoney">
+                                    <el-button class="theButton el-button el-button--primary" @click="toEarnMoney"  type="primary" icon="el-icon-share">
+                                    </el-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </el-card>
         </div>
     </div>
 

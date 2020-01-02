@@ -22,10 +22,13 @@
             <!--标题-->
             <div class="TLimit" v-text="menuName"></div>
             <!--            商品展示页面-->
-            <div id="list">
+
+            <more-good-list :theGoods_more="maiGoods">
+            </more-good-list> <!--商品展示-->
+            <!--<div id="list">
                 <div id="row1" v-for="item in maiGoods" @click="toGoodsDetail(item.goods.goodsId)">
                     <div class="photo1" :style="{backgroundImage:'url(' +item.goods.goodsImageUrl + ')'}">
-                        <!--                        <img :src="i.url">-->
+                        &lt;!&ndash;                        <img :src="i.url">&ndash;&gt;
                     </div>
 
                     <div id="place">
@@ -33,11 +36,11 @@
                         <div id="sell" v-text="item.current_price"></div>
                     </div>
 
-                    <!--                    简介-->
+                    &lt;!&ndash;                    简介&ndash;&gt;
                     <div class="intro" v-html="item.goods.goodsDesc">
 
                     </div>
-                    <!--                    底部内容-->
+                    &lt;!&ndash;                    底部内容&ndash;&gt;
                     <div class="bottom_s">
                         <div class="ef_postage">包邮</div>
                         <div class="earn">
@@ -48,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
 
         </div>
@@ -58,8 +61,13 @@
 </template>
 
 <script>
+    import MoreGoodList from "../components/MoreGoodList";
+
     export default {
         name: "MoreTravel",
+        components: {
+            MoreGoodList,
+        },
         data() {
             return {
                 menuName: 'hhhhh',
@@ -79,7 +87,7 @@
                     //开启鼠标滚轮控制Swiper切换
                     mousewheel: true
                 },
-                maiGoods: '',
+                maiGoods: null,
                 Goods: [
                     {
                         'picture': '01',
@@ -138,6 +146,7 @@
             axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsByMenuName/' + this.menuName)
                 .then(response => {
                     this.maiGoods = response.data.data;
+                    console.log("More");
                     console.log(this.maiGoods)
                 }).catch(err => alert(err))
         }

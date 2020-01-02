@@ -147,9 +147,6 @@
                 axios.get(process.env.VUE_APP_URL + 'menu/queryAllMenu')
                     .then(response => {
                         this.Icon = response.data.data;
-                        console.log('打印菜单');
-                        console.log(response);
-
                     }).catch();
 
                 axios.get(process.env.VUE_APP_URL + 'banner/queryBannerList')
@@ -162,14 +159,13 @@
                 axios.get(process.env.VUE_APP_URL + 'goodsWithMenuName/queryGoodsDetailWithMenuName')     //获取商品列表的基本信息
                     .then(re => {
                         this.theGoods_1 = re.data.data;
-
+                        console.log("theGoods_1");
                         console.log(this.theGoods_1);
                     }).catch();
 
                 axios.get(process.env.VUE_APP_URL + 'rush/queryRushAndGoodsList')
                     .then(re => {
                         this.hotGoodsList = re.data.data;
-                        console.log(re.data);
                     })
                     .catch(err => console.log('cccc'))
             }
