@@ -200,7 +200,6 @@
                     if(this.selectAddressId == item.addressId)
                         choosedAddress = item;
                 });
-
                     this.$set(this.propsData,'GoodsList',this.GoodsList);
                     this.$set(this.propsData,'userAddress',choosedAddress);
                     this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
@@ -293,7 +292,6 @@
         color: red;
         font-size: 1.875em;
         height: 100%;
-
     }
 
     .edSell {
@@ -390,7 +388,7 @@
     }
 
     .weight {
-        width: 10%;
+        width: 20%;
         font-size: 1.75em;
         padding-top: 4%;
         padding-left: 6%;
