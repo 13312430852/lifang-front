@@ -45,7 +45,8 @@
         <!--        地址-->
         <div class="place">
             <div class="receipt">收货地址</div>
-            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+            <div class="toAddAddress" @click="toAddAddress" v-if="userAddress == null">未添加地址<img class="addIcon" src="../assets/添加.png"></div>
+            <select class="Place" v-if="userAddress != null" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                      <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
             </select>
         </div>
@@ -154,7 +155,9 @@
             }
         },
         methods:{
-
+            toAddAddress(){
+                this.$router.push('/addMyAddress');
+            },
             add: function (count) {
                 if (this.count >= 5) {
                     this.style2 = true;
@@ -252,7 +255,10 @@
                     })
                 }).catch(err => console.log(err));
 
-
+          /*  axios.get(process.env.VUE_APP_URL + '' + this.goodId)       //获取优惠券
+                .then(re => {
+                    this.userGoodCaeds = re.data.data;
+                }).catch(err => alert('网络错误'))*/
 
 
         }
@@ -260,6 +266,18 @@
 </script>
 
 <style scoped>
+    .addIcon{
+        width: 16%;
+        margin-left: 2%;
+    }
+    .toAddAddress{
+        width: 40%;
+        font-size: 1.8rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+    }
     html, body, #PanicBuying {
         width: 100%;
         margin: 0 auto;

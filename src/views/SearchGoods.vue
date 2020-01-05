@@ -10,7 +10,7 @@
 
        <goods-list-no-title :theGoods_2="searchResaultList" v-if="haveResault"></goods-list-no-title>
         <div class="noPage" v-if="!haveResault">
-            <img style="width: 100%;" src="../assets/nullPageImg/noContent.png" alt="">
+            <span class="tips" v-if="noComntent">抱歉，未搜到此内容</span>
         </div>
     </div>
 </template>
@@ -24,7 +24,7 @@
         },
         data(){
             return{
-
+                noComntent:false,
                 searchInitValue:null,
                 haveResault:false,  //是否搜索到
                 searchResaultList:null,
@@ -35,11 +35,17 @@
                 axios.get(process.env.VUE_APP_URL + 'goods_details_search/searchByLikeName?likeName=' + this.searchInitValue)
                     .then(re => {
                         this.searchResaultList = re.data.data;
-                        if(this.searchResaultList == null) this.haveResault =false;
+                        if(this.searchResaultList == null) {
+                            this.haveResault =false;
+                            this.noComntent = true;
+                        }
                         else this.haveResault =true;
                     })
                     .catch(err => alert('网络错误'))
             }
+        },
+        created(){
+            this.noComntent = false;
         },
         directives:{
             focus:{     //自定义指令，加载时获取焦点
@@ -53,11 +59,21 @@
 </script>
 
 <style scoped>
+    .tips{
+        color: #4c90f5;
+        font-size: 2.4rem;
+        padding-top: 70%;
+        /*margin-top: 95%;*/
+        display: block;
+    }
     .noPage{
         width: 92%;
         height: 50%;
         /*background-color: #5f5f5f;*/
+        background-image: url("../assets/nullPageImg/noContent.png");
+        background-size: 100%;
         margin: 0 auto;
+        text-align: center;
     }
     .searchClick{
         background-color: #f3f3f3;

@@ -122,7 +122,7 @@
         cursor: pointer;
     }
     .col-7{
-        flex: 8;
+        flex: 7;
         /*background: black;*/
         width: 100%;
         display: flex;
@@ -130,12 +130,12 @@
         /*height: 76.2%;*/
     }
     .coll-2{
-        flex: 2;
+        flex: 3;
         text-align: center;
         font-size: 14px;
         font-family:PingFang SC;
         font-weight:200;
-        /*margin-top: 5px;*/
+        margin-top: 0;
         color:rgba(20,20,20,1);
     }
     .font-color{

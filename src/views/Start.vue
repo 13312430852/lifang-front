@@ -59,8 +59,7 @@
             </div>
         </div><!--限购部分-->
 
-        <goods-list :theGoods_2="theGoods_1">
-        </goods-list> <!--商品展示-->
+        <goods-list v-if="theGoods_1 != null" :theGoods_2="theGoods_1"></goods-list> <!--商品展示-->
 
         <footer class="footer"></footer>
     </div>
