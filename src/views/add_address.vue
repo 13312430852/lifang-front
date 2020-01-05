@@ -2,48 +2,24 @@
     <div style="height: 100%;width: 100%; font-family: 'PingFang SC'">
         <div class="headline_add-address">添加收货地址</div>
         <div class="div_content">
-            <div class="list1">
-                <div class="makecenter">
-                    用户ID:
-                    <span v-text="address.userId" style="margin: auto 4%;
-                    font-size: 1.75rem; color: #8f8f8f; outline: none;"></span>
-                </div>
-                <div class="addUnderline"></div>
-            </div>
-            <div class="list1">
-                <div class="makecenter">
-                    收货人:
-                    <input
-                            type="text"
-                            placeholder="请输入您的姓名"
-                            class="text"
-                            style="font-size: 1.75rem; margin: auto 6%;
-                            border-style: none; color: #8f8f8f; outline: none;"
-                            v-model="address.addressName"
-                    />
-                </div>
-                <div class="addUnderline">
+            <div class="baseMSG">
+                <div class="makecenter" style="border-top-left-radius: 0.8rem;border-top-right-radius: 0.8rem;">
+                    <span class="col-1">
+                          收货人:
+                    </span>
+                    <input type="text" placeholder="请输入您的姓名" class="text col-3" v-model="address.addressName"/>
 
                 </div>
-            </div>
-            <div class="list1">
-                <div class="makecenter">
-                    手机号码:
-                    <input
-                            type="tel"
-                            class="text"
-                            maxlength="11"
-                            minlength="11"
-                            placeholder="请输入11位手机号"
-                            style="font-size: 1.75rem;color: #8f8f8f; margin : auto 2%;
-                             border-style: none; outline: none;"
-                            v-model="address.addressTel"
-                    />
+                <div class="line"></div>
+                <div class="makecenter" style="border-bottom-left-radius: 0.8rem;border-bottom-right-radius: 0.8rem;">
+                     <span class="col-1">
+                         手机号码:
+                     </span>
+                    <input type="tel" class="text col-3" maxlength="11" minlength="11" placeholder="请输入11位手机号"
+                           v-model="address.addressTel"/>
                 </div>
-                <div class="addUnderline">
+            </div>
 
-                </div>
-            </div>
             <div class="list2">
                 <div class="addArea">
                     <div style="margin-left: 5%; ">
@@ -123,6 +99,30 @@
 </script>
 
 <style scoped>
+    .col-1{
+        flex: 1;
+        /*background-color: red;*/
+        text-align: center;
+    }
+    .col-3{
+        flex: 3;
+
+    }
+    .line{
+        height: 1px;
+        width: 90%;
+        margin: 0 auto;
+        background-color: #bbbbbb;
+        clear: both;
+    }
+    .baseMSG{
+        box-shadow:0px 0px 13px 0px #d4d4d4;
+        margin: 0 auto;
+        width: 92%;
+        height: 26%;
+        border-radius: 0.8rem;
+        background-color: white;
+    }
     .saveFont{
         color: white!important;
     }
@@ -145,11 +145,16 @@
     .div_content {
         width: 100%;
         height: 93.2%;
-        background: #ffffff;
+        background: #ececec;
     }
     .text {
         height: 50%;
         width: 60%;
+        font-size: 1.75rem;
+        color: #8f8f8f;
+        margin : auto 2%;
+        outline: none;
+        border-style: none;
     }
     .list1 {
         height: 7.3%;
@@ -165,11 +170,10 @@
         margin: 5% auto;
     }
     .makecenter {
-        height: 97%;
-        margin: 1% 5%;
+        height: 50%;
         width: 100%;
         background: white;
-        font-size: 1.75rem;
+        font-size: 1.8rem;
         display: flex;
         align-items: center;
     }
