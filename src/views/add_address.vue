@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="btn_position">
-                <button type="submit" class="btn2" @click="save"><router-link to="/address/addSuccess" class="saveFont">保存</router-link></button>
+                <button type="submit" class="btn2" @click="save">保存</button>
             </div>
         </div>
     </div>
@@ -184,6 +184,7 @@
         height: 15%;
     }
     .btn2{
+        color: #ffffff;
         border-style: none;
         justify-content: center;
         width: 86.7%;

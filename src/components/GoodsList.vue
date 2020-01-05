@@ -9,7 +9,6 @@
                 <span class="theMenuTitle" v-text="typeList.menuName">惊天美食</span>
                 <span class="moreGoods" @click="toMore(typeList.menuName)"><i class="el-icon-more"></i></span>
             </div>
-<!--sesasfa-->
             <div class="goodsList">
                 <coming-soon v-if="typeList.data.length==0 || typeList.data==undefined"></coming-soon>
                         <el-card class="realyGood" v-for="(item,key) in typeList.data" v-if="key < 4" :body-style="{ padding: '0px' }">
