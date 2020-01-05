@@ -68,7 +68,7 @@
 		},
 		created() {
 			console.log(this.url);
-			localStorage.removeItem('userToken');
+			// localStorage.removeItem('userToken');
 			this.initTheREM(); //初始化单位 rem
 			this.getThisUrl('token'); //获取用户xxx码，如果返回此码，则说明已经授权，然后把此码传给后台，后台返回用户基本信息。
 		}

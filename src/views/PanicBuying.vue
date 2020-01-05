@@ -89,7 +89,7 @@
                 cardsPrice:null,
                 chooseCar:null,
                 chooseCarId:null,
-                userMsg:{userId:123},
+                userMsg:null,
 
                 count:null,  //商品购买数量
                 allPrice:null,  //商品的总价
