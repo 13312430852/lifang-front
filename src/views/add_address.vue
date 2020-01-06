@@ -195,8 +195,8 @@
         padding-left: 2%;
         padding-top: 1%;
         max-height: 70%;
-        margin-top: 4px;
-        margin-right: 4px;
+        margin-top: 2.5%;
+        margin-right: 4%;
         border-radius: 2px;
     }
     .btn_position{
