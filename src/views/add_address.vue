@@ -20,39 +20,27 @@
                 </div>
             </div>
 
-            <div class="list2">
-                <div class="addArea">
-                    <div style="margin-left: 5%; ">
-                        所在地区:
-                    </div>
-                    <textarea
-                        class="textarea1"
-                        placeholder="请输入您的正确地址"
-                        style="font-size: 1.75rem; margin: 2% 0% 0 3%; color: #8f8f8f;  outline: none; width: 65%; "
-                        v-model="address.rcAddress" @input="zishiying"
-                ></textarea>
-
-
+            <div class="address">
+                <div class="addArea col-2">
+                    <div class="col-1 addressTitle">所在地区:</div>
+                    <textarea class="textarea1 col-3" placeholder="请输入您的正确地址" v-model="address.rcAddress"
+                              @input="zishiying"></textarea>
                 </div>
-            </div>
-
-            <div class="list1">
-                <div class="makecenter">
-                    设为默认地址
+                <div class="line"></div>
+                <div class="col-1 makecenter optiongToDefault">
+                    <div class="col-1 addressTitle">设为默认地址</div>
+                    <div></div>
                     <div class="switch-btn">
-                        <input
-                                type="checkbox"
-                                class="hidden-checkbox"
-                                name="checkbox"
-                                v-model="defaultAddress123"
-                        />
+                        <input type="checkbox" class="hidden-checkbox" name="checkbox" v-model="defaultAddress123"/>
                         <span class="switch-area"></span>
                         <span class="switch-toggle"></span>
                     </div>
                 </div>
+
             </div>
+
             <div class="btn_position">
-                <button type="submit" class="btn2" @click="save"><router-link to="/address/addSuccess" class="saveFont">保存</router-link></button>
+                <button type="submit" class="btn2" @click="save"><span class="saveFont">保存</span></button>
             </div>
         </div>
     </div>
@@ -85,9 +73,19 @@
         methods: {
             save: function() {
                 let address = this.address;
-                axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
-                        console.log(response.data);
-                    }).catch();
+                if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.address.addressTel))){
+                    alert("手机号码有误。");
+                }else {
+                    axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
+                        if(response.data.flag == true){
+                            this.$router.push('/address/addSuccess');
+                            console.log(response.data);
+                        }else {
+                            alert('添加地址失败');
+                        }
+
+                    }).catch(err => alert('网络错误'));
+                }
             },
             zishiying(e){
                 e.target.style.height = 'auto';
@@ -99,6 +97,31 @@
 </script>
 
 <style scoped>
+
+    .optiongToDefault{
+        border-bottom-left-radius: 0.8rem;
+        border-bottom-right-radius: 0.8rem;
+    }
+
+    .addressTitle{
+        font-size: 1.8rem;
+        margin-top: 6px;
+    }
+    .col-2{
+        flex: 2;
+    }
+    .address{
+        width: 92%;
+        margin: 8% auto 0 auto;
+        height: 26%;
+        background-color: white;
+        border-radius: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.8rem;
+        box-shadow:0px 0px 13px 0px #d4d4d4;
+
+    }
     .col-1{
         flex: 1;
         /*background-color: red;*/
@@ -156,19 +179,7 @@
         outline: none;
         border-style: none;
     }
-    .list1 {
-        height: 7.3%;
-        width: 100%;
-        list-style-type: none;
-        font-size: 1.75rem;
-    }
-    .list2 {
-        height: auto;
-        width: 100%;
-        font-size: 1.75rem;
-        align-items: center;
-        margin: 5% auto;
-    }
+
     .makecenter {
         height: 50%;
         width: 100%;
@@ -178,8 +189,15 @@
         align-items: center;
     }
     .textarea1 {
-        width: 50%;
+        /*width: 50%;*/
+        border: 1px solid #e9e9e9;
         height: 70%;
+        padding-left: 2%;
+        padding-top: 1%;
+        max-height: 70%;
+        margin-top: 4px;
+        margin-right: 4px;
+        border-radius: 2px;
     }
     .btn_position{
         display: flex;
@@ -202,7 +220,8 @@
         height: 25px;
         position: relative;
         top: 1px;
-        margin-left: 55%;
+        margin-left: 50%;
+        margin-right: 5%;
     }
     .hidden-checkbox,
     .switch-area,
