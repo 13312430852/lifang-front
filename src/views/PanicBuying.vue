@@ -12,7 +12,7 @@
         <!--        信息-->
         <div class="Goods">
             <div class="GoodsName" v-text="GoodsList.goods.goodsName">花溪重庆火锅</div>
-            <div class="distribution" v-text="GoodsList.goods.consumeType">骑手配送</div>
+            <div class="distribution" v-text="theCosumType(GoodsList.goods.consumeType)">骑手配送</div>
         </div>
 
         <div class="goods_desc" v-html="GoodsList.goods.goodsDesc">全国79家连锁店，只为了做最美味的火锅，花溪分店最为美味。</div>
@@ -45,7 +45,11 @@
         <!--        地址-->
         <div class="place">
             <div class="receipt">收货地址</div>
-            <select class="Place" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+            <div class="toAddAddress" @click="toAddAddress" v-if="userAddress == null">
+                <span style="margin-right: 10px">未添加地址&nbsp;&nbsp;</span>
+                <img class="addIcon" src="../assets/添加.png">
+            </div>
+            <select class="Place" v-if="userAddress != null" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                      <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
             </select>
         </div>
@@ -56,8 +60,8 @@
         <!--        优惠-->
         <div class="Coupon">
             <div class="couponLeft">优惠券</div>
-            <!--            获取-->
-            <select class="Place" v-model="chooseCar" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+            <div class="toAddAddress1" @click="toAddAddress" v-if="userAddress == null">没有可使用优惠券</div>
+            <select v-if="userGoodCaeds != null" class="Place" v-model="chooseCar" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                 <option v-for="item in userGoodCaeds" :disabled="isUserCards(item)" :value="item">
                     <div><span>满</span><span v-text="item.cardsOrder"> 10 </span><span>减 </span><span v-text="item.cardsPrice">5</span> <span>可用</span></div>
                 </option>
@@ -139,6 +143,12 @@
             }
         },
         computed:{
+            theCosumType(){
+                return (it) => {
+                    if (it == '1') return '包邮'
+                    else return '到店消费'
+                }
+            },
             isUserCards(){      //用来判断是否达到使用此优惠券的
                 return (it) => {
                     return !(it.cardsOrder <= this.GoodsList.goodsNorms.currentPrice * this.count);
@@ -154,7 +164,9 @@
             }
         },
         methods:{
-
+            toAddAddress(){
+                this.$router.push('/addMyAddress');
+            },
             add: function (count) {
                 if (this.count >= 5) {
                     this.style2 = true;
@@ -252,7 +264,10 @@
                     })
                 }).catch(err => console.log(err));
 
-
+            axios.get(process.env.VUE_APP_URL + 'usercards/queryValidUserCards/' + this.goodId)       //获取优惠券
+                .then(re => {
+                    this.userGoodCaeds = re.data.data;
+                }).catch(err => alert('网络错误'))
 
 
         }
@@ -260,6 +275,27 @@
 </script>
 
 <style scoped>
+    .addIcon{
+        width: 16%;
+        margin-left: 2%;
+    }
+    .toAddAddress{
+        width: 40%;
+        font-size: 1.8rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        color: #bbbbbb;
+
+    }
+    .toAddAddress1{
+        width: 40%;
+        font-size: 1.8rem;
+        display: flex;
+        justify-content: flex-end;
+        color: #bbbbbb;
+
+    }
     html, body, #PanicBuying {
         width: 100%;
         margin: 0 auto;
@@ -321,8 +357,9 @@
     .distribution {
         margin-top: 0.5%;
         font-size: 1.5em;
-        width: 15%;
-        margin-right: 0;
+        width: 10%;
+        text-align: right;
+        margin-left: 5%;
     }
 
     .goods_desc {
@@ -347,16 +384,17 @@
         width: 6.73%;
         /*background-color: #5f5f5f;*/
     }
-        .position img{width: 100%;height: 100%}
-
+        .position img{
+            width: 22px;
+        }
     .address {
         height: 100%;
         width: 92.27%;
         /*background-color: #4c90f5;*/
         font-family: PingFang-SC-Medium;
-        font-size: 1.5em;
+        font-size: 1.75em;
         margin-left: 2%;
-        padding-top: 2.2%;
+        padding-top: 2.7%;
         color: #323131;
     }
 
@@ -380,7 +418,7 @@
     }
 
     .specification {
-        width: 90%;
+        width: 95%;
         padding-top: 4%;
         padding-left: 4%;
         font-size: 1.75em;
@@ -388,12 +426,13 @@
     }
 
     .weight {
-        width: 20%;
+        width: 10%;
         font-size: 1.75em;
         padding-top: 4%;
         padding-left: 6%;
         cursor: pointer;
         border: none;background-color: transparent;outline: none;
+        text-align: right;
     }
     .number {
         margin: 0 auto;

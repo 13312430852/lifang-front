@@ -1,5 +1,5 @@
 <template>
-    <div class="listBox">
+    <div class="listBox" v-if="theGoods_2 != null">
 		<LoadingE v-if="theGoods_2 == null || theGoods_2 == undefined">
         </LoadingE>
         <div v-if="typeList.menuName!=null || typeList.menuName!=undefined" v-for="typeList in theGoods_2" style="height: 100%;margin-top: 3.5%">
@@ -102,6 +102,7 @@
         props:{
             theGoods_2:{
                 type:Array,
+                default:null,
                 required:true
             },
 
