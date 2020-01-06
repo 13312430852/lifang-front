@@ -142,7 +142,7 @@
         box-shadow:0px 0px 13px 0px #d4d4d4;
         margin: 0 auto;
         width: 92%;
-        height: 26%;
+        height: 20%;
         border-radius: 0.8rem;
         background-color: white;
     }
