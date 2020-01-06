@@ -189,7 +189,7 @@
         align-items: center;
     }
     .textarea1 {
-        /*width: 50%;*/
+
         border: 1px solid #e9e9e9;
         height: 70%;
         padding-left: 2%;
