@@ -17,27 +17,40 @@
                  </count-down>
         </div>
         <div class="baseMessege">
-            <div class="price_type">
+            <div class="priceAndCards" >
                 <span class="rePrice" v-text="'￥'+detailGood.goodsNorms.currentPrice"></span>
                 <s><span class="oldPrice" v-text="'￥'+detailGood.goodsNorms.origiPrice"></span></s>
-                <span class="activeType" v-if="card.length != 0" @click="getCar(detailGood.goods.goodsId)"><span style="color: #4c90f5">领取</span>  优惠券</span>
-                <div class="clear"></div>
-            </div>
-            <div class="tip" v-if="isShow">领取成功</div>
-
-            <div class="name_useType">
-                <div class="DianName" v-text="detailGood.goods.goodsName">花溪重庆火锅换句话说几号放假设计费会使肌肤好几十福建省是否火花塞</div>
-                <div class="useType"><span v-text="consumType(detailGood.goods.consumeType)">到店消费</span></div>
-            </div>
-            <div class="goodDesc" v-html="detailGood.goods.goodsDesc">
-                和胜股份公司符合施工方见好就收福建省福建师范是否合适手机号健身房和数据恢复及时发货时
-            </div>
-            <div class="addressBox">
-                <div style="width: 100%;height: 100%;margin-top: 8%">
-                    <div class="addressIcon"><img style="width: 100%" src="../assets/adrressIcon.png"></div>
-                    <div class="address" v-text="detailGood.business.businessAddress">贵阳市花溪区花溪大学城学富路</div>
+                <div class="cards">
+                        <span class="cardsToGet" v-if="card.length != 0" @click="getCar(detailGood.goods.goodsId)">领券</span>
+                    <div class="tip" v-if="isShow">领取成功</div>
                 </div>
             </div>
+
+           <hr class="cards_line"/>
+
+            <div class="good_name_box">
+                <div class="good_name" v-text="detailGood.goods.goodsName">花溪牛肉粉</div>
+                <div class="consume_type">
+                    <span v-text="consumType(detailGood.goods.consumeType)">到店消费</span>
+                </div>
+            </div>
+            <div class="good_desc" v-html="detailGood.goods.goodsDesc">
+                和胜股份公司符合施工方见好就收福建省福建师范是否合适手机号健身房和数据恢复及时发货时
+            </div>
+
+            <div class="norms">
+                    <span style="font-size: 14px;">规格:</span>
+                    <span style="font-size: 14px; margin-left: 5px;" v-text="detailGood.goodsNormsList">大份</span>
+            </div>
+
+            <div class="addressBox">
+                    <div class="image_icon">
+                        <img style="width: 60%" src="../assets/adrressIcon.png">
+                    </div>
+                    <div class="address" v-text="detailGood.business.businessAddress">贵阳市花溪区花溪大学城学富路</div>
+            </div>
+
+
         </div>
         <div class="goodDetailMsg">商品详情</div>
         <div class="goodDetailList" v-for="item in detailGood.goods.goodsDetailsUrl">
@@ -194,9 +207,7 @@
                     this.detailGood = re.data.data;
                     this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
                     this.countType =  this.detailGood.goods.discountType;
-                    /*let allcards = this.detailGood.cardsList;
-                    this.card = */
-                    this.card= this.detailGood.cardsList;        // 商品的优惠券
+                    this.card = this.detailGood.cardsList;
                     if(this.countType == 1){
                         this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
                     }
@@ -209,13 +220,77 @@
 </script>
 
 <style scoped>
+    .address{
+        float: left;
+        width: auto;
+        height: auto;
+        font-size: 14px;
+    }
+    .image_icon{
+        width: auto;
+        height: auto;
+        float: left;
+        display:block;
+    }
+    .norms{
+        width: auto;
+        height: 20px;
+    }
+    .good_desc{
+        width: 100%;
+        height: 60px;
+        margin-top: 5px;
+        font-size: 15px;
+        letter-spacing: 1px;
+    }
+    .consume_type{
+        float: right;
+        display: block;
+        font-size: 12px;
+        margin-left: auto;
+    }
+    .good_name{
+        float: left;
+        display: block;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .good_name_box{
+        width:100%;
+        height: 12%;
+        margin-top: 14px;
+        display:flex;
+        align-items: center;
+    }
+    .cards{
+        width: auto;
+        display:flex;
+        height: 20px;
+        float: right;
+        align-items: center;
+    }
+    .cardsToGet{
+        display:block;
+        font-size: 14px;
+        color: #4c90f5;
+        letter-spacing: 1px;
+    }
+    .cards_line{
+        background-color:#EEEEEE;
+        height:1px;
+        border:none;
+        margin:10px 0 5px 0px;
+    }
+    .priceAndCards{
+        width:100%;
+        height: 12%;
+    }
     .report{
         font-family: "PingFang SC";
         color: lightblue;
         font-size: 1.8rem;
-        position: absolute;
-        top: 2%;
-        right: 5%;
+        margin-bottom: 170px;
+        margin-right: 5px;
     }
     .theImg{
         width: 100%;
@@ -237,42 +312,12 @@
         justify-content:center;
         align-items:center;
     }
-    .clear{
-        clear: none;
-    }
-    .address{
-        float: left;
-        height: 80%;
-        width: 90%;
-        font-size:1.8rem;
-        font-family:PingFang SC;
-        font-weight:500;
-        color:rgba(50,49,49,1);
-        overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;
-        margin-top: 2%;
-        margin-left: 2%;
-    }
-    .addressIcon{
-        width: 5.7%;
-        height: 34%;
-        float: left;
-    }
     .addressBox{
         width: 100%;
-        height: 30%;
-        margin-top: 5%;
-    }
-    .goodDesc{
-        clear: both;
-        width: 100%;
-        height: 22%;
-        margin-left: 1.5%;
-        margin-top: 8%;
-        font-size:14px;
-        font-family:PingFang SC;
-        font-weight:500;
-        color:#7b7b7b;
-        overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+        height: 15%;
+        align-items: center;
+        display:flex;
+        margin-top: 15px;
     }
     .useType span{
         font-size:1.5rem;
@@ -281,29 +326,6 @@
         color:rgba(50,49,49,1);
 
         margin-right: 2%;
-    }
-    .useType{
-        text-align: right;
-        width: 28%;
-        height: 100%;
-        float: left;
-        margin-top: 3%;
-        font-size: 14px;
-        color: #5d5d5d;
-    }
-    .DianName{
-        width: 70%;
-        height: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size:18px;
-        font-family:PingFang SC;
-        font-weight:bold;
-        color:rgba(20,20,20,1);
-        margin-top: 3%;
-        margin-left: 1%;
-        float: left;
     }
     .right-time{
         float: right;
@@ -316,10 +338,6 @@
         background-color: red;
         color: #FFFFFF;
         font-weight: bold;
-    }
-    .name_useType{
-        width: 100%;
-        height: 16%;
     }
     .activeType{
         float: right;
@@ -334,18 +352,14 @@
         margin-left: 3%;
     }
     .rePrice{
-        font-size: 1.875rem;
+        font-size: 3rem;
         color: #f33b28;
         font-family:PingFang SC;
         font-weight:bold;
 
     }
-    .price_type{
-        height: 12.45%;
-        float: right;
-    }
     .baseMessege{
-        height:28.9%;
+        height:35%;
         width: 92%;
         margin: 2.55% auto 0 auto;
     }
