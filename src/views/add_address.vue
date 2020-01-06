@@ -26,7 +26,6 @@
                     <textarea class="textarea1 col-3" placeholder="请输入您的正确地址" v-model="address.rcAddress"
                               @input="zishiying"></textarea>
                 </div>
-                <div class="line"></div>
                 <div class="col-1 makecenter optiongToDefault">
                     <div class="col-1 addressTitle">设为默认地址</div>
                     <div></div>
@@ -76,6 +75,7 @@
                 if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.address.addressTel))){
                     alert("手机号码有误。");
                 }else {
+                    console.log(address);
                     axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
                         if(response.data.flag == true){
                             this.$router.push('/address/addSuccess');

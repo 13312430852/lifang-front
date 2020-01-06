@@ -11,11 +11,11 @@
         <div class="line"></div>
         <div class="haveAddressBox" v-if="address.length > 0">
             <div class="itemBox">
-            <div class="addressList"
+            <div
                  v-for="(item,index) in address"
-                 :class="{move:candelete.addressId==item.addressId}"
+                 :class="{'addressList':true, 'addressListBorder':item.isOption,move:candelete.addressId==item.addressId}"
                  @touchstart="touchStart(item)"
-                 @touchend="touchEnd(item)"
+                 @touchend="touchEnd(item,index)"
                  ref="addressList"
             >
 
@@ -28,13 +28,8 @@
                             <div class="addressDetail" v-text="item.rcAddress">回家会发生手机号福建省手机号发送福建股东会是个是否关函数的符合施工方师范设计费后视镜福建师范就是</div>
                         </div>
                     </div>
+                <div class="option" v-if="item.isOption"><span @click="deleteAdd(item.addressId)">删除</span></div>
 
-
-                <div class="option" v-if="!willOption"><span @click="deleteAdd(item.addressId)">删除</span></div>
-                <!--<div class="option" v-if="willOption">
-                    <div class="col_1"><button class="updataBut" @click="toUpdate(item)">修改</button></div>
-                    <div class="col_1"><button class="deleteBut" @click="deleteAdd(item.addressId)">删除</button></div>
-                </div>-->
             </div>
             </div>
         </div>
@@ -52,6 +47,7 @@
         },
         data(){
             return{
+                a:true,
                 willOption:false,
                 userMsg:{userId:1},
                 address:[],
@@ -66,7 +62,7 @@
                 this.clientNum.x1 = touchs.pageX;
                 //this.candelete = {};
             },
-            touchEnd(item) {
+            touchEnd(item,i) {
                 let touchs = event.changedTouches[0];
                 // 记录结束滑动的鼠标位置
                 this.clientNum.x2 = touchs.pageX;
@@ -79,12 +75,20 @@
                     event.preventDefault();
                     //this.$refs.addressList.style.transform  = 'translateX('+(-Math.abs(this.clientNum.x1) - Math.abs(this.clientNum.x2))+'px)';
                     this.candelete = item;
+                    item.isOption = true;
+                    for(let j=0;j<this.address.length;j++){
+                        if(j != i) this.$set(this.address[j],'isOption',false);
+                    }
                 } else if (
                     this.clientNum.x2 > this.clientNum.x1 &&
                     Math.abs(this.clientNum.x2) - Math.abs(this.clientNum.x1) > 10
                 ) {
                     event.preventDefault();
                     this.candelete = {};
+                    // item.isOption = false;
+                    this.address.forEach(it => {
+                        this.$set(it,'isOption',false);
+                    })
                 }
             },
             deleteAdd(addressID){
@@ -123,6 +127,11 @@
             axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
                 .then(re => {
                     this.address = re.data.data;
+                    if(this.address.length > 0){
+                        this.address.forEach(item =>{
+                            this.$set(item,'isOption',false)
+                        })
+                    }
                     console.log(this.address);
                 })
                 .catch(err => console.log(err));
@@ -131,10 +140,16 @@
 </script>
 
 <style scoped>
+    .noTouch{
+        width: 0;
+    }
+    .isToch{
+        width: 60px;
+    }
     .itemBox{
         border-radius: 0.625rem;
         width: 90%;
-        overflow: hidden;
+        /*overflow-x: hidden;*/
         margin-left: 5%;
         background-color: rgb(246,245,244);
     }
@@ -200,6 +215,11 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         overflow: hidden;
+        border-bottom-right-radius: 0.625rem;
+        width: 80%;
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
     }
     .number{
         font-family:PingFang SC;
@@ -266,7 +286,7 @@
         flex-direction: column;
     }
     .haveAddressBox{
-        height: 50%;
+        height: 43%;
         width: 92%;
         background-color: #f6f5f4;
         margin-right: auto;
@@ -274,7 +294,7 @@
         padding-top: 5%;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
-        overflow-x: scroll;
+        overflow-x: hidden;
         overflow-y: scroll!important;
         -webkit-overflow-scrolling: touch;
 
@@ -283,12 +303,16 @@
         width: 90%;
         overflow: hidden;
     }
+    .addressListBorder{
+        border-top-right-radius:0!important;
+       border-bottom-right-radius:0!important;
+        box-shadow: 0 0 5px 3px #E0E0E0;
+    }
     .addressList{
-        height: calc(26% + 1px);
+        height: calc(9vh + 1px);
         background-color: rgba(254,254,254,1);
         margin: 0 auto 4% auto;
-        border-top-left-radius:0.625rem;
-        border-bottom-left-radius:0.625rem;
+        border-radius: 0.625rem;
         display: flex;
         box-shadow: 0 0 5px 3px #E0E0E0;
         padding-top: 10px;
