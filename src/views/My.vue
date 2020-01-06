@@ -61,20 +61,23 @@
     #order_list{
         /*position: relative;*/
         width: 92%;
-        /*height: 100%;*/
+        height: 54%;
         border-radius: 12px;
-        margin: 10% auto;
+        margin: 2% auto;
+        background-color: #F6F5F4;
+        padding-top: 2%;
+        /*overflow-y: scroll;*/
     }
 
     #sort{
         width: 66.6%;
-        height:3.4%;
+        height:5.5vh;
         display: flex;
         margin: 4.1% auto;
         border-radius: 24px;
         /*border:1px solid #4C90F5;*/
         position: relative;
-        top: 4.1%;
+        top: 2%;
         /*background-color: #007aff;*/
 
 

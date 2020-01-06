@@ -44,8 +44,8 @@
                                 <span v-if="item.status == 0">未开始</span>
                                 <span v-if="item.status == -1">已抢购结束</span>
                                 <count-down v-if="item.status == 1" :time="item.time">
-                                    <template slot-scope="pro">
-                                        <div>{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</div>
+                                    <template slot-scope="props">
+                                        <div>{{ props.hours }} : {{ props.minutes }} : {{ props.seconds }}</div>
                                     </template>
                                 </count-down>
                             </div>
@@ -86,10 +86,10 @@
         },
         data() {
             return {
-                pro: {
-                    '小时': 1,
-                    '分钟': 1,
-                    '秒': 1,
+                props: {
+                    'hours': 3,
+                    'minutes': 2,
+                    'seconds': 1,
                 },
                 searchInitValue: '花溪重庆火锅',
                 theGoods_1: null,
