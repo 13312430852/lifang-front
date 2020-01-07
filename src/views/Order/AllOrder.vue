@@ -2,10 +2,10 @@
     <div id="box1">
         <loading-b v-if="goods==null"></loading-b>
         <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
-            <div class="goodImg" :style="{backgroundImage:'url(' + good.goodsImageUrl + ')'}"></div>
+            <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
-                    <span class="name" v-text="good.goodsName"></span>
+                    <span class="name" v-text="good.goods.goodsName"></span>
                     <span class="price">￥<span v-text="good.ordersPrice"></span></span>
                 </div>
                 <div class="theNameRow">

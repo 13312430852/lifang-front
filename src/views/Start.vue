@@ -59,6 +59,8 @@
             </div>
         </div><!--限购部分-->
 
+        <LoadingE class="loadin-e" v-if="theGoods_1 == null || theGoods_1 == undefined">
+        </LoadingE>
         <goods-list v-if="theGoods_1 != null" :theGoods_2="theGoods_1"></goods-list> <!--商品展示-->
 
         <footer class="footer"></footer>
@@ -72,6 +74,7 @@
     import LoadingD from "../components/loadingD";
     import LoadingF from "../components/loadingF";
     import LoadingB from "../components/loadingB";
+    import LoadingE from "../components/loadingE";
 
 
     export default {
@@ -82,7 +85,8 @@
             LoadingD,
             LoadingF,
             LoadingB,
-            Footer
+            Footer,
+            LoadingE,
         },
         data() {
             return {
@@ -255,6 +259,10 @@
 
     .noticeListBox::-webkit-scrollbar {
         display: none;
+    }
+
+    .loadin-e{
+        margin-top: 20px;
     }
 
     .noticeList {
