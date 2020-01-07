@@ -211,15 +211,15 @@
         color:rgba(20,20,20,0.5);
         font-size: 1.8rem;
         line-height: 200%;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
         overflow: hidden;
         border-bottom-right-radius: 0.625rem;
         width: 80%;
         overflow:hidden;
         white-space:nowrap;
         text-overflow:ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
     }
     .number{
         font-family:PingFang SC;
