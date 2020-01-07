@@ -1,14 +1,14 @@
 <template>
     <div class="buttomBox">
         <!--商品详情下面的购买按钮，需要传的参数有购买价格（price）,活动类型(isGroupBuy)数据类型暂定-->
-        <div style="width: 100%;height: 100%;display: flex;">
-            <div class="share">
-                <span style="margin-top: 7%;display: block">分享赚佣金</span>
-            </div>
-            <div class="purchase">
-                <span style="margin-top: 7%;display: block" @click="toBuy">立即抢购 ￥{{ price }}</span>
-            </div>
-        </div>
+        <el-button-group style="width: 100%;height: 100%;display: flex;">
+            <el-button class="share">
+                分享赚佣金
+            </el-button>
+            <el-button :disabled="isbuytime!=-1 || isbuynum==0" class="purchase" @click="toBuy">
+                立即抢购 ￥{{ price }}
+            </el-button>
+        </el-button-group>
     </div>
 </template>
 
@@ -63,9 +63,8 @@
     }
     .buttomBox{
         width: 100%;
-        height: 7.34%;
         position: fixed;
         bottom: 0;
-        box-shadow:0px -1px 10px 0px rgba(0,0,2,0.3);
+        box-shadow:0px -1px 10px 0px rgba(0,0,2,0);
     }
 </style>

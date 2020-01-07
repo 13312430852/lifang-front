@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%;width: 100%; font-family: 'PingFang SC'">
-        <div class="headline_add-address">添加收货地址</div>
+        <div class="headline_add-address">修改收货地址</div>
         <div class="div_content">
             <div class="baseMSG">
                 <div class="makecenter" style="border-top-left-radius: 0.8rem;border-top-right-radius: 0.8rem;">
@@ -8,7 +8,6 @@
                           收货人:
                     </span>
                     <input type="text" placeholder="请输入您的姓名" class="text col-3" v-model="address.addressName"/>
-
                 </div>
                 <div class="line"></div>
                 <div class="makecenter" style="border-bottom-left-radius: 0.8rem;border-bottom-right-radius: 0.8rem;">

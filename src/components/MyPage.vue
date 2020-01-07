@@ -6,7 +6,7 @@
                     <el-avatar class="headImg" :src="user.headimgurl" :size="60"></el-avatar>
                     <div class="theName">
                         <span v-text="user.userName"></span>
-                        <span class="time">注册时间：2019-12-09</span>
+                        <span class="time">注册时间：<span v-text="theTime(user.userRegistTime)"></span></span>
                     </div>
                     <div class="theName">
                         <span class="user_item" v-text="sex(user.userSex)"></span>
@@ -20,12 +20,12 @@
                     <div class="line"></div>
                     <div class="col-1 fir">
                         <div class="col-1 title">收入</div>
-                        <div class="col-1 num">+<span v-text="countMoney"></span></div>
+                        <div class="col-1 num">+<span v-text="outMoney"></span></div>
                     </div>
                     <div class="line"></div>
                     <div class="col-1 fir">
                         <div class="col-1 title">支出</div>
-                        <div class="col-1 num">-<span v-text="outMoney"></span></div>
+                        <div class="col-1 num">-<span v-text="countMoney"></span></div>
                     </div>
                 </div>
             </div>
@@ -63,9 +63,20 @@
                     if(re == "2") return '男';
                     else if(re == "1") return '女';
                 })
+            },
+            theTime(){
+                return it => {
+                    return it.split(" ")[0];
+                }
             }
         },
         methods: {
+            StringToDate(date){
+                date = date.substring(0,19);
+                date = date.replace(/-/g,'/');
+                var timestamp = new Date(date).getTime();
+                return timestamp;
+            },
 
             judgeUrl() {
                 this.theUrl = window.location.pathname;
