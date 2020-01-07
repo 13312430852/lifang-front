@@ -64,7 +64,7 @@
         </div>
 
         <!--没有参与团购的-->
-        <purchase-and-share-bottom :type="istype" :isbuynum="detailGood.rushList[0].rushNum" :isbuytime="rushTime" v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
+        <purchase-and-share-bottom :isbuynum="detailGood.rushList[0].rushNum" :rushtype="istype" :isbuytime="rushTime" v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
         <!--参与了团购的-->
         <purchase-add-togeter v-if="countType == 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId" :isGroupPrice="detailGood.goodsTeam.discountPrice"></purchase-add-togeter>
 
@@ -181,9 +181,9 @@
         },
         computed:{
             istype(){
-                if(this.countType == 1) return 1
-                else if(this.countType == 2) return 2
-                else return 3
+                if(this.countType == 1) return 1;
+                else if(this.countType == 2) return 2;
+                else return 3;
             },
             theTime(){
                 return it => {
