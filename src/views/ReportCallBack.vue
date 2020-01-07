@@ -11,7 +11,7 @@
         </div>
         <div style="width: 80%; height: 6%; margin: 30% auto">
             <button style="width: 100%; height: 100%; background-color: #4c90f5;
-            font-size: 175%; color: #ffffff; font-family:PingFang SC; font-weight:bold;">
+            font-size: 175%; color: #ffffff; font-family:PingFang SC; font-weight:bold;" @click="callBack">
                 完成
             </button>
         </div>
@@ -28,8 +28,18 @@
         name: "ReportCallBack",
         data(){
             return{
-
+                goodId:null
             }
+        },
+        methods:{
+            callBack(){
+                this.$router.push({path:'/goodsDetail',query:{'goodsDetail':this.goodId}});
+                console.log(this.$route.params.goodId);
+            },
+            created(){
+                this.goodId = this.$route.params.goodsId;
+            }
+
         }
     }
 </script>
