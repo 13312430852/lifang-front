@@ -190,6 +190,7 @@
             },
             createSubmitOrder(){
                 this.$set(this.createOrder,'goodsId',this.goodId);
+                // this.$set(this.createOrder,'userId',this.userMsg.userId);
                 this.$set(this.createOrder,'ordersPrice',this.allPrice);
                 this.$set(this.createOrder,'goodsNum',this.count);
                 this.$set(this.createOrder,'goodsPrice',this.goodsPrice);
@@ -223,13 +224,12 @@
 
             submitOrder(){      //提交订单后返回一个订单ID
                 // 响应式添加订单对象
-
                 this.createSubmitOrder();
                 axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
                     .then(response =>{
                         this.orderId = response.data.data;          //成功后返回订单ID
                         console.log(response.data.data);
-                        /*this.$router.push('/submitOrder'+this.orderId);*/
+                        this.$router.push('/submitOrder'+this.orderId);
                         this.toSubmitPage();
 
                     })
