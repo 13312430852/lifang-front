@@ -75,6 +75,7 @@
             let newGoods= this.$route.query.goods;
             this.goods = newGoods;
             console.log(this.goods);
+
         },
         computed:{
             ordersExperssState123(){
