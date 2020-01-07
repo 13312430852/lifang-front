@@ -131,7 +131,6 @@
         created() {
             let newgoods=this.$route.query;
                     this.PayMessage=newgoods;
-                    console.log(this.$route.query)
         },
         computed:{
             consumType(){

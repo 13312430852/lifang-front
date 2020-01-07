@@ -229,16 +229,19 @@
                     this.$set(this.propsData,'allPrice',this.allPrice);
                     this.$set(this.propsData,'orderID',this.orderId);
 
+                    console.log(this.propsData);
+
                 this.$router.push({path:'/submitOrder',query:this.propsData});
             },
 
             submitOrder(){      //提交订单后返回一个订单ID
                 // 响应式添加订单对象
                 this.createSubmitOrder();
-                axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
+                axios.post(process.env.VUE_APP_URL + 'order/limitAndTimeCreateOrder',this.createOrder)
                     .then(response =>{
-                        this.orderId = response.data.data;          //成功后返回订单ID
-                        console.log(response.data.data);
+                        this.orderId = response.data.data.ordersId;          //成功后返回订单ID
+                        console.log('hdgfhsgfh');
+                        console.log(response);
                         this.$router.push('/submitOrder'+this.orderId);
                         this.toSubmitPage();
 
@@ -277,7 +280,6 @@
                 .then(re => {
                     this.userGoodCaeds = re.data.data;
                 }).catch(err => alert('网络错误'))
-
 
         }
     }
