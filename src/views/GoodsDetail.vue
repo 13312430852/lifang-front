@@ -80,35 +80,40 @@
                     :show-close="false"
                     size="75%">
 
-                <div style="width: 100%;height: 100%;position: relative;">
+                <div style="width: 100%;height: 100%;display: flex;flex-direction: column;">
 
-                    <div style="display:flex;width: auto;height: auto;border: 0px black solid;justify-content: center;padding-top: 10px;">
-                    <span style="display: block;font-size: 14px;color: red">
+                    <div style="flex: 0.5;display:flex;width: auto;justify-content: center;padding-top: 10px">
+                            <span style="display: block;font-size: 18px;color: red">
                         当前优惠
                     </span>
                     </div>
 
                     <!--滑动-->
-                    <div style="width: 100%;height: 100%;overflow-y:scroll">
+                    <div style="flex: 5;width: auto;height:50%;overflow-y:scroll;">
                         <div class="car1" v-for="(item1,i) in card">
                             <div class="left">
                                 <!--满减条件-->
-                                <div style="float: left;width: 30%;height: 100%;display:flex;align-items: center;justify-content: center;">
-                                   <span style="float: left;"> ¥</span><span style="font-size: 40px;float:right;width: auto;height: auto; display: block;" v-text="item1.cardsPrice"></span>
+                                <div style="float: left;width: 30%;height: 100%;display:flex;align-items: center;justify-content: center; color: red;">
+                                    <div style=" display: block;border:0px black solid;">
+                                        <span style="float: left;margin-top: 18px"> ¥</span>
+                                        <span style="font-size: 40px;float:right;width: auto;height: auto;" v-text="item1.cardsPrice"/>
+
+                                    </div>
+
                                 </div>
 
-                                <div style="width: 80%;height: 100%;border: 0px black solid;">
-                                    <div style="margin: 10px;">
-                                        满
-                                        <span  v-text="item1.cardsOrder"></span>
-                                        减
-                                        <span  v-text="item1.cardsPrice"></span>
+                                <div style="float:left;width: 60%;height: 100%;font-size: 14px;display: flex;align-items: center">
+                                    <div style="display: block;">
+                                        <div style="color: red;text-align: left">
+                                          <span> 满<span  v-text="item1.cardsOrder"></span>减<span  v-text="item1.cardsPrice"></span></span>
+                                        </div>
+                                        <!--有效期-->
+                                        <div style="font-size:10px;border: 0px black solid;text-align: left;color: red">
+                                            <span>截止日期：</span>
+                                            <span style="color: red" v-text="theTime(item1.endTime)"/>
+                                        </div>
                                     </div>
-                                    <!--有效期-->
-                                    <div style="font-size:10px;">
-                                        <span>有效期: </span>
-                                        <span  v-text="item1.endTime"></span>
-                                    </div>
+
                                 </div>
 
 
@@ -119,11 +124,12 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
+<!--                    <div style="flex: 1;background-color: black"></div>-->
 
-                    <div style="width: 100%;align-items: center;justify-content: center;display: flex;position: absolute;left: 0;bottom: 0;padding: 10px 0px;">
-                        <el-button type="warning" round style="width: 80%;display: block" @click="drawer = false">关闭</el-button>
+                    <div style="flex:1;background-color: white;width: auto;align-items: center;justify-content: center;display: flex;">
+                        <el-button type="warning" round style="width: 80%; " @click="drawer = false">关闭</el-button>
+
                     </div>
                 </div>
 
@@ -138,7 +144,6 @@
     import PurchaseAddTogeter from "../components/PurchaseAddTogeter";
     import ReportStart from "../components/ReportStart";
     import CountDown from '@chenfengyuan/vue-countdown';
-
     export default {
         name: "GoodsDetail",
         components: {
@@ -158,6 +163,8 @@
                     '秒':1,
                 },
                 num:0,
+                startTime:null,
+                endTime:null,
                 rushTime:null,
                 toShow:false,
                 isShow:false,
@@ -179,6 +186,11 @@
                 if(this.countType == 1) return 1
                 else if(this.countType == 2) return 2
                 else return 3
+            },
+            theTime(){
+                return it => {
+                    return it.split(" ")[0];
+                }
             },
             discountType(){
                 return (it) => {
@@ -203,7 +215,6 @@
                 this.isReport = !this.isReport;
                 this.$router.push({path:'/reportContent',query:this.id})
             },
-
             compte(nowDate,startDate,endDate){
                 startDate= this.StringToDate(startDate);
                 endDate= this.StringToDate(endDate);
@@ -245,6 +256,7 @@
                                     this.isShow=false
                                 }
                                 ,1500)
+                            alert(response.data.message);
                         }else{
                             alert(response.data.message);
                         }
@@ -255,6 +267,7 @@
 
             }
             },
+
         created() {
 
             this.id = this.$route.params.goodsDetail;
@@ -278,6 +291,7 @@
 
 
     }
+
 </script>
 
 <style scoped>
@@ -332,7 +346,7 @@
     }
     .cardsToGet{
         display:block;
-        font-size: 14px;
+        font-size: 18px;
         color: #4c90f5;
         letter-spacing: 1px;
     }
@@ -447,14 +461,15 @@
         text-align: right;
     }
     .car1{
-        width: 90%;
+        width: 80%;
         height: 15%;
         display: flex;
         background-color: #ff4400;
         border-radius: .8rem;
-        margin: 6% auto;
+        margin: 3% auto;
         font-size: 20px;
         align-items: center;
+        box-shadow:4px 4px 10px #BEBEBE;
 
     }
     .left{
@@ -464,35 +479,20 @@
         background-color: #ffbb4d;
         border-radius: .8rem 0 0 .8rem;
         display: block;
+
     }
     .right{
-        width: 20%;
+        border: 0px black solid;
+        width: 30%;
         height: auto;
         display: block;
+        justify-content: center;
         /*background-color: lime;*/
         /*border: 1px solid black;*/
 
     }
-    .car_price{
-        width: 100%;
-        height: 70%;
-        color: #ff4400;
-        font-size: 3rem;
-        font-family: "PingFang SC";
-        text-align: center;
-        line-height: 200%;
-        /*background-color: blueviolet;*/
-    }
-    .car_condition{
-        width: 100%;
-        height: 30%;
-        font-size: 1.5rem;
-        font-family: "PingFang SC";
-        text-align: center;
-        color: #ff4400;
 
-        /*background-color: #67ffc2;*/
-    }
+
     .getBtn{
         width: 100%;
         height: 100%;
@@ -501,13 +501,13 @@
 
     }
     .font{
-
-        width: 20%;
+        border: 0px black solid;
+        width: auto;
         height: 100%;
-        margin: 0 auto;
+        margin: 0 20%;
         color: white;
-        line-height: 100%;
-        margin-top: 10%;
+        margin:10%;
+        text-align: center;
         font-size: 2.5rem;
 
     }
