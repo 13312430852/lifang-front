@@ -1,13 +1,15 @@
 <template>
-    <div style="width: 100%;height: 100%;">
+    <div v-if="detailGood != null" style="width: 100%;height: 100%;">
         <report-start v-if="isReport"></report-start>
         <div class="goodImg" :style="{backgroundImage:'url(' + detailGood.goods.goodsImageUrl + ')'}">
             <span class="report" @click="toRepot">
                 举报
             </span>
-
-            <span class="activeType" v-if="istype == 2">仅剩： <span v-text="detailGood.rushList.rushNum"></span></span>
+            <div class="activeType" v-if="istype == 2">
+                仅剩：<span style="font-size: 16px" v-text="this.num"></span> 份
+            </div>
         </div> <!--展示图-->
+
         <div class="activeType-time" v-if="istype == 1" style="display: block;z-index: 999">
                  <count-down :time="rushTime">
                                     <template slot-scope="pro">
@@ -21,7 +23,7 @@
                 <span class="rePrice" v-text="'￥'+detailGood.goodsNorms.currentPrice"></span>
                 <s><span class="oldPrice" v-text="'￥'+detailGood.goodsNorms.origiPrice"></span></s>
                 <div class="cards">
-                        <span class="cardsToGet" v-if="card.length != 0" @click="getCar(detailGood.goods.goodsId)">领券</span>
+                    <span class="cardsToGet"  @click="getCar(detailGood.goods.goodsId),drawer = true">领券</span>
                     <div class="tip" v-if="isShow">领取成功</div>
                 </div>
             </div>
@@ -38,9 +40,13 @@
                 和胜股份公司符合施工方见好就收福建省福建师范是否合适手机号健身房和数据恢复及时发货时
             </div>
 
+           <!-- <div style="width: auto;height: auto;padding: 5px 0px">
+                <span style="font-size: 14px;">库存: </span>
+                <span style="font-size: 14px" v-text="this.detailGood.">  件</span>
+            </div>-->
             <div class="norms">
                     <span style="font-size: 14px;">规格:</span>
-                    <span style="font-size: 14px; margin-left: 5px;" v-text="detailGood.goodsNormsList">大份</span>
+                    <span style="font-size: 14px; margin-left: 5px;" v-text="detailGood.goodsNorms.norms">大份</span>
             </div>
 
             <div class="addressBox">
@@ -57,30 +63,74 @@
             <img class="theImg" :src="item">
         </div>
 
-        <div class="carbox" v-if="toShow">
-            <div class="car1" v-for="(item1,i) in card">
-                <div class="left">
-                    满
-                    <span class="car_condition" v-text="item1.cardsOrder"></span>
-                    减
-                    <span class="car_price" v-text="item1.cardsPrice"></span>
-                </div>
-                <div class="right">
-                    <div class="getBtn">
-                        <div class="font" @click="lingqu(item1.cardsId),toShow=!toShow" >领取</div>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-
         <!--没有参与团购的-->
         <purchase-and-share-bottom v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
 
         <!--参与了团购的-->
         <purchase-add-togeter v-if="countType == 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId" :isGroupPrice="detailGood.goodsTeam.discountPrice"></purchase-add-togeter>
+
+        <!--优惠券drawer-->
+            <el-drawer
+                    :visible.sync="drawer"
+                    :direction="direction"
+                    :with-header="false"
+                    :before-close="handleClose"
+                    :wrapper-closable="true"
+                    :append-to-body="true"
+                    :show-close="false"
+                    size="75%">
+
+                <div style="width: 100%;height: 100%;position: relative;">
+
+                    <div style="display:flex;width: auto;height: auto;border: 0px black solid;justify-content: center;padding-top: 10px;">
+                    <span style="display: block;font-size: 14px;color: red">
+                        当前优惠
+                    </span>
+                    </div>
+
+                    <!--滑动-->
+                    <div style="width: 100%;height: 100%;overflow-y:scroll">
+                        <div class="car1" v-for="(item1,i) in card">
+                            <div class="left">
+                                <!--满减条件-->
+                                <div style="float: left;width: 30%;height: 100%;display:flex;align-items: center;justify-content: center;">
+                                   <span style="float: left;"> ¥</span><span style="font-size: 40px;float:right;width: auto;height: auto; display: block;" v-text="item1.cardsPrice"></span>
+                                </div>
+
+                                <div style="width: 80%;height: 100%;border: 0px black solid;">
+                                    <div style="margin: 10px;">
+                                        满
+                                        <span  v-text="item1.cardsOrder"></span>
+                                        减
+                                        <span  v-text="item1.cardsPrice"></span>
+                                    </div>
+                                    <!--有效期-->
+                                    <div style="font-size:10px;">
+                                        <span>有效期: </span>
+                                        <span  v-text="item1.endTime"></span>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="right">
+                                <div class="getBtn">
+                                    <div class="font" @click="lingqu(item1.cardsId),toShow=!toShow" >领取</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="width: 100%;align-items: center;justify-content: center;display: flex;position: absolute;left: 0;bottom: 0;padding: 10px 0px;">
+                        <el-button type="warning" round style="width: 80%;display: block" @click="drawer = false">关闭</el-button>
+                    </div>
+                </div>
+
+            </el-drawer>
+
     </div>
+
 </template>
 
 <script>
@@ -99,14 +149,15 @@
         },
         data(){
             return{
+                direction:'btt',
                 isReport:false,
-
+                drawer: false,
                 pro:{
                     '小时':1,
                     '分钟':1,
                     '秒':1,
                 },
-
+                num:0,
                 rushTime:null,
                 toShow:false,
                 isShow:false,
@@ -145,6 +196,9 @@
             }
         },
         methods:{
+            handleClose(done) {
+                        done();
+            },
             toRepot(){
                 this.isReport = !this.isReport;
                 this.$router.push({path:'/reportContent',query:this.id})
@@ -168,8 +222,14 @@
                 this.toShow = !this.toShow;
                 axios.get(process.env.VUE_APP_URL + 'allcards/queryCardsByGoodsId/' + goodid)
                     .then(re => {
-                        console.log(re.data);
-                        this.card = re.data.data;
+                        if(re.data.code == 200){
+                            console.log(re.data);
+                            this.card = re.data.data;
+                        }else {
+                            alert(re.data.message)
+                        }
+
+
                     })
 
             },
@@ -188,7 +248,6 @@
                         }else{
                             alert(response.data.message);
                         }
-                    // console.log(response)
                 }).catch(function (err) {
                     console.log(err)
                 });
@@ -205,9 +264,11 @@
             axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + this.id)
                 .then(re =>{
                     this.detailGood = re.data.data;
+                    console.log('我是大帥哥')
+                    console.log(this.detailGood);
                     this.detailGood.goods.goodsDetailsUrl= this.detailGood.goods.goodsDetailsUrl.split(',');
                     this.countType =  this.detailGood.goods.discountType;
-                    this.card = this.detailGood.cardsList;
+                    this.num = this.detailGood.rushList[0].rushNum;
                     if(this.countType == 1){
                         this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
                     }
@@ -279,7 +340,7 @@
         background-color:#EEEEEE;
         height:1px;
         border:none;
-        margin:10px 0 5px 0px;
+        margin:6px 0 5px 0px;
     }
     .priceAndCards{
         width:100%;
@@ -289,8 +350,10 @@
         font-family: "PingFang SC";
         color: lightblue;
         font-size: 1.8rem;
-        margin-bottom: 170px;
+        /*margin-bottom: 170px;*/
         margin-right: 5px;
+        flex: 7;
+        /*background-color: red;*/
     }
     .theImg{
         width: 100%;
@@ -324,7 +387,6 @@
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(50,49,49,1);
-
         margin-right: 2%;
     }
     .right-time{
@@ -340,9 +402,16 @@
         font-weight: bold;
     }
     .activeType{
-        float: right;
-        color: #141414;
-        font-size: 1.75rem;
+        float: left;
+        height: auto;
+        flex: 1;
+        text-align: left;
+        font-size: 15px;
+        background-color: red;
+        color:whitesmoke;
+        font-weight: bold;
+        padding-left: 5px;
+
     }
     .oldPrice{
         font-family:PingFang SC;
@@ -359,7 +428,7 @@
 
     }
     .baseMessege{
-        height:35%;
+        height:38%;
         width: 92%;
         margin: 2.55% auto 0 auto;
     }
@@ -374,26 +443,18 @@
         /*background-size: cover;*/
         background-size: 100% 100%;
         display: flex;
-        flex-direction: column-reverse;
+        flex-direction: column;
         text-align: right;
-    }
-    .carbox{
-        width: 90%;
-        /*height: 35%;*/
-        background-color: #ff8749;
-        margin:0 auto;
-        border-radius: 8px;
-        position: fixed;
-        left: 5%;
-        top: 39%;
     }
     .car1{
         width: 90%;
-        height: 25%;
+        height: 15%;
         display: flex;
         background-color: #ff4400;
         border-radius: .8rem;
-        margin: 5% auto;
+        margin: 6% auto;
+        font-size: 20px;
+        align-items: center;
 
     }
     .left{
@@ -401,11 +462,13 @@
         width: 80%;
         height: 100%;
         background-color: #ffbb4d;
-        border-radius: .8rem;
+        border-radius: .8rem 0 0 .8rem;
+        display: block;
     }
     .right{
         width: 20%;
-        height: 100%;
+        height: auto;
+        display: block;
         /*background-color: lime;*/
         /*border: 1px solid black;*/
 
