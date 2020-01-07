@@ -5,7 +5,7 @@
             <el-button class="share">
                 分享赚佣金
             </el-button>
-            <el-button :disabled="isbuytime!=-1 || isbuynum==0" class="purchase" @click="toBuy">
+            <el-button :disabled="(isbuytime!=-1 && type==1) || (isbuynum==0 && type==2)" class="purchase" @click="toBuy">
                 立即抢购 ￥{{ price }}
             </el-button>
         </el-button-group>
