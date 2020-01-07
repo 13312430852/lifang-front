@@ -6,7 +6,7 @@
                 举报
             </span>
 
-            <span class="activeType" v-if="istype == 2">仅剩： <span v-text="detailGood.rushList.rushNum"></span></span>
+            <span class="activeType" v-if="istype == 2">仅剩： <span v-text="detailGood.rushList[0].rushNum"></span></span>
         </div> <!--展示图-->
         <div class="activeType-time" v-if="istype == 1" style="display: block;z-index: 999">
                  <count-down :time="rushTime">

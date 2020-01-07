@@ -190,7 +190,6 @@
             },
             createSubmitOrder(){
                 this.$set(this.createOrder,'goodsId',this.goodId);
-                this.$set(this.createOrder,'userId',this.userMsg.userId);
                 this.$set(this.createOrder,'ordersPrice',this.allPrice);
                 this.$set(this.createOrder,'goodsNum',this.count);
                 this.$set(this.createOrder,'goodsPrice',this.goodsPrice);
