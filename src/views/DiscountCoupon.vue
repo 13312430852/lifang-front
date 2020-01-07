@@ -232,7 +232,7 @@
         right: -5px;
         width: 10px;
         height: 100%;
-        background: radial-gradient(circle, #fff, #fff 2px, transparent 5px);
+        background: radial-gradient(circle, #fff, #fff 2px, transparent 0px);
         background-size: 10px 10px;
     }
     .money{
@@ -256,7 +256,7 @@
         right: -5px;
         width: 10px;
         height: 100%;
-        background: radial-gradient(circle, #fff, #fff 2px, transparent 5px);
+        background: radial-gradient(circle, #fff, #fff 2px, transparent 0px);
         background-size: 10px 10px;
     }
    .theDiscount{
