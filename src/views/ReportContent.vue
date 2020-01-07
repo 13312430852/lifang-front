@@ -140,7 +140,6 @@
                 axios.post(process.env.VUE_APP_URL+'allreport/addReport',this.report).then(re => {
                     if(re.data.flag){
                         this.$router.push({path:'/reportCallBack',query:{'goodsId':this.goodsId}});
-
                     }else {
                         alert('举报出现错误，请稍后重试！')
                     }
