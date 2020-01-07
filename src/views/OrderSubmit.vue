@@ -109,8 +109,7 @@
                     'nickname':'我是怂狗狗',
                     'numberPhone':'13007808520'
                 },
-        PayMessage:{},
-
+                PayMessage:{},
             }
 
         },

@@ -50,8 +50,11 @@
                                 </count-down>
                             </div>
                             <!--限量-->
-                            <div v-if="item.goods.discountType == 2" class="theCoverBox1">
+                            <div v-if="item.goods.discountType == 2 && item.num!=0" class="theCoverBox1">
                                 仅剩： <span v-text="item.num"></span> 份
+                            </div>
+                            <div v-if="item.goods.discountType == 2 && item.num==0" class="theCoverBox1">
+                                已售光
                             </div>
                         </div>
                     </div>
