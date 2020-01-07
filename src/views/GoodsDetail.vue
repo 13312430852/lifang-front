@@ -10,10 +10,10 @@
         </div> <!--展示图-->
         <div class="activeType-time" v-if="istype == 1" style="display: block;z-index: 999">
                  <count-down :time="rushTime">
-                                    <template slot-scope="pro">
-                                        <span style="margin-left: 1%">活动时间剩余：</span>
-                                        <span class="right-time">{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</span>
-                                    </template>
+                     <template slot-scope="pro">
+                         <span style="margin-left: 1%">活动时间剩余：</span>
+                         <span class="right-time">{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</span>
+                     </template>
                  </count-down>
         </div>
         <div class="baseMessege">
@@ -63,7 +63,7 @@
         </div>
 
         <!--没有参与团购的-->
-        <purchase-and-share-bottom v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
+        <purchase-and-share-bottom :isbuynum="detailGood.rushList[0].rushNum" :isbuytime="rushTime" v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
 
         <!--参与了团购的-->
         <purchase-add-togeter v-if="countType == 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId" :isGroupPrice="detailGood.goodsTeam.discountPrice"></purchase-add-togeter>
