@@ -10,8 +10,8 @@
             请耐心等待反馈消息
         </div>
         <div style="width: 80%; height: 6%; margin: 30% auto">
-            <button style="width: 100%; height: 100%; background-color: #4c90f5;
-            font-size: 175%; color: #ffffff; font-family:PingFang SC; font-weight:bold;">
+            <button style="width: 100%; height: 100%; background-color: #4c90f5;border-style: none;border-radius: .6rem;
+            font-size: 175%; color: #ffffff; font-family:PingFang SC; font-weight:bold;" @click="callBack">
                 完成
             </button>
         </div>
@@ -28,8 +28,18 @@
         name: "ReportCallBack",
         data(){
             return{
-
+                goodId:null
             }
+        },
+        created(){
+            this.goodId = this.$route.query.goodsId;
+        },
+        methods:{
+            callBack(){
+                this.$router.push('/goodDetail/' + this.goodId);
+
+            },
+
         }
     }
 </script>

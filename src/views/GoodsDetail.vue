@@ -212,7 +212,7 @@
             },
             toRepot(){
                 this.isReport = !this.isReport;
-                this.$router.push({path:'/reportContent',query:this.id})
+                this.$router.push({path:'/reportContent',query:{'goodId':this.id}})
             },
             compte(nowDate,startDate,endDate){
                 startDate= this.StringToDate(startDate);
