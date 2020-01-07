@@ -197,6 +197,7 @@
 
         background-size: cover;
         background-repeat: no-repeat;
+        box-shadow:0px 0px 13px 0px #cccccc;
     }
     #box1{
         height: 88%!important;
