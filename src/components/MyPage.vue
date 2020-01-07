@@ -1,23 +1,37 @@
 <template>
     <div id="biggest">
         <div class="message">
-            <div class="head-picture1">
-                <img :src="user.headimgurl" width="100%" height="100%" style="border-radius: 60%">
-                <!--<div class="square">
-                    <div class="content"></div> &lt;!&ndash;头像&ndash;&gt;
-                </div>-->
+            <div class="user_info">
+                <div class="col-1 baseMsg">
+                    <el-avatar class="headImg" :src="user.headimgurl" :size="60"></el-avatar>
+                    <div class="theName">
+                        <span v-text="user.userName"></span>
+                        <span class="time">注册时间：<span v-text="theTime(user.userRegistTime)"></span></span>
+                    </div>
+                    <div class="theName">
+                        <span class="user_item" v-text="sex(user.userSex)"></span>
+                    </div>
+                </div>
+                <div class="col-2 money" >
+                    <div class="col-1 fir">
+                        <div class="col-1 title">资产</div>
+                        <div class="col-1 num" >￥<span v-text="user.userAllMoney"></span></div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="col-1 fir">
+                        <div class="col-1 title">收入</div>
+                        <div class="col-1 num">+<span v-text="countMoney"></span></div>
+                    </div>
+                    <div class="line"></div>
+                    <div class="col-1 fir">
+                        <div class="col-1 title">支出</div>
+                        <div class="col-1 num">-<span v-text="outMoney"></span></div>
+                    </div>
+                </div>
             </div>
-            <dl class="list1">
-                <dd v-text="user.user_name"></dd>   <!--用户电话，需自己添加，添加后才能显示-->
-                <dd v-text="sex(user.userSex)"></dd>
-                <dd>
-                    昵称：<span v-text="user.userName"></span>
-                </dd>
-                <dd>
-                    注册时间：<span v-text="user.userRegistTime"></span>
-                </dd>
-            </dl>
         </div>
+
+
         <ul id="navList">
             <li @click="ToallOrder()">我的订单</li>
             <li @click="ToShare()">我的分享</li>
@@ -38,24 +52,31 @@
             return{
                 distance:0,
                 theUrl:null,
-                user:{
-                   /* 'head_picture': require('../assets/headPicture1.png'),
-                    'user_name': '用户昵称',
-                    'user_sex': '男',
-                    'user_tel': '1515****621',
-                    'user_regist_time':'2019.12.12'*/
-                },
+                countMoney:null,
+                outMoney:null,
+                user:{},
             }
         },
         computed:{
             sex(){
                 return (re => {
-                    if(re == "2") return '男'
-                    else if(re == "1") return '女'
+                    if(re == "2") return '男';
+                    else if(re == "1") return '女';
                 })
+            },
+            theTime(){
+                return it => {
+                    return it.split(" ")[0];
+                }
             }
         },
         methods: {
+            StringToDate(date){
+                date = date.substring(0,19);
+                date = date.replace(/-/g,'/');
+                var timestamp = new Date(date).getTime();
+                return timestamp;
+            },
 
             judgeUrl() {
                 this.theUrl = window.location.pathname;
@@ -96,15 +117,93 @@
             axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
                 .then(re => {
                     this.user = re.data.data;
+                    this.time = this.user.userRegistTime.substr(0,10)
                     console.log(this.user);
                 })
                 .catch(err => alert('未请求到用户基本数据错误为：' + err))
+
+
+            axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryInMoney')
+                .then(response => {
+                    this.countMoney = response.data.data.countMoney;
+                })
+                .catch(err => alert('网络错误'))
+
+            axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
+                .then(response => {
+                    this.outMoney = response.data.data.countMoney;
+                })
+                .catch(err => alert('网络错误'))
         }
 
     }
 </script>
 
 <style scoped>
+    .line{
+        height: 80%;
+        width: 1px;
+        background-color: rgba(170,206,248,1);
+    }
+    .num{
+        font-size: 1.9rem;
+        color: white;
+        text-align: center;
+    }
+    .title{
+        font-size: 1.9rem;
+        color: white;
+        text-align: center;
+    }
+    .fir{
+        /*background-color: red;*/
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+    }
+    .time{
+        margin-left: 18%;
+        font-size: 1.4rem;
+    }
+    .theName{
+        margin-top: 4%;
+        margin-left: 15%;
+        font-size: 1.8rem;
+        color: white;
+
+    }
+    .money{
+        /*background-color: #4c90f5;*/
+        display: flex;
+    }
+    .baseMsg{
+        /*background-color: red;*/
+    }
+    .col-2{
+        flex: 2;
+    }
+    .col-1{
+        flex: 3;
+    }
+    .headImg{
+        /*background-color: red;*/
+        float: left;
+        margin-top: 4%;
+        margin-left: 4%;
+        margin-right: 5%;
+    }
+
+
+    .user_info{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+/*background-color: red;*/
+        /*margin: auto;*/
+        /*display: flex;*/
+    }
     .borderBottom{
         width: 25%;
         height: 4px;
@@ -149,9 +248,14 @@
         display: flex;
         width: 92%;
         height:82.7%;
-        background-image: linear-gradient(to right, #4C90F5, #B8D2FB);
-        border-radius: 10px;
+       /* background-image: linear-gradient(to right, #4C90F5, #B8D2FB);
+        border-radius: 10px;*/
         margin: 1.9% auto;
+
+        background:linear-gradient(221deg,#7fa4fb,#6cb7fb);
+        box-shadow:0px 0px 13px 0px rgba(129,67,243,0.47);
+        border-radius:10px;
+
     }
     .head-picture1 {
         width: 16.6%;
@@ -161,12 +265,14 @@
         margin-left: 5%;
     }
     .list1 {
-        height: 8.6%;
-        margin-top: 5%;
-        margin-left: 5%;
+        /*height: 8.6%;*/
         color: white;
         font-size: 1.9rem;
         font-family:PingFang SC;
+        width: 90%;
+        height: 94%;
+        margin-left: 6%;
+        /*background-color: red;*/
 
     }
     #navList{

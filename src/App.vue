@@ -43,9 +43,6 @@
 			},
 
 			getThisUrl(name) { //获取URL上的参数
-				//     http://localhost:8080/thehome/?tpken=hsdfhdghsgfhgccsdff
-
-
 				//先解析URL地址，获取token
 				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 				var r = window.location.search.substr(1).match(reg);
@@ -60,7 +57,6 @@
 				}
 
 			},
-
 			theHight() { //解决安卓端软键盘弹出压缩页面
 				let keshiHeight = document.documentElement.clientHeight; //获取页面高度
 				document.getElementsByTagName('body')[0].style.height = keshiHeight + 'px'; //给页面定固定值
@@ -75,7 +71,6 @@
 			localStorage.removeItem('userToken');
 			this.initTheREM(); //初始化单位 rem
 			this.getThisUrl('token'); //获取用户xxx码，如果返回此码，则说明已经授权，然后把此码传给后台，后台返回用户基本信息。
-			//从后台获取用户ID来判断用户是否授权
 		}
 	}
 </script>

@@ -10,10 +10,13 @@
         outline: none;color:red" @click="del">删除已过期</button>
             </div>
         </div>
+        <div class="abc">
 
-        <!--我的优惠券总的大布局-->
+        </div>
+<!--
+        &lt;!&ndash;我的优惠券总的大布局&ndash;&gt;
         <div class="coupon" id="coupon">
-            <!--            单个优惠券-->
+            &lt;!&ndash;            单个优惠券&ndash;&gt;
             <div class="coupon1" v-for="item in CouponList">
                     <span style="margin:25% 20%;display: block">
                         <div style="display: flex">
@@ -35,7 +38,7 @@
 
                     </span>
             </div>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -79,6 +82,26 @@
 </script>
 
 <style scoped>
+   /* .abc{
+        width: 200px;
+        height: 100px;
+        position: relative;
+        background-image: radial-gradient(circle at right top, #fff, #fff 10px, transparent 11px),
+        radial-gradient(circle at right bottom, #fff, #fff 10px, transparent 11px);
+        background-color: red;
+
+    }
+    .abc:after{
+        content: '';
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        right: -5px;
+        width: 10px;
+        height: 100%;
+        background: radial-gradient(circle, #fff, #fff 2px, transparent 5px);
+        background-size: 10px 10px;
+    }*/
    .root {
         padding-top: 3%;
         /*height: 100%;*/

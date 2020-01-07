@@ -122,7 +122,7 @@
         cursor: pointer;
     }
     .col-7{
-        flex: 8;
+        flex: 7;
         /*background: black;*/
         width: 100%;
         display: flex;
@@ -130,101 +130,101 @@
         /*height: 76.2%;*/
     }
     .coll-2{
-        flex: 2;
+        flex: 3;
         text-align: center;
-        font-size: 10px;
+        font-size: 14px;
         font-family:PingFang SC;
         font-weight:200;
-        margin-top: 5px;
+        margin-top: 0;
         color:rgba(20,20,20,1);
     }
     .font-color{
         color: #4c90f5;
     }
     .homeIcon-no{
-        background-image: url("../assets/bottom/首页.png");
+        background-image: url("../assets/bottonmIcon/首页-未选中.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
+        height: 40px;
+        width: 40px;
         background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .homeIcon{
-        background-image: url("../assets/bottom/首页-选中.png");
+        background-image: url("../assets/bottonmIcon/首页.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
+        height: 40px;
+        width: 40px;
         background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .walletIcon-no{
-        background-image: url("../assets/bottom/钱包-01.png");
+        background-image: url("../assets/bottonmIcon/钱包未选中.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
-        background-size: 74% 74%;
+        height: 40px;
+        width: 40px;
+        background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .walletIcon{
-        background-image: url("../assets/bottom/钱包-选中.png");
+        background-image: url("../assets/bottonmIcon/钱包.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
-        background-size: 74% 74%;
+        height: 40px;
+        width: 40px;
+        background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .serviceIcon-no{
-        background-image: url("../assets/bottom/客服.png");
+        background-image: url("../assets/bottonmIcon/客服未选中.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
-        background-size: 78% 86%;
+        height: 40px;
+        width: 40px;
+        background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .serviceIcon{
-        background-image: url("../assets/bottom/客服 选中.png");
+        background-image: url("../assets/bottonmIcon/客服.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
-        background-size: 78% 86%;
+        height: 40px;
+        width: 40px;
+        background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .meIcon-no{
-        background-image: url("../assets/bottom/我.png");
+        background-image: url("../assets/bottonmIcon/我的-未选中.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
-        background-size: 64% 94%;
+        height: 40px;
+        width: 40px;
+        background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;
     }
     .meIcon{
-        background-image: url("../assets/bottom/我 -选中.png");
+        background-image: url("../assets/bottonmIcon/我的.png");
         background-repeat: no-repeat;
         background-position: center;
-        height: 100%;
-        width: 44%;
-        background-size: 64% 94%;
+        height: 40px;
+        width: 40px;
+        background-size: 80% 80%;
         display: flex;
         justify-content: center;
         margin-top: 2%;

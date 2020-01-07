@@ -56,9 +56,8 @@
           }
         },
         created() {
-            axios.defaults.headers.common["Authorization"] = localStorage.getItem('userToken');
-            axios.defaults.headers.common["userType"] = 'MINE';
-            axios.get('http://39de9ecd.ngrok.io/service/queryServiceById/0005').then(response => {
+            axios.get(process.env.VUE_APP_URL + 'service/queryServiceById/e2679b94ebb6476c8c3cecf238f438a0')
+                .then(response => {
                 this.service = response.data.data;
                 // console.log(response)
             })

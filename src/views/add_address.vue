@@ -2,81 +2,44 @@
     <div style="height: 100%;width: 100%; font-family: 'PingFang SC'">
         <div class="headline_add-address">添加收货地址</div>
         <div class="div_content">
-            <div class="list1">
-                <div class="makecenter">
-                    用户ID:
-                    <span v-text="address.userId" style="margin: auto 4%;
-                    font-size: 1.75rem; color: #8f8f8f; outline: none;"></span>
-                </div>
-                <div class="addUnderline"></div>
-            </div>
-            <div class="list1">
-                <div class="makecenter">
-                    收货人:
-                    <input
-                            type="text"
-                            placeholder="请输入您的姓名"
-                            class="text"
-                            style="font-size: 1.75rem; margin: auto 6%;
-                            border-style: none; color: #8f8f8f; outline: none;"
-                            v-model="address.addressName"
-                    />
-                </div>
-                <div class="addUnderline">
+            <div class="baseMSG">
+                <div class="makecenter" style="border-top-left-radius: 0.8rem;border-top-right-radius: 0.8rem;">
+                    <span class="col-1">
+                          收货人:
+                    </span>
+                    <input type="text" placeholder="请输入您的姓名" class="text col-3" v-model="address.addressName"/>
 
                 </div>
-            </div>
-            <div class="list1">
-                <div class="makecenter">
-                    手机号码:
-                    <input
-                            type="tel"
-                            class="text"
-                            maxlength="11"
-                            minlength="11"
-                            placeholder="请输入11位手机号"
-                            style="font-size: 1.75rem;color: #8f8f8f; margin : auto 2%;
-                             border-style: none; outline: none;"
-                            v-model="address.addressTel"
-                    />
-                </div>
-                <div class="addUnderline">
-
-                </div>
-            </div>
-            <div class="list2">
-                <div class="addArea">
-                    <div style="margin-left: 5%; ">
-                        所在地区:
-                    </div>
-                    <textarea
-                        class="textarea1"
-                        placeholder="请输入您的正确地址"
-                        style="font-size: 1.75rem; margin: 2% 0% 0 3%; color: #8f8f8f;  outline: none; width: 65%; "
-                        v-model="address.rcAddress" @input="zishiying"
-                ></textarea>
-
-
+                <div class="line"></div>
+                <div class="makecenter" style="border-bottom-left-radius: 0.8rem;border-bottom-right-radius: 0.8rem;">
+                     <span class="col-1">
+                         手机号码:
+                     </span>
+                    <input type="tel" class="text col-3" maxlength="11" minlength="11" placeholder="请输入11位手机号"
+                           v-model="address.addressTel"/>
                 </div>
             </div>
 
-            <div class="list1">
-                <div class="makecenter">
-                    设为默认地址
+            <div class="address">
+                <div class="addArea col-2">
+                    <div class="col-1 addressTitle">所在地区:</div>
+                    <textarea class="textarea1 col-3" placeholder="请输入您的正确地址" v-model="address.rcAddress"
+                              @input="zishiying"></textarea>
+                </div>
+                <div class="col-1 makecenter optiongToDefault">
+                    <div class="col-1 addressTitle">设为默认地址</div>
+                    <div></div>
                     <div class="switch-btn">
-                        <input
-                                type="checkbox"
-                                class="hidden-checkbox"
-                                name="checkbox"
-                                v-model="defaultAddress123"
-                        />
+                        <input type="checkbox" class="hidden-checkbox" name="checkbox" v-model="defaultAddress123"/>
                         <span class="switch-area"></span>
                         <span class="switch-toggle"></span>
                     </div>
                 </div>
+
             </div>
+
             <div class="btn_position">
-                <button type="submit" class="btn2" @click="save"><router-link to="/address/addSuccess" class="saveFont">保存</router-link></button>
+                <button type="submit" class="btn2" @click="save"><span class="saveFont">保存</span></button>
             </div>
         </div>
     </div>
@@ -109,9 +72,20 @@
         methods: {
             save: function() {
                 let address = this.address;
-                axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
-                        console.log(response.data);
-                    }).catch();
+                if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.address.addressTel))){
+                    alert("手机号码有误。");
+                }else {
+                    console.log(address);
+                    axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
+                        if(response.data.flag == true){
+                            this.$router.push('/address/addSuccess');
+                            console.log(response.data);
+                        }else {
+                            alert('添加地址失败');
+                        }
+
+                    }).catch(err => alert('网络错误'));
+                }
             },
             zishiying(e){
                 e.target.style.height = 'auto';
@@ -123,6 +97,55 @@
 </script>
 
 <style scoped>
+
+    .optiongToDefault{
+        border-bottom-left-radius: 0.8rem;
+        border-bottom-right-radius: 0.8rem;
+    }
+
+    .addressTitle{
+        font-size: 1.8rem;
+        margin-top: 6px;
+    }
+    .col-2{
+        flex: 2;
+    }
+    .address{
+        width: 92%;
+        margin: 8% auto 0 auto;
+        height: 26%;
+        background-color: white;
+        border-radius: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.8rem;
+        box-shadow:0px 0px 13px 0px #d4d4d4;
+
+    }
+    .col-1{
+        flex: 1;
+        /*background-color: red;*/
+        text-align: center;
+    }
+    .col-3{
+        flex: 3;
+
+    }
+    .line{
+        height: 1px;
+        width: 90%;
+        margin: 0 auto;
+        background-color: #bbbbbb;
+        clear: both;
+    }
+    .baseMSG{
+        box-shadow:0px 0px 13px 0px #d4d4d4;
+        margin: 0 auto;
+        width: 92%;
+        height: 20%;
+        border-radius: 0.8rem;
+        background-color: white;
+    }
     .saveFont{
         color: white!important;
     }
@@ -145,37 +168,36 @@
     .div_content {
         width: 100%;
         height: 93.2%;
-        background: #ffffff;
+        background: #ececec;
     }
     .text {
         height: 50%;
         width: 60%;
-    }
-    .list1 {
-        height: 7.3%;
-        width: 100%;
-        list-style-type: none;
         font-size: 1.75rem;
+        color: #8f8f8f;
+        margin : auto 2%;
+        outline: none;
+        border-style: none;
     }
-    .list2 {
-        height: auto;
-        width: 100%;
-        font-size: 1.75rem;
-        align-items: center;
-        margin: 5% auto;
-    }
+
     .makecenter {
-        height: 97%;
-        margin: 1% 5%;
+        height: 50%;
         width: 100%;
         background: white;
-        font-size: 1.75rem;
+        font-size: 1.8rem;
         display: flex;
         align-items: center;
     }
     .textarea1 {
-        width: 50%;
+
+        border: 1px solid #e9e9e9;
         height: 70%;
+        padding-left: 2%;
+        padding-top: 1%;
+        max-height: 70%;
+        margin-top: 2.5%;
+        margin-right: 4%;
+        border-radius: 2px;
     }
     .btn_position{
         display: flex;
@@ -198,7 +220,8 @@
         height: 25px;
         position: relative;
         top: 1px;
-        margin-left: 55%;
+        margin-left: 50%;
+        margin-right: 5%;
     }
     .hidden-checkbox,
     .switch-area,
