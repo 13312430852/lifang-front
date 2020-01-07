@@ -40,23 +40,32 @@
             <div class="specification">规格</div>
             <div class=" weight" v-text="GoodsList.goodsNorms.norms">小份</div>
         </div>
-        <!--        线-->
-        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        地址-->
-        <div class="place">
-            <div class="receipt">收货地址</div>
-            <div class="toAddAddress" @click="toAddAddress" v-if="userAddress == null">
+
+            <!--<div class="toAddAddress" @click="toAddAddress" v-if="userAddress == null">
                 <span style="margin-right: 10px">未添加地址&nbsp;&nbsp;</span>
                 <img class="addIcon" src="../assets/添加.png">
             </div>
             <select class="Place" v-if="userAddress != null" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                      <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
-            </select>
-        </div>
-        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
-        <div class="address_nr">
+            </select>-->
 
-        </div>
+
+        <el-collapse accordion>
+            <el-collapse-item class="collapse_item" title="收货地址">
+                <el-radio class="address_item" v-for="(item) in userAddress" :selected="isDefaultAddress(item)" v-model="selectAddressId" :label="item.addressId" border>
+                    <div>收货地址：{{item.rcAddress}}</div>
+                    <div class="renAtel">
+                        <span class="ren">{{item.addressName}}</span>
+                        <span class="tel">{{item.addressTel}}</span>
+                        <div class="clear"></div>
+                    </div>
+                </el-radio>
+            </el-collapse-item>
+            <el-collapse-item class="collapse_item" title="优惠券">
+            </el-collapse-item>
+        </el-collapse>
+
         <!--        优惠-->
         <div class="Coupon">
             <div class="couponLeft">优惠券</div>
@@ -70,6 +79,7 @@
         </div>
         <!--        立即购买-->
         <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
+        <div class="blank"></div>
     </div>
 
 </template>
@@ -287,6 +297,46 @@
         color: #bbbbbb;
 
     }
+    .collapse_item{
+        margin-left: 4%;
+    }
+    .el-collapse-item__header{
+        font-weight: bold !important;
+        font-size: 14px !important;
+    }
+    .blank{
+        width: 100%;
+        height: 100px;
+    }
+    .address_nr{
+        padding: 10px;
+        background-color: #f8f6f6;
+        border-radius: 5px;
+        margin: 10px;
+    }
+    .address_item{
+        display: flex;
+        margin:10px 10px 10px 0px !important;
+        height: auto !important;
+        padding: 10px 10px !important;
+    }
+    .renAtel{
+        padding: 10px 0px;
+    }
+    .clear{
+        clear: both;
+    }
+    .ren{
+        display: block;
+        float: left;
+    }
+    .tel{
+        display: block;
+        float: right;
+    }
+    .address_rcAddress{
+
+    }
     .toAddAddress1{
         width: 40%;
         font-size: 1.8rem;
@@ -410,27 +460,26 @@
     }
 
     .Specification {
-        display: flex;
+        display: block;
         width: 92%;
         height: 7%;
         font-family: "PingFang SC";
     }
 
     .specification {
-        width: 95%;
         padding-top: 4%;
         padding-left: 4%;
         font-size: 1.75em;
         font-weight: bold;
+        float: left;
     }
 
     .weight {
-        width: 10%;
+        float: right;
         font-size: 1.75em;
         padding-top: 4%;
         padding-left: 6%;
         cursor: pointer;
-        border: none;background-color: transparent;outline: none;
         text-align: right;
     }
     .number {

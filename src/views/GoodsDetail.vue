@@ -62,7 +62,8 @@
         <div class="goodDetailList" v-for="item in detailGood.goods.goodsDetailsUrl">
             <img class="theImg" :src="item">
         </div>
-
+        <div class="block">
+        </div>
         <!--没有参与团购的-->
         <purchase-and-share-bottom :isbuynum="detailGood.rushList[0].rushNum" :rushtype="istype" :isbuytime="rushTime" v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
         <!--参与了团购的-->

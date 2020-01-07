@@ -12,39 +12,39 @@
             <div class="logistics2">
                 <div class="logistics_Icon">
                     <img src="../../assets/position.png" height="50%" width="30%"/></div>
-                <div class="logistics_Message" v-text="goods.rcAddress"></div>
+                <div class="logistics_Message" v-text="order.address.rcAddress"></div>
             </div>
         </div>
         <div class="Detail">
             <div class="every">
                 <div class="store">
-                    <div class="left" v-text="goods.businessName"></div>
+                    <div class="left" v-text="order.businessName"></div>
                     <div class="right" v-text="ordersPayState123"></div>
                 </div>
                 <div class="picture_message">
                     <div class="picture">
-                        <img :src="goods.goodsImageUrl" width="100%" height="100%">
+                        <img :src="order.goods.goodsImageUrl" width="100%" height="100%">
                     </div>
 
                     <div class="message">
-                        <div class="message_1" v-text="goods.goodsName"></div>
+                        <div class="message_1" v-text="order.goods.goodsName"></div>
                         <div class="message_2">
-                            <div class="discript" v-html="goods.goodsDesc"></div>
-                            <div class="price" v-text="goods.goodsPrice"></div>
+                            <div class="discript" v-html="order.goods.goodsDesc"></div>
+                            <div class="price" v-text="order.goodsPrice"></div>
                         </div>
                     </div>
                 </div>
                 <div class="amount">
                     <div class="left">购买数量</div>
-                    <div class="right" v-text="goods.goodsNum"></div>
+                    <div class="right" v-text="order.goodsNum"></div>
                 </div>
                 <div class="amount">
                     <div class="left">总价</div>
-                    <div class="right" v-text="goods.ordersPrice"></div>
+                    <div class="right" v-text="order.ordersPrice"></div>
                 </div>
                 <div class="amount">
                     <div class="left">下单时间</div>
-                    <div class="right" v-text="goods.ordersTime"></div>
+                    <div class="right" v-text="order.ordersTime"></div>
                 </div>
             </div>
             <div class="btn1">
@@ -66,30 +66,30 @@
             return {
                 propsData:{},
 
-                goods: {},
+                order: {},
                 tuikuan:true,
                 pay:false
             }
         },
         created(){
-            let newGoods= this.$route.query.goods;
-            this.goods = newGoods;
-            console.log(this.goods);
+            let neworder= this.$route.query.order;
+            this.order = neworder;
+            console.log(this.order);
         },
         computed:{
             ordersExperssState123(){
-                if(this.goods.ordersExperssState=='1'){
+                if(this.order.ordersExperssState=='1'){
                     return '已发货'
-                }else if(this.goods.ordersExperssState=='0') {
+                }else if(this.order.ordersExperssState=='0') {
                     return  '未发货'
                 }
             },
             ordersPayState123(){
-                if(this.goods.ordersPayState=='0'){
+                if(this.order.ordersPayState=='0'){
                     this.tuikuan=false,
                         this.pay=true
                     return '未支付'
-                }else if(this.goods.ordersPayState=='1'){
+                }else if(this.order.ordersPayState=='1'){
                     this.tuikuan=true;
                         this.pay=false;
                     return '已支付'
@@ -102,7 +102,7 @@
             },
 
             toSubmitPage(){
-                axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.goods.ordersId)
+                axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.order.ordersId)
                     .then(re => {
                         if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
                             alert(re.data.message);

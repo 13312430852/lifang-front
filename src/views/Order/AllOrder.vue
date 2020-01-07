@@ -14,7 +14,7 @@
                 </div>
                 <div style="display:flex;flex: 4;">
                     <span style="flex: 1"><div class="createTime" style="clear: both;" v-text="createTime(good.ordersTime)">2020-12-09</div></span>
-                    <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1" @click.capture.stop="toPay(good)">去支付</button></span>
+                    <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1" @click.capture.stop="toPay(goods[i])">去支付</button></span>
                     <span class="two"><button class="but" @click.capture.stop="payAgin(good.goodsId)">再购买</button></span>
                 </div>
             </div>
@@ -68,17 +68,10 @@
         },
         methods:{
             createMsg(item){            //构造参数
-
-                var GoodList;
-
-                axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+item.goodsId).then(response => {  //获取商品的基本信息
-                    GoodsList = response.data.data;
-                }).catch(err => alert('网络错误'));
-
-
-                this.$set(this.propsData,'GoodsList',GoodList);
-                this.$set(this.propsData,'userAddress',choosedAddress);
-                this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
+                console.log(item);
+                this.$set(this.propsData,'GoodsList',item.goods);
+                this.$set(this.propsData,'userAddress',item.address);
+                this.$set(this.propsData,'userGoodCaeds',item.chooseCar);
                 this.$set(this.propsData,'count',item.goodsNum);
                 this.$set(this.propsData,'allPrice',item.ordersPrice);
                 this.$set(this.propsData,'orderID',item.ordersId);
@@ -92,8 +85,8 @@
             payAgin(goodId){
                 this.$router.push('/MoreTravelOrder/buy/' + goodId);
             },
-            Todetail(goods){
-                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            Todetail(order){
+                this.$router.push({path: '/theOrderDetail', query: {'order':order}})
             },
         }
     }
