@@ -3,7 +3,6 @@
         <loading-b v-if="goods==null"></loading-b>
         <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
             <div class="goodImg" :style="{backgroundImage:'url(' + good.goodsImageUrl + ')'}"></div>
-
             <div id="message">
                 <div class="theNameRow">
                     <span class="name" v-text="good.goodsName"></span>
@@ -15,8 +14,8 @@
                 </div>
                 <div style="display:flex;flex: 4;">
                     <span style="flex: 1"><div class="createTime" style="clear: both;" v-text="createTime(good.ordersTime)">2020-12-09</div></span>
-                    <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1">去支付</button></span>
-                    <span class="two"><button class="but">再购买</button></span>
+                    <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1" @click.capture.stop="toPay(good)">去支付</button></span>
+                    <span class="two"><button class="but" @click.capture.stop="payAgin(good.goodsId)">再购买</button></span>
                 </div>
             </div>
         </div>
@@ -38,6 +37,7 @@
             return{
                 url:process.env.VUE_APP_URL,
                 goods:null,
+                propsData:{},
             }
         },
         computed:{
@@ -64,11 +64,34 @@
             }).catch(function (err) {
                 console.log(err)
             })
-            // if(this.goods==null){
-            //     this.$router.push('空值页面')
-            // }
+
         },
         methods:{
+            createMsg(item){            //构造参数
+
+                var GoodList;
+
+                axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+item.goodsId).then(response => {  //获取商品的基本信息
+                    GoodsList = response.data.data;
+                }).catch(err => alert('网络错误'));
+
+
+                this.$set(this.propsData,'GoodsList',GoodList);
+                this.$set(this.propsData,'userAddress',choosedAddress);
+                this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
+                this.$set(this.propsData,'count',item.goodsNum);
+                this.$set(this.propsData,'allPrice',item.ordersPrice);
+                this.$set(this.propsData,'orderID',item.ordersId);
+
+                this.$router.push({path:'/submitOrder',query:this.propsData});
+
+            },
+            toPay(item){
+                this. createMsg(item);
+            },
+            payAgin(goodId){
+                this.$router.push('/MoreTravelOrder/buy/' + goodId);
+            },
             Todetail(goods){
                 this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
             },
@@ -85,12 +108,12 @@
         margin-top: 10%;
         font-size:1.8rem;
         font-family:PingFang SC;
-        font-weight:bold;
-        color:rgba(125,125,125,1);
+        /*font-weight:bold;*/
+        color:#b8b8b8;
     }
     .but{
         width:80%;
-        height:5vh;
+        height:4.5vh;
         background:rgba(76,144,245,1);
         border-radius:0.6rem;
         border-style: none;
@@ -109,14 +132,16 @@
     }
     .goodDesc{
         flex: 3;
+        height: 100%;
+        width: 10px;
         font-size:1.6rem;
         font-family:PingFang SC;
         color:#9c9b9b;
         display: flex;
         align-items: center;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        overflow:hidden!important;
+        white-space:nowrap;
+        text-overflow:ellipsis;
     }
 
     .state{
@@ -149,6 +174,10 @@
         color:rgba(45,45,45,1);
         display: flex;
         align-items: center;
+        /*background-color:rebeccapurple ;*/
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .theNameRow{
         flex: 3;
@@ -183,6 +212,7 @@
         display: flex;
         font-family: "PingFang SC";
         margin: 8% auto;
+        box-shadow:0px 0px 13px 0px #cccccc;
     }
     #picture{
         width: 35%;
@@ -197,26 +227,6 @@
         flex-direction: column;
         /*background-color: red;*/
     }
-    #good_title{
-        width: 100%;
-        color: #2C2C2C;
-        font-family: "PingFang SC";
-        font-size: 1.9rem;
-        margin-top: 3%;
-        margin-bottom: 3%;
-        font-weight: bold;
-    }
-    #goodmessage{
-        width: 100%;
-        /*height: 7vh;*/
-        color:#575757;
-        font-family: "PingFang SC";
-        font-size: 1.75rem;
-        overflow: hidden;
-        display:table-cell;
-        vertical-align:bottom;
-        margin-left: 50px;
 
-    }
 
 </style>
