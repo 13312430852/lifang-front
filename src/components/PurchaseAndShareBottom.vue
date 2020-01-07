@@ -1,11 +1,13 @@
 <template>
     <div class="buttomBox">
-        <!--商品详情下面的购买按钮，需要传的参数有购买价格（price）,活动类型(isGroupBuy)数据类型暂定-->
+        <!--商品详情下面的购买按钮，需要传的参数有购买价格（price）,活动类型(isGroupBuy)数据类型暂定
+        (isbuytime==-1 && rushtype==1)||(isbuynum==0 && rushtype==2)
+        -->
         <el-button-group style="width: 100%;height: 100%;display: flex;">
-            <el-button class="share">
+            <el-button :disabled="(isbuytime==0 && rushtype==1)||(isbuynum==0 && rushtype==2)" class="share">
                 分享赚佣金
             </el-button>
-            <el-button :disabled="isbuytime!=-1 || isbuynum==0" class="purchase" @click="toBuy">
+            <el-button :disabled="(isbuytime==0 && rushtype==1)||(isbuynum==0 && rushtype==2)" class="purchase" @click="toBuy">
                 立即抢购 ￥{{ price }}
             </el-button>
         </el-button-group>
@@ -24,6 +26,18 @@
             goodId:{        //商品ID
                 type:String,
                 require:true
+            },
+            rushtype:{
+                type:Number,
+                require:true
+            },
+            isbuynum:{
+                type:Number,
+                require:true
+            },
+            isbuytime:{
+                type:String,
+                require:true
             }
 
         },
@@ -36,6 +50,9 @@
 </script>
 
 <style scoped>
+    .el-button{
+        border-radius: 0px;
+    }
     .purchase span{
         margin-top: 50%;
         display: block;
@@ -43,6 +60,7 @@
     .purchase{
         flex: 1;
         background-color: #4C90F5;
+        border: 1px solid #4C90F5;
         color:rgba(239,239,239,1);;
         font-size: 1.875rem;
         font-family:PingFang SC;
