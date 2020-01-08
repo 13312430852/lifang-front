@@ -373,7 +373,7 @@
         width: 100%;
         display: flex;
         background-color: #ffffff;
-        position: absolute;
+        position: fixed;
         bottom: 0%;
     }
     .basePartTxt{
