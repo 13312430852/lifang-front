@@ -2,7 +2,8 @@
     <div class="allPage">
         <div class="reciept">
             <div class="recieptFirst">
-                <div class="Nname"><span class="Nname1" v-text="PayMessage.userAddress.addressName"></span></div>
+                <div class="Nname" v-text="PayMessage.userAddress.addressName">
+                </div>
                 <div class="Nphone" v-text="PayMessage.userAddress.addressTel">
                 </div>
             </div>
@@ -11,13 +12,14 @@
                     <img src="../assets/adrressIcon.png" width="100%"/>
                 </div>
                 <div class="site" v-text="PayMessage.userAddress.rcAddress">
+
                 </div>
             </div>
         </div>
         <div class="commodity">
             <div class="commodityFirst">
                 <div class="Fno1">
-                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%;border-radius: .3rem;margin-left: 8%" height="100%">
+                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%" height="100%">
                 </div>
                 <div class="Fno2">
                     <div v-text="PayMessage.GoodsList.goods.goodsName" class="Fno2-1">
@@ -100,7 +102,7 @@
             return{
                 theOrderId:null,
                 orderMsg:null,
-
+                isDisable:false,
                 user1:{
                     'nickname':'我是怂狗狗',
                     'numberPhone':'13007808520'
@@ -166,20 +168,11 @@
         height: 14.61%;
         background-color: #ffffff;
         margin: 2.48% auto;
-        border-radius: .8rem;
-        box-shadow:0px 0px 13px 0px #d7d7d7;
 
     }
     .recieptFirst{
         display: flex;
         height: 41%;
-
-    }
-    .Nname1{
-        font-weight:500;
-        overflow: hidden;
-        white-space:nowrap;
-        text-overflow:ellipsis;
 
     }
     .Nname{
@@ -205,7 +198,6 @@
         margin: auto;
     }
     .recieptSecond{
-        margin-top: 3%;
         width: 78.4%;
         height: 42%;
         display: flex;
@@ -235,8 +227,6 @@
         width: 94.67%;
         overflow: hidden;
         text-overflow: ellipsis;
-        border-radius: .8rem;
-        box-shadow:0px 0px 13px 0px #d7d7d7;
     }
     .commodityFirst{
         height: 26.34%;
@@ -252,10 +242,9 @@
 
     }
     .Fno2{
-        width: 49%;
+        width: 53.94%;
         height: 100%;
-        padding-left: 5%;
-        margin-top: 4.23%;
+        margin: 4.23% 1%;
     }
     .Fno2-1{
         height: 44.545%;
@@ -285,14 +274,14 @@
         height: 31.11%;
         width: 90%;
         margin: 5% 5%;
-        font-size: 2rem;
-        color: red;
+        font-size: 162.5%;
+        color: #000000;
     }
     .Fno3-2{
         height: 31.11%;
         width: 90%;
-        padding-left:14%;
-        font-size: 1.75rem;
+        margin: 5% 5%;
+        font-size: 162.5%;
         color: #a8a5a5;
     }
     .commoditySecond{
@@ -371,23 +360,22 @@
         width: 100%;
         display: flex;
         background-color: #ffffff;
-        position: fixed;
-        bottom: 0;
+        position: absolute;
+        bottom: 0%;
     }
     .basePartTxt{
-        font-size: 1.75rem;
+        font-size: 1.625rem;
         color: #ff7a01;
         width: 30%;
         margin: auto 0 auto 37%;
     }
     .btn{
        width: 26.67%;
-        height: 80%;
+        height: 66.67%;
         margin: auto 4.5%;
         background-color: #fe5500;
         color: #ffffff;
         font-size: 2rem;
         border-style: none;
-        border-radius: .6rem;
     }
 </style>

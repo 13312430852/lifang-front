@@ -108,8 +108,11 @@
                     .then(re => {
                         axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
                             .then(re => {
-                                this.address = re.data.data;
-                                console.log(this.address);
+                                if (re.data.data==null){
+                                    this.address = [];
+                                }else {
+                                    this.address = re.data.data;
+                                }
                             })
                             .catch(err => console.log(err));
                     })
@@ -134,16 +137,18 @@
             console.log(process.env.VUE_APP_URL);
 
             //获取用户的基本信息
-
             axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
                 .then(re => {
-                    this.address = re.data.data;
-                    if(this.address.length > 0){
-                        this.address.forEach(item =>{
-                            this.$set(item,'isOption',false)
-                        })
+                    if (re.data.data==null){
+                        this.address = [];
+                    }else {
+                        this.address = re.data.data;
+                        if(this.address.length > 0){
+                            this.address.forEach(item =>{
+                                this.$set(item,'isOption',false)
+                            })
+                        }
                     }
-                    console.log(this.address);
                 })
                 .catch(err => console.log(err));
         }
