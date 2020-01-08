@@ -1,7 +1,7 @@
 <template>
     <div id="box1">
         <loading-b v-if="goods==null"></loading-b>
-        <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
+        <div class="goods" v-for="(good,i) in goods" @click="Todetail(good)">
             <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
@@ -15,7 +15,7 @@
                 <div style="display:flex;flex: 4;">
                     <span style="flex: 1"><div class="createTime" style="clear: both;" v-text="createTime(good.ordersTime)">2020-12-09</div></span>
                     <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1">去支付</button></span>
-                    <span class="two"><button class="but">再购买</button></span>
+                    <span class="two"><button class="but" @click.capture.stop="payAgin(good.goodsId)">再购买</button></span>
                 </div>
             </div>
         </div>
@@ -57,7 +57,6 @@
                 "ordersPayState":"1"
             })
                 .then(response => {
-                    // console.log(response.data);
                     this.goods = response.data.data;
                 }).catch(function (err) {
                 console.log(err);
@@ -65,8 +64,11 @@
 
         },
         methods:{
-            Todetail(goods){
-                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            payAgin(goodId){
+                this.$router.push('/MoreTravelOrder/buy/' + goodId);
+            },
+            Todetail(order){
+                this.$router.push({path: '/theOrderDetail', query: {'order':order}})
             },
         }
     }

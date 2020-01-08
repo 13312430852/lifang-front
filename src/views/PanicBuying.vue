@@ -63,11 +63,18 @@
                 </el-radio>
             </el-collapse-item>
             <el-collapse-item class="collapse_item" title="优惠券">
+                <el-radio class="address_item" v-for="(item) in userGoodCaeds" :selected="isUserCards(item)" v-model="chooseCar" :label="item.discountId" border>
+                    <div class="renAtel">
+                       <span>满<span class="ren">{{item.cardsOrder}}</span><span>减 </span><span v-text="item.cardsPrice">5</span></span>
+                        <span class="tel">可用</span>
+                        <div class="clear"></div>
+                    </div>
+                </el-radio>
             </el-collapse-item>
         </el-collapse>
 
         <!--        优惠-->
-        <div class="Coupon">
+       <!-- <div class="Coupon">
             <div class="couponLeft">优惠券</div>
             <div class="toAddAddress1" @click="toAddAddress" v-if="userAddress == null">没有可使用优惠券</div>
             <select v-if="userGoodCaeds != null" class="Place" v-model="chooseCar" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
@@ -76,7 +83,7 @@
                 </option>
             </select>
 
-        </div>
+        </div>-->
         <!--        立即购买-->
         <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
         <div class="blank"></div>
@@ -292,7 +299,9 @@
 
             axios.get(process.env.VUE_APP_URL + 'usercards/queryValidUserCards/' + this.goodId)       //获取优惠券
                 .then(re => {
+                    console.log('查询卡用卡券');
                     this.userGoodCaeds = re.data.data;
+                    console.log(this.userGoodCaeds);
                 }).catch(err => alert('网络错误'))
 
         }
