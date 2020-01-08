@@ -253,27 +253,31 @@
             submitOrder(){      //提交订单后返回一个订单ID
                 // 响应式添加订单对象
                 this.createSubmitOrder();
-                axios.post(process.env.VUE_APP_URL + 'order/limitAndTimeCreateOrder',this.createOrder)
-                    .then(response =>{
-                        if (response.data.code == 200){
-                            this.orderId = response.data.data.ordersId;          //成功后返回订单ID
-                            console.log('hdgfhsgfh');
-                            console.log(response);
-                            this.$router.push('/submitOrder'+this.orderId);
-                            this.toSubmitPage();
-                        } else {
-                            this.$alert('商品余量不足或抢购已结束。', '抢购失败', {
-                                confirmButtonText: '确定',
-                                callback: action => {
-                                    this.$message({
-                                        type: 'info',
-                                        message: `action: ${ action }`
-                                    });
-                                }
-                            });
-                        }
-                    })
-                    .catch(err => console.log(err));
+                if (this.selectAddressId!=null){
+                    axios.post(process.env.VUE_APP_URL + 'order/limitAndTimeCreateOrder',this.createOrder)
+                        .then(response =>{
+                            if (response.data.code == 200){
+                                this.orderId = response.data.data.ordersId;          //成功后返回订单ID
+                                console.log('hdgfhsgfh');
+                                console.log(response);
+                                this.$router.push('/submitOrder'+this.orderId);
+                                this.toSubmitPage();
+                            } else {
+                                this.$alert('商品余量不足或抢购已结束。', '抢购失败', {
+                                    confirmButtonText: '确定',
+                                    callback: action => {
+                                        this.$message({
+                                            type: 'info',
+                                            message: `action: ${ action }`
+                                        });
+                                    }
+                                });
+                            }
+                        })
+                        .catch(err => console.log(err));
+                }else {
+                    this.$message.error('地址不能为空！');
+                }
             }
         },
         created() {

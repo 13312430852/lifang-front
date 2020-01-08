@@ -9,15 +9,24 @@
             </div>
         </div>
         <div class="line"></div>
+
+        <div class="haveAddressBox" v-if="address == null || address.length == 0">
+                <div class="noContent">        <!--空页-->
+                    <div style="flex: 2;"></div>
+                    <div style="flex: 3;display: flex;align-items: flex-end"><span class="tipsFont">您还未添加地址哟。</span></div>
+                    <div style="flex: 2"></div>
+                </div>
+        </div>
+
         <div class="haveAddressBox" v-if="address.length > 0">
             <div class="itemBox">
-            <div
-                 v-for="(item,index) in address"
-                 :class="{'addressList':true, 'addressListBorder':item.isOption,move:candelete.addressId==item.addressId}"
-                 @touchstart="touchStart(item)"
-                 @touchend="touchEnd(item,index)"
-                 ref="addressList"
-            >
+                <div
+                        v-for="(item,index) in address"
+                        :class="{'addressList':true, 'addressListBorder':item.isOption,move:candelete.addressId==item.addressId}"
+                        @touchstart="touchStart(item)"
+                        @touchend="touchEnd(item,index)"
+                        ref="addressList"
+                >
 
                     <div class="addressMesBox" @click="toUpdate(item)">
                         <div class="col-1 nameAndNum">
@@ -25,12 +34,14 @@
                             <span class="number" v-text="item.addressTel">16626374892</span>
                         </div>
                         <div class="col-2">
-                            <div class="addressDetail" v-text="item.rcAddress">回家会发生手机号福建省手机号发送福建股东会是个是否关函数的符合施工方师范设计费后视镜福建师范就是</div>
+                            <div class="addressDetail" v-text="item.rcAddress">
+                                回家会发生手机号福建省手机号发送福建股东会是个是否关函数的符合施工方师范设计费后视镜福建师范就是
+                            </div>
                         </div>
                     </div>
-                <div class="option" v-if="item.isOption"><span @click="deleteAdd(item.addressId)">删除</span></div>
+                    <div class="option" v-if="item.isOption"><span @click="deleteAdd(item.addressId)">删除</span></div>
 
-            </div>
+                </div>
             </div>
         </div>
     </div>
@@ -97,8 +108,11 @@
                     .then(re => {
                         axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
                             .then(re => {
-                                this.address = re.data.data;
-                                console.log(this.address);
+                                if (re.data.data==null){
+                                    this.address = [];
+                                }else {
+                                    this.address = re.data.data;
+                                }
                             })
                             .catch(err => console.log(err));
                     })
@@ -123,16 +137,18 @@
             console.log(process.env.VUE_APP_URL);
 
             //获取用户的基本信息
-
             axios.get(process.env.VUE_APP_URL + 'address/findAddressById')
                 .then(re => {
-                    this.address = re.data.data;
-                    if(this.address.length > 0){
-                        this.address.forEach(item =>{
-                            this.$set(item,'isOption',false)
-                        })
+                    if (re.data.data==null){
+                        this.address = [];
+                    }else {
+                        this.address = re.data.data;
+                        if(this.address.length > 0){
+                            this.address.forEach(item =>{
+                                this.$set(item,'isOption',false)
+                            })
+                        }
                     }
-                    console.log(this.address);
                 })
                 .catch(err => console.log(err));
         }
@@ -140,6 +156,28 @@
 </script>
 
 <style scoped>
+
+
+    .tipsFont{
+        color: #d8d8d8;
+        font-size: 2rem;
+    }
+    .noContent{
+        width: 100%;
+        height: 100%;
+        background-image: url("../assets/空页提示.png");
+        /*background-color: red;*/
+        background-repeat:no-repeat;
+        background-position: center 27%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+    }
+
+
+
     .noTouch{
         width: 0;
     }
@@ -350,7 +388,10 @@
         height: 7.5vh;
         background-color:#f6f5f4;
         margin: 0 auto;
-        border-radius: 12px;
+        border-top-right-radius: 12px;
+        border-top-left-radius: 12px;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
     }
     .borderNotRadius{
         width: 92%;

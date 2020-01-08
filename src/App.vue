@@ -73,6 +73,16 @@
 			this.getThisUrl('token'); //获取用户xxx码，如果返回此码，则说明已经授权，然后把此码传给后台，后台返回用户基本信息。
 		}
 	}
+	window.onload = function() {
+		document.addEventListener('touchstart', function(event) {
+			if (event.touches.length > 1) {
+				event.preventDefault()
+			}
+		})
+		document.addEventListener('gesturestart', function(event) {
+			event.preventDefault()
+		})
+	}
 </script>
 
 <style>

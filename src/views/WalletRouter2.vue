@@ -9,7 +9,8 @@
         <el-table
                 v-else
                 :data="moneyList"
-                stripe>
+                stripe
+                lazy>
             <el-table-column
                     class="daytime"
                     label="日期"
@@ -40,8 +41,7 @@
                     </span>
                 </template>
             </el-table-column>
-        </el-table
-                v-else>
+        </el-table>
     </div>
 </template>
 

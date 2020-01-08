@@ -1,7 +1,12 @@
 <template>
     <div id="box1">
-        <loading-b v-if="goods==null"></loading-b>
-        <div class="goods" v-for="(good,i) in goods"  @click="Todetail(good)">
+        <loading-b v-if="inRequest"></loading-b>
+        <div v-if="goods == null || goods.length == 0" class="noContent">        <!--空页-->
+            <div style="flex: 2;"></div>
+            <div style="flex: 1;display: flex;align-items: flex-end"><span class="tipsFont">您还没有下过订单哟。</span></div>
+            <div style="flex: 2"></div>
+        </div>
+        <div class="goods" v-if="goods.length != 0" v-for="(good,i) in goods"  @click="Todetail(good)">
             <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
@@ -35,6 +40,9 @@
         },
         data(){
             return{
+                inRequest:true,
+
+
                 url:process.env.VUE_APP_URL,
                 goods:null,
                 propsData:{},
@@ -60,6 +68,7 @@
                     console.log(response.data);
                     console.log('scnjbscb');
                     console.log(response.data.data);
+                    this.inRequest = false      //已经结束请求
                 this.goods = response.data.data;
 
             }).catch(function (err) {
@@ -100,6 +109,27 @@
 </script>
 
 <style scoped>
+
+
+    .tipsFont{
+        color: #d8d8d8;
+        font-size: 2rem;
+    }
+    .noContent{
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/空页提示.png");
+        background-repeat:no-repeat;
+        background-position: center 27%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+    }
+
+
+
     .createTime{
         width: 150%;
         height: 100%;

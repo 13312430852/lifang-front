@@ -7,11 +7,16 @@
                 <button class="btn" @click="del">删除已过期</button>
             </div>
             <div class="theDiscountList">
-                <div class="theDiscount" v-for="item in CouponList">
+                <div v-if="CouponList == null || CouponList.length == 0" class="noContent">        <!--空页-->
+                    <div style="flex: 2;"></div>
+                    <div style="flex: 1;display: flex;justify-content: center"><span class="tipsFont">您还未领取过卡券哟。</span></div>
+                    <div style="flex: 2"></div>
+                </div>
+
+                <div v-if="CouponList != null || CouponList.length != 0" class="theDiscount" v-for="item in CouponList">
                     <div :class="{'money':!isDiscountOut(item.cardsState),'moneyOut':isDiscountOut(item.cardsState)}">
                         <div class="tips">
                             满 <span v-text="item.order">10</span> 减
-<!--                            满 <span style="color: white">10</span> 减-->
                         </div>
                         <div class="theMoney">
                             ￥<span v-text="item.price">56</span>
@@ -26,39 +31,12 @@
                         <div style="height: 1px;width: 92%;background-color: #bbbbbb;margin: 0 auto"></div>
                         <div class="botMsg">
                             <span class="timeFont">有效期至：</span>
-                            <span class="timeFont"item.time>2019-12-09</span>
+                            <span class="timeFont" v-text="item.time"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-<!--        &lt;!&ndash;我的优惠券总的大布局&ndash;&gt;
-        <div class="coupon" id="coupon">
-            &lt;!&ndash;            单个优惠券&ndash;&gt;
-            <div class="coupon1" v-for="item in CouponList">
-                    <span style="margin:25% 20%;display: block">
-                        <div style="display: flex">
-                            <p style="float: left">满</p>
-                        <p style="float: left" v-text="item.order"></p>
-                        <p style="float: left">减</p>
-                        <p style="float: left" v-text="item.price"></p></div>
-
-
-                        <p style="  overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                           v-text="item.goodsName"></p>
-
-                        <p>有效期至：</p>
-                        <p style="  overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-                           v-text="item.time"></p>
-
-                        <button style="width: 80%;height: 3%;margin-left: 8%;margin-top: 2%;color: #4C90F5;font-size: 1em;
-                        border: none;background-color: transparent;outline: none;" v-text="cardsState(item.cardsState)"></button>
-
-                    </span>
-            </div>
-        </div>-->
     </div>
 </template>
 
@@ -111,30 +89,23 @@
 </script>
 
 <style scoped>
-    /*.abc{
-        width: 200px;
-        height: 100px;
-        position: relative;
-        background-image: radial-gradient(circle at right top, #fff, #fff 10px, transparent 11px),
-        radial-gradient(circle at right bottom, #fff, #fff 10px, transparent 11px);
-        background-color: blueviolet;
-
+    .tipsFont{
+        color: #d8d8d8;
+        font-size: 2rem;
+        margin-top: 30%;
     }
-    .abc:after{
-        content: '';
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        right: -5px;
-        width: 10px;
+    .noContent{
+        width: 100%;
         height: 100%;
-        background: radial-gradient(circle, #fff, #fff 2px, transparent 5px);
-        background-size: 10px 10px;
+        background-image: url("../assets/空页提示.png");
+        background-repeat:no-repeat;
+        background-position: center 27%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
     }
-
-
-*/
-
 
     .toUse button{
         background-color: #4c90f5;

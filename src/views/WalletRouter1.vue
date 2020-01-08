@@ -8,7 +8,7 @@
         </div>
         <el-table
                 v-else
-                :data="moneyList"
+                :data="moneyOutList"
                 stripe
                 lazy>
             <el-table-column
@@ -25,7 +25,7 @@
                     align="center">
                 <template slot-scope="scope">
                     <span style="color: #67C23A">
-                        -
+                        +
                         <span v-html="scope.row.moneyPrice">
                         </span>
                     </span>
@@ -51,18 +51,18 @@
         data(){
           return{
               outMoney:null,
-              moneyOutList:[
-                  /*{'moneyTime':'我是大傻逼','moneyPrice':676676,'moneyDetails':'有多少'}*/
-              ],
+              moneyOutList:null,
           }
         },
         created() {
             axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
                 .then(response => {
                     this.moneyOutList = response.data.data.moneyList;
-                    if (this.moneyOutList!=null && this.moneyOutList!=[])
-                    for (let i = 0; i < this.moneyList.length; i++) {
-                        this.moneyOutList[i].moneyTime =  this.moneyOutList[i].moneyTime.replace(/\s+|&nbsp;/ig, '<br/>');
+                    console.log(this.moneyOutList);
+                    if (this.moneyOutList!=null){
+                        for (let i = 0; i < this.moneyOutList.length; i++) {
+                            this.moneyOutList[i].moneyTime =  this.moneyOutList[i].moneyTime.replace(/\s+|&nbsp;/ig, '<br/>');
+                        }
                     }
                     this.outMoney = response.data.data.countMoney;
                 })

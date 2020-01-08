@@ -78,8 +78,13 @@
                     console.log(address);
                     axios.post(process.env.VUE_APP_URL + "address/addAddress",JSON.parse(JSON.stringify(address))).then(response => {
                         if(response.data.flag == true){
-                            this.$router.push('/address/addSuccess');
-                            console.log(response.data);
+                            this.$message({
+                                message: '地址添加成功！',
+                                type: 'success'
+                            });
+                            this.$router.push({
+                                path:'/thehome/Order/myaddress'
+                            })
                         }else {
                             alert('添加地址失败');
                         }

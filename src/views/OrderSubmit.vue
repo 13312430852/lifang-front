@@ -88,11 +88,9 @@
         </div>
         <div class="basePart">
             <div class="basePartTxt">
-                小计：{{PayMessage.allPrice}}
+                小计：￥<span style="font-size: 2.5rem;font-weight: bolder" v-text="PayMessage.allPrice"></span>
             </div>
-
             <button class="btn" @click="toPay">立即购买</button>
-
         </div>
     </div>
 </template>
@@ -104,7 +102,7 @@
             return{
                 theOrderId:null,
                 orderMsg:null,
-
+                isDisable:false,
                 user1:{
                     'nickname':'我是怂狗狗',
                     'numberPhone':'13007808520'
@@ -182,12 +180,14 @@
         font-weight:500;
         color: #000000;
         flex: 1;
-        height: 56.25%;
+        padding-left: 5%;
         width: 50%;
-        margin: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         text-align: center;font-weight:500;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        min-width: 0;
+        /*background-color: #4c90f5;*/
     }
     .Nphone{
         font-size: 200%;
