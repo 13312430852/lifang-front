@@ -91,7 +91,7 @@
 
                     <!--滑动-->
                     <div style="flex: 5;width: auto;height:50%;overflow-y:scroll;">
-                        <div class="car1" v-for="(item1,i) in card">
+                            <div class="car1" v-for="(item1,i) in card">
                             <div class="left">
                                 <!--满减条件-->
                                 <div style="float: left;width: 30%;height: 100%;display:flex;align-items: center;justify-content: center; color: red;">
@@ -119,14 +119,22 @@
 
 
                             </div>
-                            <div class="right">
-                                <div class="getBtn">
+                            <div class="right" >
+                                <div :class="{'getBtn':!getCared(item1.cardsId),'getBtn2':getCared(item1.cardsId)}" id="lingqudiv">
                                     <div class="font" @click="lingqu(item1.cardsId),toShow=!toShow" >领取</div>
                                 </div>
                             </div>
                         </div>
+
+
+                        <div v-if="card == null" style="border: 0px black solid;margin-top: 50px;text-align: center">
+                           <div>
+                               <img src="../assets/空页面.png" height="172" width="172"/>
+                           </div>
+                            <span style="font-size: 12px;color: #b8b8b8">当前没有卡券哦，请时刻关注吧！</span>
+                        </div>
+
                     </div>
-<!--                    <div style="flex: 1;background-color: black"></div>-->
 
                     <div style="flex:1;background-color: white;width: auto;align-items: center;justify-content: center;display: flex;">
                         <el-button type="warning" round style="width: 80%; " @click="drawer = false">关闭</el-button>
@@ -154,6 +162,7 @@
         },
         data(){
             return{
+                CouponList:null,
                 direction:'btt',
                 isReport:false,
                 drawer: false,
@@ -183,6 +192,20 @@
             }
         },
         computed:{
+            getCared(){
+                return it => {
+                    if(this.CouponList != null){
+                        for(let i = 0;i < this.CouponList.length;i++){
+                            if(it == this.CouponList[i].cardsId) return false    //未领取
+                            else return true    //已领取
+                        }
+                    }else {
+                        return false
+                    }
+
+
+                }
+            },
             istype(){
                 if(this.countType == 1) return 1;
                 else if(this.countType == 2) return 2;
@@ -237,10 +260,10 @@
                 axios.get(process.env.VUE_APP_URL + 'allcards/queryCardsByGoodsId/' + goodid)
                     .then(re => {
                         if(re.data.code == 200){
+                            console.log('查询该商品的卡券');
                             console.log(re.data);
                             this.card = re.data.data;
-                        }else {
-                            alert(re.data.message)
+                            console.log(this.card);
                         }
 
 
@@ -260,6 +283,8 @@
                                 }
                                 ,1500)
                             alert(response.data.message);
+                            this.getMycard();
+                            this.getCared();
                         }else{
                             alert(response.data.message);
                         }
@@ -268,6 +293,16 @@
                 });
 
 
+            },
+            getMycard()
+            {
+                axios.get(process.env.VUE_APP_URL + 'usercards/queryValidUserCards/'+this.id)
+                    .then(re => {
+                        console.log('获得用户已有卡券')
+                        this.CouponList = re.data.data;
+                        console.log(this.CouponList)
+                    })
+                    .catch()
             }
             },
 
@@ -288,7 +323,11 @@
                     if(this.countType == 1){
                         this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
                     }
-                })
+                });
+
+                 this.getMycard();
+
+
         },
 
 
@@ -467,7 +506,7 @@
         width: 80%;
         height: 15%;
         display: flex;
-        background-color: #ff4400;
+        /*background-color: #ff4400;*/
         border-radius: .8rem;
         margin: 3% auto;
         font-size: 20px;
@@ -475,6 +514,8 @@
         box-shadow:4px 4px 10px #BEBEBE;
 
     }
+
+
     .left{
         text-align: center;
         width: 80%;
@@ -498,19 +539,33 @@
 
     .getBtn{
         width: 100%;
-        height: 100%;
-        /*background-color:#ff4400;*/
-        /*border: 1px solid #ff4400;*/
-
+        height: 50px;
+        border: 0px salmon solid;
+        background-color:#ff4400;
+        border-radius: 0 0.8rem 0.8rem 0;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .getBtn2{
+        width: 100%;
+        height: 50px;
+        border: 0px salmon solid;
+        background-color: #5d5d5d;
+        border-radius: 0 0.8rem 0.8rem 0;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .font{
         border: 0px black solid;
+        display: block;
         width: auto;
-        height: 100%;
+        height: 50%;
         margin: 0 20%;
         color: white;
-        margin:10%;
-        text-align: center;
         font-size: 2.5rem;
 
     }
