@@ -21,14 +21,14 @@
             <div id="money" ><!--第二部分-->
                 <div class="Moneytop"><!--状态明细-->
                     <div class="Moneytop1" @click="lllla"  >
-                        收入明细：<span style="color: #67C23A">{{outMoney}}￥</span>
+                        收入明细：<span style="color: #67C23A">￥{{outMoney}}</span>
                         <div class="walletHr-box">
                             <div class="walletHr"  v-show="theOne">
                             </div>
                         </div>
                     </div>
                     <div class="Moneytop1" @click="lllla2">
-                        支出明细：<span style="color: #F56C6C">{{countMoney}}￥</span>
+                        支出明细：<span style="color: #F56C6C">￥{{countMoney}}</span>
                         <div class="walletHr-box">
                             <div class="walletHr" v-show="theTwo">
 
@@ -107,7 +107,16 @@
 
         methods:{
             toWithdraw(){
-                this.$router.push('/withdraw');
+                /*this.$router.push('/withdraw');*/
+                /*this.$alert('Sorry!此功能尚未开发！', '功能未开发', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                    }
+                });*/
+                this.$notify.info({
+                    title: '功能未开放',
+                    message: '提现功能尚未开放哦！'
+                });
             },
             lllla(){
                 this.theOne  = true;
@@ -131,6 +140,12 @@
         width: 92%;
         color: #ffffff;
         margin: 2.24% auto;
+        /* background-image: linear-gradient(to right, #4C90F5, #B8D2FB);
+         border-radius: 10px;*/
+
+        background:linear-gradient(221deg,#7fa4fb,#6cb7fb);
+        box-shadow:0px 0px 13px 0px rgba(129,67,243,0.47);
+        border-radius:10px;
     }
 
     .tex {

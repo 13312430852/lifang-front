@@ -7,7 +7,7 @@
             <el-button :disabled="(isbuytime==0 && rushtype==1)||(isbuynum==0 && rushtype==2)" class="share">
                 分享赚佣金
             </el-button>
-            <el-button :disabled="(isbuytime==0 && rushtype==1)||(isbuynum==0 && rushtype==2)" class="purchase" @click="toBuy">
+            <el-button :disabled="(isbuytime==0 && rushtype==1)||(isbuynum==0 && rushtype==2) || rushtime==1" class="purchase" @click="toBuy">
                 立即抢购 ￥{{ price }}
             </el-button>
         </el-button-group>
@@ -36,6 +36,10 @@
                 require:true
             },
             isbuytime:{
+                type:Number,
+                require:true
+            },
+            rushtime:{
                 type:Number,
                 require:true
             }

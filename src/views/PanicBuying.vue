@@ -51,7 +51,7 @@
             </select>-->
 
 
-        <el-collapse accordion>
+        <el-collapse>
             <el-collapse-item class="collapse_item" title="收货地址">
                 <el-radio class="address_item" v-for="(item) in userAddress" :selected="isDefaultAddress(item)" v-model="selectAddressId" :label="item.addressId" border>
                     <div>收货地址：{{item.rcAddress}}</div>
@@ -61,15 +61,22 @@
                         <div class="clear"></div>
                     </div>
                 </el-radio>
+                <div v-if="userAddress==null" class="toAddAddress" @click="toAddAddress">
+                    <span style="margin-right: 10px">未添加地址&nbsp;&nbsp;</span>
+                    <img class="addIcon" src="../assets/添加.png">
+                </div>
             </el-collapse-item>
             <el-collapse-item class="collapse_item" title="优惠券">
-                <el-radio class="address_item" v-for="(item) in userGoodCaeds" :selected="isUserCards(item)" v-model="chooseCar" :label="item.discountId" border>
+                <el-radio class="address_item" v-for="(item) in userGoodCaeds" :selected="isUserCards(item)" v-model="chooseCar" :label="item" border>
                     <div class="renAtel">
                        <span>满<span class="ren">{{item.cardsOrder}}</span><span>减 </span><span v-text="item.cardsPrice">5</span></span>
                         <span class="tel">可用</span>
                         <div class="clear"></div>
                     </div>
                 </el-radio>
+                <div v-if="userGoodCaeds==null">
+                    <span>暂无可用优惠券！</span>
+                </div>
             </el-collapse-item>
         </el-collapse>
 
@@ -133,7 +140,7 @@
                     'goodsPrice':this.goodsPrice,   //商品单价
                     'addressId':this.selectAddressId,         //地址ID
                     'goodsNormsId':this.goodsNormsId, //商品规格
-                    'discountId':this.chooseCar,
+                    'discountId':this.chooseCarId,
 
                 },
 
@@ -150,13 +157,15 @@
                     if(this.chooseCar == null) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice);
                     else if(this.chooseCar.cardsOrder <= origPrice) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice) - this.chooseCar.cardsPrice;
                 }
-                else {      //当减少购买数量导致总价下降而不满足使用此优惠券时重置价格为未使用优惠券价格
+                else {
+                    //当减少购买数量导致总价下降而不满足使用此优惠券时重置价格为未使用优惠券价格
                     this.allPrice = origPrice;
                 }
 
             },
             chooseCar(newValue){
                 this.allPrice = this.GoodsList.goodsNorms.currentPrice * this.count; //重置价格
+                this.chooseCarId = newValue.userCards.userCardsId;
                 this.allPrice = this.allPrice - newValue.cardsPrice;       //计算使用优惠券后的价格
             }
         },
@@ -215,12 +224,11 @@
                 this.$set(this.createOrder,'addressId',this.selectAddressId);
                 this.$set(this.createOrder,'businessId',this.theBusinessId);
                 this.$set(this.createOrder,'goodsNormsId',this.goodsNormsId);
-                if(this.chooseCar == null){
+                if(this.chooseCarId == null){
                     this.$set(this.createOrder,'discountId',null);
                 }else {
-                    this.$set(this.createOrder,'discountId',this.chooseCar.cardsId);
+                    this.$set(this.createOrder,'discountId',this.chooseCarId);
                 }
-                console.log(this.createOrder);
             },
             toSubmitPage(){
                 var choosedAddress;
@@ -264,8 +272,6 @@
                                 }
                             });
                         }
-
-
                     })
                     .catch(err => console.log(err));
             }
@@ -310,16 +316,19 @@
 
 <style scoped>
     .addIcon{
-        width: 16%;
+        width: 14px;
+        height: 14px;
         margin-left: 2%;
+        margin-right: 15%;
     }
     .toAddAddress{
         width: 40%;
-        font-size: 1.8rem;
+        font-size: 16px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         color: #bbbbbb;
+        margin: 0 auto;
 
     }
     .collapse_item{
