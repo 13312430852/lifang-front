@@ -13,7 +13,8 @@
         <div class="activeType-time" v-if="istype == 1" style="display: block;z-index: 999">
                  <count-down :time="rushTime">
                                     <template slot-scope="pro">
-                                        <span style="margin-left: 1%">活动时间剩余：</span>
+                                        <span v-if="rushtimeon==1" style="margin-left: 1%">距离活动开始：</span>
+                                        <span v-else style="margin-left: 1%">活动时间剩余：</span>
                                         <span class="right-time">{{ pro.hours }} : {{ pro.minutes }} : {{ pro.seconds }}</span>
                                     </template>
                  </count-down>
@@ -65,7 +66,7 @@
         <div class="block">
         </div>
         <!--没有参与团购的-->
-        <purchase-and-share-bottom :isbuynum="detailGood.rushList[0].rushNum" :rushtype="istype" :isbuytime="rushTime" v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
+        <purchase-and-share-bottom :rushtime="rushtimeon" :isbuynum="detailGood.rushList[0].rushNum" :rushtype="istype" :isbuytime="rushTime" v-if="countType != 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId"></purchase-and-share-bottom>
         <!--参与了团购的-->
         <purchase-add-togeter v-if="countType == 3" :price="detailGood.goodsNorms.currentPrice" :goodId="detailGood.goods.goodsId" :isGroupPrice="detailGood.goodsTeam.discountPrice"></purchase-add-togeter>
 
@@ -171,6 +172,7 @@
                 card:null,
                 cards_get:null,
                 detailGood:null,
+                rushtimeon:null,
                 cards_get:[
                     {'cardID':'123'}
                 ],
@@ -221,6 +223,8 @@
                 else if(nowDate < startDate) this.rushTime = -1;
                 else this.rushTime = 0;
                 console.log(this.rushTime);
+                //活动尚未开始
+                if (nowDate < startDate) this.rushtimeon = 1;
             },
             StringToDate(date){
                 date = date.substring(0,19);
