@@ -190,7 +190,7 @@
         width: 50%;
         margin: auto;
         text-align: center;font-weight:500;
-        overflow: hidden;
+
         text-overflow: ellipsis;
     }
     .Nphone{
