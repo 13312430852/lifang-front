@@ -4,14 +4,14 @@
         <div class="logistics">
             <div class="logistics1">
                 <div class="logistics_Icon">
-                    <img src="../../assets/car.png" height="40%" width="30%"/>
+                    <img src="../../assets/car.png" height="36%"/>
                 </div>
                 <div class="logistics_Message" v-text="ordersExperssState123"></div>
             </div>
             <hr style="background-color: lightgrey">
             <div class="logistics2">
                 <div class="logistics_Icon">
-                    <img src="../../assets/position.png" height="50%" width="30%"/></div>
+                    <img src="../../assets/position.png" height="48%"/></div>
                 <div class="logistics_Message" v-text="order.address.rcAddress"></div>
             </div>
         </div>

@@ -120,6 +120,8 @@
                         if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
                             alert(re.data.message);
                             this.$router.push('/thehome/Order/My/AllOrder')
+                        }else if(re.data.code == 204){
+                            alert('余额不足');
                         }
                     })
                     .catch(err => {

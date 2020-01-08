@@ -91,6 +91,7 @@
         name: "PanicBuying",
         data() {
             return {
+                user:null,
                 propsData:{},
                 goodId:null,
                 theBusinessId:null, //商家ID
@@ -239,11 +240,24 @@
                 this.createSubmitOrder();
                 axios.post(process.env.VUE_APP_URL + 'order/limitAndTimeCreateOrder',this.createOrder)
                     .then(response =>{
-                        this.orderId = response.data.data.ordersId;          //成功后返回订单ID
-                        console.log('hdgfhsgfh');
-                        console.log(response);
-                        this.$router.push('/submitOrder'+this.orderId);
-                        this.toSubmitPage();
+                        if (response.data.code == 200){
+                            this.orderId = response.data.data.ordersId;          //成功后返回订单ID
+                            console.log('hdgfhsgfh');
+                            console.log(response);
+                            this.$router.push('/submitOrder'+this.orderId);
+                            this.toSubmitPage();
+                        } else {
+                            this.$alert('商品余量不足或抢购已结束。', '抢购失败', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `action: ${ action }`
+                                    });
+                                }
+                            });
+                        }
+
 
                     })
                     .catch(err => console.log(err));
