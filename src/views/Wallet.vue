@@ -83,7 +83,7 @@
                     console.log(this.moneyList);
                     console.log(this.countMoney);
                 })
-                .catch(err => alert('网络错误'))
+                .catch(err => alert('网络错误'));
 
         axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
             .then(response => {
@@ -91,7 +91,7 @@
                 this.outMoney = response.data.data.countMoney;
                 console.log(this.moneyOutList);
             })
-            .catch(err => alert('网络错误'))
+            .catch(err => alert('网络错误'));
 
             //获取用户的基本信息
        axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
@@ -102,7 +102,7 @@
                         this.user.user_all_money = 0
                     }*/
                 })
-           .catch(err => alert('未请求到用户基本数据错误为：' + err))
+           .catch(err => alert('未请求到用户基本数据错误为：' + err));
     },
 
         methods:{
