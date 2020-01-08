@@ -36,7 +36,7 @@
                 require:true
             },
             isbuytime:{
-                type:String,
+                type:Number,
                 require:true
             }
 
