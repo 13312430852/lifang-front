@@ -1,44 +1,9 @@
 <template>
     <div style="height: 100%;overflow-y: scroll;">
-        <div id="box2">
-            <div class="Share">
-                <div class="edit1">
-                    <div class="quanxuan">
-                        <div v-if="isShow" class="abc" @click="Allchecked()">
-                           全选
-                        </div>
-                    </div>
-                    <div class="edit3">
-                        <button class="edit2" @click="modify()">编辑</button>
-                        <button class="delete" v-if="isShow" @click="remove()">删除</button>
-                    </div>
-                </div>
-
-                <div class="sharBox">
-                    <div class="Share_box" v-for="(share,i) in goods">
-                        <div class="share_detail">
-                            <div class="checkted_box">
-                                <input type="checkbox" v-show="isShow" class="check" v-model="share.completed">
-                            </div>
-
-                            <div class="border">
-                                <div class="picture">
-                                    <img :src="share.goods_image_url" width="100%" height="100%" @click="ToshareDetail">
-                                </div>
-                                <div class="shareName" v-text="share.goods_name"></div>
-                            </div>
-
-                        </div>
-                        <div class="share_time">
-                            <div class="left">分享时间：</div>
-                            <div v-text="share.share_time" class="right"></div>
-                        </div>
-                    </div>
-
-                </div>
-
-        </div>
-
+        <div v-if="CouponList == null || CouponList.length == 0" class="noContent">        <!--空页-->
+            <div style="flex: 2;"></div>
+            <div style="flex: 1;display: flex;justify-content: center"><span class="tipsFont">本功能尚未开放，敬请期待！</span></div>
+            <div style="flex: 2"></div>
         </div>
     </div>
 </template>
@@ -58,40 +23,6 @@
                     'user_regist_time':'2019.12.12'
                 },
                 goods:[
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤1',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'
-                        },
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤2',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤3',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤4',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本'},
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤5',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本',
-                    },
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤6',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本',
-
-                    },
-                    {'goods_image_url': require('../../assets/clothse.jpg'),
-                        'goods_name':'T恤6',
-                        'share_time':'2019-12-12',
-                        'goods_desc':'是出版发挥不出事多年的时间成本事多年的时间成本',
-
-                    },
                 ],
                 isShow:false,
 
@@ -139,6 +70,22 @@
 </script>
 
 <style scoped>
+    .tipsFont{
+        color: #d8d8d8;
+        font-size: 18px;
+    }
+    .noContent{
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/空页提示.png");
+        background-repeat:no-repeat;
+        background-position: center 27%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+    }
     .sharBox{
         height: 80%;
         overflow-y: scroll!important;
