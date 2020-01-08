@@ -88,11 +88,9 @@
         </div>
         <div class="basePart">
             <div class="basePartTxt">
-                小计：{{PayMessage.allPrice}}
+                小计：￥<span style="font-size: 2.5rem;font-weight: bolder" v-text="PayMessage.allPrice"></span>
             </div>
-
-            <button class="btn" @click="toPay" :disabled="isDisable">立即购买</button>
-
+            <button class="btn" @click="toPay">立即购买</button>
         </div>
     </div>
 </template>
@@ -115,10 +113,6 @@
         },
         methods:{
             toPay(){
-                this.isDisable = true;
-                setTimeout(() => {
-                    this.isDisable = false;
-                }, 1000);
                 axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.PayMessage.orderID)
                     .then(re => {
                         if(re.data.code == 200 ){       //支付成功后跳至订单详情页面
@@ -186,12 +180,14 @@
         font-weight:500;
         color: #000000;
         flex: 1;
-        height: 56.25%;
+        padding-left: 5%;
         width: 50%;
-        margin: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         text-align: center;font-weight:500;
-
-        text-overflow: ellipsis;
+        min-width: 0;
+        /*background-color: #4c90f5;*/
     }
     .Nphone{
         font-size: 200%;
