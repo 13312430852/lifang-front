@@ -1,7 +1,7 @@
 <template>
     <div id="box1">
         <loading-b v-if="goods==null"></loading-b>
-        <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
+        <div class="goods" v-for="(good,i) in goods" @click="Todetail(good)">
             <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
@@ -57,7 +57,6 @@
                 "ordersPayState":"1"
             })
                 .then(response => {
-                    // console.log(response.data);
                     this.goods = response.data.data;
                 }).catch(function (err) {
                 console.log(err);
@@ -68,8 +67,8 @@
             payAgin(goodId){
                 this.$router.push('/MoreTravelOrder/buy/' + goodId);
             },
-            Todetail(goods){
-                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            Todetail(order){
+                this.$router.push({path: '/theOrderDetail', query: {'order':order}})
             },
         }
     }
