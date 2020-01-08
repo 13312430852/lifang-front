@@ -15,7 +15,7 @@
                 <div style="display:flex;flex: 4;">
                     <span style="flex: 1"><div class="createTime" style="clear: both;" v-text="createTime(good.ordersTime)">2020-12-09</div></span>
                     <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1" @click.capture.stop="toPay(good)">去支付</button></span>
-                    <span class="two"><button class="but">再购买</button></span>
+                    <span class="two"><button class="but" @click.capture.stop="payAgin(good.goodsId)">再购买</button></span>
                 </div>
             </div>
         </div>
@@ -69,6 +69,9 @@
             // }
         },
         methods:{
+            payAgin(goodId){
+                this.$router.push('/MoreTravelOrder/buy/' + goodId);
+            },
             toPay(item){
                 this. createMsg(item);
             },

@@ -26,7 +26,7 @@
                         <div style="height: 1px;width: 92%;background-color: #bbbbbb;margin: 0 auto"></div>
                         <div class="botMsg">
                             <span class="timeFont">有效期至：</span>
-                            <span class="timeFont">2019-12-09</span>
+                            <span class="timeFont"item.time>2019-12-09</span>
                         </div>
                     </div>
                 </div>
