@@ -67,7 +67,7 @@
                 </div>
             </el-collapse-item>
             <el-collapse-item class="collapse_item" title="优惠券">
-                <el-radio class="address_item" v-for="(item) in userGoodCaeds" :selected="isUserCards(item)" v-model="chooseCar" :label="item" border>
+                <el-radio class="address_item" v-for="(item) in userGoodCaeds" :selected="isUserCards(item)" v-model="chooseCar" :label="item" :disabled="item.cardsOrder>allPrice" border>
                     <div class="renAtel">
                        <span>满<span class="ren">{{item.cardsOrder}}</span><span>减 </span><span v-text="item.cardsPrice">5</span></span>
                         <span class="tel">可用</span>
@@ -151,9 +151,14 @@
             }
         },
         watch:{
-            count(newValue){       //当购买数量改变时改变相应的总价
-                let origPrice = this.GoodsList.goodsNorms.currentPrice * this.count; //重置价格
-                if(this.chooseCar == null || this.chooseCar.cardsOrder <= origPrice){   //判断是否能够使用原选的优惠券,能够使用或者未选择使用优惠券
+            count(newValue){
+                console.log("newvalue");
+                console.log(newValue);
+                //当购买数量改变时改变相应的总价
+                let origPrice = this.GoodsList.goodsNorms.currentPrice * this.count;
+                //重置价格
+                if(this.chooseCar == null || this.chooseCar.cardsOrder <= origPrice){
+                    //判断是否能够使用原选的优惠券,能够使用或者未选择使用优惠券
                     if(this.chooseCar == null) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice);
                     else if(this.chooseCar.cardsOrder <= origPrice) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice) - this.chooseCar.cardsPrice;
                 }
