@@ -119,8 +119,8 @@
 
 
                             </div>
-                            <div class="right">
-                                <div :class="{'getBtn':!getCared(item1.cardsId),'getBtn2':getCared(item1.cardsId)}">
+                            <div class="right" >
+                                <div :class="{'getBtn':!getCared(item1.cardsId),'getBtn2':getCared(item1.cardsId)}" id="lingqudiv">
                                     <div class="font" @click="lingqu(item1.cardsId),toShow=!toShow" >领取</div>
                                 </div>
                             </div>
@@ -283,6 +283,8 @@
                                 }
                                 ,1500)
                             alert(response.data.message);
+                            this.getMycard();
+                            this.getCared();
                         }else{
                             alert(response.data.message);
                         }
@@ -291,6 +293,16 @@
                 });
 
 
+            },
+            getMycard()
+            {
+                axios.get(process.env.VUE_APP_URL + 'usercards/queryValidUserCards/'+this.id)
+                    .then(re => {
+                        console.log('获得用户已有卡券')
+                        this.CouponList = re.data.data;
+                        console.log(this.CouponList)
+                    })
+                    .catch()
             }
             },
 
@@ -311,15 +323,10 @@
                     if(this.countType == 1){
                         this.compte(new Date(),this.detailGood.rushList[0].rushStartTime,this.detailGood.rushList[0].rushEndTime)
                     }
-                })
+                });
 
-            axios.get(process.env.VUE_APP_URL + 'usercards/queryValidUserCards/'+this.id)
-                .then(re => {
-                    console.log('获得用户已有卡券')
-                    this.CouponList = re.data.data;
-                    console.log(this.CouponList)
-                })
-                .catch()
+                 this.getMycard();
+
 
         },
 
