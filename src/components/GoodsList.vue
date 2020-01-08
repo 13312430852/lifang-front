@@ -1,7 +1,5 @@
 <template>
     <div class="listBox" v-if="theGoods_2 != null">
-		<LoadingE v-if="theGoods_2 == null || theGoods_2 == undefined">
-        </LoadingE>
         <div v-if="typeList.menuName!=null || typeList.menuName!=undefined" v-for="typeList in theGoods_2" style="height: 100%;margin-top: 3.5%">
             <div style="height: 4%;width: 100%;">
                 <el-divider direction="vertical">
@@ -259,7 +257,7 @@
     }
     .realyGood{
         width: 45%;
-        height: 192px;
+        height: 100%;
         margin-left: 3%;
         border-radius: 4px;
         border:1px solid rgba(229,229,229,1);

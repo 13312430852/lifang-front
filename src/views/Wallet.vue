@@ -2,11 +2,11 @@
     <div style="font-family:PingFang SC; font-weight:400;">
         <div id="qianbao1">
             <div>
-                <p class="tex">总资产:</p>
+                <p class="tex">当前资产:</p>
             </div>
 
             <div class="yue">
-                <div class="yue1" style="font-size: 1.85rem; width: 50%">
+                <div class="yue1" style=" width: 50%">
                     ￥<span v-text="user_all_money"></span>
                     <!--{{ user.user_all_money }}-->
                     <!--￥599-->
@@ -21,32 +21,25 @@
             <div id="money" ><!--第二部分-->
                 <div class="Moneytop"><!--状态明细-->
                     <div class="Moneytop1" @click="lllla"  >
-                        收入明细：{{ outMoney}}元
-                        <div class="walletHr" v-show="theOne">
-
+                        收入明细：<span style="color: #67C23A">￥{{outMoney}}</span>
+                        <div class="walletHr-box">
+                            <div class="walletHr"  v-show="theOne">
+                            </div>
                         </div>
                     </div>
                     <div class="Moneytop1" @click="lllla2">
-                        支出明细：{{countMoney}}元
-                        <div class="walletHr" v-show="theTwo">
+                        支出明细：<span style="color: #F56C6C">￥{{countMoney}}</span>
+                        <div class="walletHr-box">
+                            <div class="walletHr" v-show="theTwo">
 
+                            </div>
                         </div>
                     </div>
                     <!--<div class="Moneytop1" @click="lllla" >支出明细：元</div>
                     <div class="Moneytop1" @click="lllla2">收入明细：元</div>-->
                 </div>
-                <div id="datils" v-if="moneyList.length>0">
-                    <div class="item2"><!--顶部-->
-                        <ol class="item1">
-                            <li class="item3">时间</li>
-                            <li class="item3">金额</li>
-                            <li class="item3">详情</li>
-                        </ol>
-                        <hr>
-                    </div><!--顶部结束-->
+                <div id="datils" >
                     <router-view/>
-                    <!--顶部结束-->
-
                 </div>
 
             </div>
@@ -90,7 +83,7 @@
                     console.log(this.moneyList);
                     console.log(this.countMoney);
                 })
-                .catch(err => alert('网络错误'))
+                .catch(err => alert('网络错误'));
 
         axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
             .then(response => {
@@ -98,7 +91,7 @@
                 this.outMoney = response.data.data.countMoney;
                 console.log(this.moneyOutList);
             })
-            .catch(err => alert('网络错误'))
+            .catch(err => alert('网络错误'));
 
             //获取用户的基本信息
        axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
@@ -109,12 +102,21 @@
                         this.user.user_all_money = 0
                     }*/
                 })
-           .catch(err => alert('未请求到用户基本数据错误为：' + err))
+           .catch(err => alert('未请求到用户基本数据错误为：' + err));
     },
 
         methods:{
             toWithdraw(){
-                this.$router.push('/withdraw');
+                /*this.$router.push('/withdraw');*/
+                /*this.$alert('Sorry!此功能尚未开发！', '功能未开发', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                    }
+                });*/
+                this.$notify.info({
+                    title: '功能未开放',
+                    message: '提现功能尚未开放哦！'
+                });
             },
             lllla(){
                 this.theOne  = true;
@@ -132,14 +134,22 @@
 
 <style scoped>
     #qianbao1 {
+
         height: 16.87%;
         background: rgba(76, 144, 245, 1);
         width: 92%;
         color: #ffffff;
         margin: 2.24% auto;
+        /* background-image: linear-gradient(to right, #4C90F5, #B8D2FB);
+         border-radius: 10px;*/
+
+        background:linear-gradient(221deg,#7fa4fb,#6cb7fb);
+        box-shadow:0px 0px 13px 0px rgba(129,67,243,0.47);
+        border-radius:10px;
     }
 
     .tex {
+
         font-family: PingFang SC;
         font-size: 1.75rem;
         font-weight: bold;
@@ -149,21 +159,25 @@
 
     .yue {
 
-        margin: 4% auto ;
+        margin: 2% auto ;
         width: 100%;
         display: flex;
-        height: 29.54%;
+        height: 40%;
     }
 
     .yue1 {
-        margin: auto 4.7%;
-        font-size: 4.125rem;
+
+
+        margin: auto 3%;
+        font-size: 25px;
     }
 
     .yue button {
+
+        text-align: center;
         height: 76.9%;
         width: 18.11%;
-        margin: auto 5%;
+        margin: auto 8%;
         font-size: 1.75rem;
         color: #4c90f5;
         font-family: PingFang SC;
@@ -175,6 +189,7 @@
     /*第一部分css*/
 
     .Moneytop{
+        border: 0px black solid;
         display: flex; width: 92%;
         height: 100%;
 /*        background-color: red;*/
@@ -183,6 +198,8 @@
 
     }
     .Moneytop1{
+        text-align: center;
+        border: 0px black solid;
         flex: 50%;
         font-family:PingFang SC;
         font-weight:bold;
@@ -193,29 +210,62 @@
 
     }
     .item1{
+
         display: flex;
-        width: 92%;
+        flex-direction: row;
+        width: auto;
         /*background-color: green;*/
         margin: auto;
         list-style-type: none;
         margin-top:2.7%;
     }
     .item2{
+
        margin-top: 2.2%;
     }
     .item3{
-        flex: 1;
+        text-align: center;
+
+        flex: 3;
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(110,110,110,1);
         font-size: 1.5rem;
     }
+    .item4{
+        text-align: center;
+
+        flex: 2;
+        font-family:PingFang SC;
+        font-weight:bold;
+        color:rgba(110,110,110,1);
+        font-size: 1.5rem;
+    }
+    .item5{
+        text-align: center;
+
+        flex:3;
+        font-family:PingFang SC;
+        font-weight:bold;
+        color:rgba(110,110,110,1);
+        font-size: 1.5rem;
+    }
+    .walletHr-box{
+        border: 0px black solid;
+        height: 6px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+    }
     .walletHr{
-        height: 3px;
-        width: 50%;
+        border: 0px black solid;
+        height: 2px;
+        width: 51%;
         background-color: #4c90f5;
         border-radius: 2px;
-        margin: 1% 0;
+        display: block;
+        margin: 1px 0;
     }
 
 </style>

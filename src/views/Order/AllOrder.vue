@@ -1,15 +1,20 @@
 <template>
     <div id="box1">
-        <loading-b v-if="goods==null"></loading-b>
-        <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
-            <div class="goodImg" :style="{backgroundImage:'url(' + good.goodsImageUrl + ')'}"></div>
+        <loading-b v-if="inRequest"></loading-b>
+        <div v-if="goods == null || goods.length == 0" class="noContent">        <!--空页-->
+            <div style="flex: 2;"></div>
+            <div style="flex: 1;display: flex;align-items: flex-end"><span class="tipsFont">您还没有下过订单哟。</span></div>
+            <div style="flex: 2"></div>
+        </div>
+        <div class="goods" v-if="goods.length != 0" v-for="(good,i) in goods"  @click="Todetail(good)">
+            <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
-                    <span class="name" v-text="good.goodsName"></span>
+                    <span class="name" v-text="good.goods.goodsName"></span>
                     <span class="price">￥<span v-text="good.ordersPrice"></span></span>
                 </div>
                 <div class="theNameRow">
-                    <span class="goodDesc" v-html="good.goodsDesc"></span>
+                    <span class="goodDesc" v-html="good.goods.goodsDesc"></span>
                     <span class="state" v-text="payState(good.ordersPayState)">未支付</span>
                 </div>
                 <div style="display:flex;flex: 4;">
@@ -35,9 +40,13 @@
         },
         data(){
             return{
+                inRequest:true,
+
+
                 url:process.env.VUE_APP_URL,
                 goods:null,
                 propsData:{},
+                address:{},
             }
         },
         computed:{
@@ -59,31 +68,31 @@
                     console.log(response.data);
                     console.log('scnjbscb');
                     console.log(response.data.data);
+                    this.inRequest = false      //已经结束请求
                 this.goods = response.data.data;
 
             }).catch(function (err) {
                 console.log(err)
             })
 
+
+
         },
         methods:{
             createMsg(item){            //构造参数
+                console.log(item);
+                var detailGood;
+                axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + item.goodsId)
+                    .then(re =>{
+                        detailGood = re.data.data;
+                        this.$set(this.propsData,'GoodsList',detailGood);
+                        this.$set(this.propsData,'userAddress',item.address);
+                        this.$set(this.propsData,'count',item.goodsNum);
+                        this.$set(this.propsData,'allPrice',item.ordersPrice);
+                        this.$set(this.propsData,'orderID',item.ordersId);
 
-                var GoodList;
-
-                axios.get(process.env.VUE_APP_URL + 'goods_details/queryGoodsWithDetailsById/'+item.goodsId).then(response => {  //获取商品的基本信息
-                    GoodsList = response.data.data;
-                }).catch(err => alert('网络错误'));
-
-
-                this.$set(this.propsData,'GoodsList',GoodList);
-                this.$set(this.propsData,'userAddress',choosedAddress);
-                this.$set(this.propsData,'userGoodCaeds',this.chooseCar);
-                this.$set(this.propsData,'count',item.goodsNum);
-                this.$set(this.propsData,'allPrice',item.ordersPrice);
-                this.$set(this.propsData,'orderID',item.ordersId);
-
-                this.$router.push({path:'/submitOrder',query:this.propsData});
+                        this.$router.push({path:'/submitOrder',query:this.propsData});
+                    })
 
             },
             toPay(item){
@@ -92,14 +101,35 @@
             payAgin(goodId){
                 this.$router.push('/MoreTravelOrder/buy/' + goodId);
             },
-            Todetail(goods){
-                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            Todetail(order){
+                this.$router.push({path: '/theOrderDetail', query: {'order':order}})
             },
         }
     }
 </script>
 
 <style scoped>
+
+
+    .tipsFont{
+        color: #d8d8d8;
+        font-size: 2rem;
+    }
+    .noContent{
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/空页提示.png");
+        background-repeat:no-repeat;
+        background-position: center 27%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+    }
+
+
+
     .createTime{
         width: 150%;
         height: 100%;
@@ -197,6 +227,7 @@
 
         background-size: cover;
         background-repeat: no-repeat;
+        box-shadow:0px 0px 13px 0px #cccccc;
     }
     #box1{
         height: 88%!important;

@@ -20,12 +20,12 @@
                     <div class="line"></div>
                     <div class="col-1 fir">
                         <div class="col-1 title">收入</div>
-                        <div class="col-1 num">+<span v-text="countMoney"></span></div>
+                        <div class="col-1 num">+<span v-text="outMoney"></span></div>
                     </div>
                     <div class="line"></div>
                     <div class="col-1 fir">
                         <div class="col-1 title">支出</div>
-                        <div class="col-1 num">-<span v-text="outMoney"></span></div>
+                        <div class="col-1 num">-<span v-text="countMoney"></span></div>
                     </div>
                 </div>
             </div>

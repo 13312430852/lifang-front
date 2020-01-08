@@ -91,23 +91,25 @@
             </div>
             <div style="height: auto; width: 100%"><!--举报描述-->
                 <div style="margin-top: 2%; font-size: 187.5%; color: #323131">描述信息：</div>
-                <div style="height: auto; width: 80%; margin: 10% auto;">
+                <div style="height: auto; width: 100%; ">
                     <textarea v-model="describeMessage" placeholder="请输入描述" @input="handImput"
-                              style="font-size: 175%; color: #696969; margin-left: 5%;
-                              margin-top: 3%; height: auto; width: 100%;
+                              style="font-size: 175%; color: #696969;
+                               width: 100%;margin: 1% 0px;
                                outline: none; border-radius: 3px;">
 
                     </textarea>
 
                 </div>
             </div>
-            <button class="submitReport" @click="pushTo">
-                提交
-            </button>
+
+            <div style="width: auto;height: auto;height: 40px;display:flex;align-items: center;justify-content: center;">
+                <button class="submitReport" @click="pushTo">
+                    提交
+                </button>
+            </div>
+
         </div>
 
-        <!--这是显示选择的信息{{reportChose}}
-        <p>这里是输入框信息：{{describeMessage}}</p>-->
     </div>
 </template>
 
@@ -118,7 +120,12 @@
             return{
                 goodsId:null,
                 reportChose:'',
-                describeMessage:''
+                describeMessage:'',
+                report:{
+                    'reportContent':this.reportChose,
+                    'describContent':this.describeMessage,
+                    'goodsId':this.goodsId
+                }
             }
         },
         methods:{
@@ -127,11 +134,21 @@
                 e.target.style.height = e.target.scrollHeight + 'px';
             },
             pushTo(){
-
+            this.$set(this.report,'reportContent',this.reportChose);
+                this.$set(this.report,'describContent',this.describeMessage);
+                this.$set(this.report,'goodsId',this.goodsId);
+                axios.post(process.env.VUE_APP_URL+'allreport/addReport',this.report).then(re => {
+                    if(re.data.flag){
+                        this.$router.push({path:'/reportCallBack',query:{'goodsId':this.goodsId}});
+                    }else {
+                        alert('举报出现错误，请稍后重试！')
+                    }
+                    console.log(re.data)
+                })
             }
         },
         created() {
-            this.goodsId = this.$route.query;
+            this.goodsId = this.$route.query.goodId;
             console.log(this.goodsId);
         }
     }
@@ -139,9 +156,9 @@
 
 <style scoped>
     .submitReport{
-        height: 5.8%;
+        display: block;
+        height: 30px;
         width: 56%;
-        margin-left: 22%;
         background-color: #4c90f5;
         color: #ffffff;
         font-size: 175%;

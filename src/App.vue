@@ -80,7 +80,13 @@
 		padding: 0;
 		margin: 0;
 	}
-
+	.el-drawer{
+		border-top-left-radius: 2rem;
+		border-top-right-radius: 2rem;
+	}
+	.el-radio__label{
+		width: 100% !important;
+	}
 	#app {
 		width: 100%;
 		position: fixed;

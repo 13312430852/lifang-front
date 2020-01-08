@@ -1,11 +1,17 @@
 <template>
     <div id="box1">
-        <loading-b v-if="goods==null"></loading-b>
-        <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
-            <div class="goodImg" :style="{backgroundImage:'url(' + good.goodsImageUrl + ')'}"></div>
+        <loading-b v-if="inRequest"></loading-b>
+        <div v-if="goods == null || goods.length == 0" class="noContent">        <!--空页-->
+            <div style="flex: 2;"></div>
+            <div style="flex: 1;display: flex;align-items: flex-end"><span class="tipsFont">您还没有下过订单哟。</span></div>
+            <div style="flex: 2"></div>
+        </div>
+
+        <div class="goods" v-if="goods.length != 0" v-for="(good,i) in goods" @click="Todetail(good)">
+            <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
-                    <span class="name" v-text="good.goodsName"></span>
+                    <span class="name" v-text="good.goods.goodsName"></span>
                     <span class="price">￥<span v-text="good.ordersPrice"></span></span>
                 </div>
                 <div class="theNameRow">
@@ -15,7 +21,7 @@
                 <div style="display:flex;flex: 4;">
                     <span style="flex: 1"><div class="createTime" style="clear: both;" v-text="createTime(good.ordersTime)">2020-12-09</div></span>
                     <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1">去支付</button></span>
-                    <span class="two"><button class="but">再购买</button></span>
+                    <span class="two"><button class="but" @click.capture.stop="payAgin(good.goodsId)">再购买</button></span>
                 </div>
             </div>
         </div>
@@ -48,6 +54,7 @@
         },
         data(){
             return{
+                inRequest:true,
                 url:process.env.VUE_APP_URL,
                 goods:null,
             }
@@ -57,7 +64,7 @@
                 "ordersPayState":"1"
             })
                 .then(response => {
-                    // console.log(response.data);
+                    this.inRequest = false;      //已经结束请求
                     this.goods = response.data.data;
                 }).catch(function (err) {
                 console.log(err);
@@ -65,14 +72,36 @@
 
         },
         methods:{
-            Todetail(goods){
-                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            payAgin(goodId){
+                this.$router.push('/MoreTravelOrder/buy/' + goodId);
+            },
+            Todetail(order){
+                this.$router.push({path: '/theOrderDetail', query: {'order':order}})
             },
         }
     }
 </script>
 
 <style scoped>
+
+    .tipsFont{
+        color: #d8d8d8;
+        font-size: 2rem;
+    }
+    .noContent{
+        width: 100%;
+        height: 100%;
+        background-image: url("../../assets/空页提示.png");
+        background-repeat:no-repeat;
+        background-position: center 27%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+    }
+
+
     .createTime{
         width: 150%;
         height: 100%;

@@ -45,13 +45,16 @@
                                 <span v-if="item.status == -1">已抢购结束</span>
                                 <count-down v-if="item.status == 1" :time="item.time">
                                     <template slot-scope="props">
-                                        <div>{{ props.hours }} : {{ props.minutes }} : {{ props.seconds }}</div>
+                                        <span>{{ props.hours }} : {{ props.minutes }} : {{ props.seconds }}</span>
                                     </template>
                                 </count-down>
                             </div>
                             <!--限量-->
-                            <div v-if="item.goods.discountType == 2" class="theCoverBox1">
+                            <div v-if="item.goods.discountType == 2 && item.num!=0" class="theCoverBox1">
                                 仅剩： <span v-text="item.num"></span> 份
+                            </div>
+                            <div v-if="item.goods.discountType == 2 && item.num==0" class="theCoverBox1">
+                                已售光
                             </div>
                         </div>
                     </div>
@@ -59,6 +62,8 @@
             </div>
         </div><!--限购部分-->
 
+        <LoadingE class="loadin-e" v-if="theGoods_1 == null || theGoods_1 == undefined">
+        </LoadingE>
         <goods-list v-if="theGoods_1 != null" :theGoods_2="theGoods_1"></goods-list> <!--商品展示-->
 
         <footer class="footer"></footer>
@@ -72,6 +77,7 @@
     import LoadingD from "../components/loadingD";
     import LoadingF from "../components/loadingF";
     import LoadingB from "../components/loadingB";
+    import LoadingE from "../components/loadingE";
 
 
     export default {
@@ -82,7 +88,8 @@
             LoadingD,
             LoadingF,
             LoadingB,
-            Footer
+            Footer,
+            LoadingE,
         },
         data() {
             return {
@@ -220,7 +227,9 @@
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
-
+    .clear{
+        clear: both;
+    }
     .theCoverBox1 {
         width: 91.2%;
         height: 100%;
@@ -257,11 +266,15 @@
         display: none;
     }
 
+    .loadin-e{
+        margin-top: 20px;
+    }
+
     .noticeList {
         display: inline-block;
         border-radius: 0.4rem;
         /*width:260px;*/
-        width: 34.6%;
+        width: 50%;
         height: 100%;
         /*border: 1px solid red;*/
         margin-right: 2%;
@@ -310,7 +323,7 @@
     .hot_col-1 {
         flex: 1;
         display: flex;
-        margin-bottom: 6%;
+        margin-bottom: 10%;
 
         /*background-color: #4c90f5;*/
         /*height: 22%;*/

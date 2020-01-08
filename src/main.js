@@ -6,6 +6,11 @@ import vueSwiper from 'vue-awesome-swiper'  //引入vue-awesome-swiper
 import 'swiper/dist/css/swiper.css'  //引入样式
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import LoadingE from './components/loadingE'
+import Loading from './components/loading'
+import LoadingB from './components/loadingB'
+import LoadingD from './components/loadingD'
+import LoadingF from './components/loadingF'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);

@@ -40,25 +40,48 @@
             <div class="specification">规格</div>
             <div class=" weight" v-text="GoodsList.goodsNorms.norms">小份</div>
         </div>
-        <!--        线-->
-        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
         <!--        地址-->
-        <div class="place">
-            <div class="receipt">收货地址</div>
-            <div class="toAddAddress" @click="toAddAddress" v-if="userAddress == null">
+
+            <!--<div class="toAddAddress" @click="toAddAddress" v-if="userAddress == null">
                 <span style="margin-right: 10px">未添加地址&nbsp;&nbsp;</span>
                 <img class="addIcon" src="../assets/添加.png">
             </div>
             <select class="Place" v-if="userAddress != null" v-model="selectAddressId" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
                      <option v-for="(item) in userAddress" v-text="item.rcAddress" :selected="isDefaultAddress(item)" :value="item.addressId"></option>
-            </select>
-        </div>
-        <div style="margin: 0 auto; width:92%;height: 1px;background-color:#d7d7d7; opacity: 1"></div>
-        <div class="address_nr">
+            </select>-->
 
-        </div>
+
+        <el-collapse>
+            <el-collapse-item class="collapse_item" title="收货地址">
+                <el-radio class="address_item" v-for="(item) in userAddress" :selected="isDefaultAddress(item)" v-model="selectAddressId" :label="item.addressId" border>
+                    <div>收货地址：{{item.rcAddress}}</div>
+                    <div class="renAtel">
+                        <span class="ren">{{item.addressName}}</span>
+                        <span class="tel">{{item.addressTel}}</span>
+                        <div class="clear"></div>
+                    </div>
+                </el-radio>
+                <div v-if="userAddress==null" class="toAddAddress" @click="toAddAddress">
+                    <span style="margin-right: 10px">未添加地址&nbsp;&nbsp;</span>
+                    <img class="addIcon" src="../assets/添加.png">
+                </div>
+            </el-collapse-item>
+            <el-collapse-item class="collapse_item" title="优惠券">
+                <el-radio class="address_item" v-for="(item) in userGoodCaeds" :selected="isUserCards(item)" v-model="chooseCar" :label="item" border>
+                    <div class="renAtel">
+                       <span>满<span class="ren">{{item.cardsOrder}}</span><span>减 </span><span v-text="item.cardsPrice">5</span></span>
+                        <span class="tel">可用</span>
+                        <div class="clear"></div>
+                    </div>
+                </el-radio>
+                <div v-if="userGoodCaeds==null">
+                    <span>暂无可用优惠券！</span>
+                </div>
+            </el-collapse-item>
+        </el-collapse>
+
         <!--        优惠-->
-        <div class="Coupon">
+       <!-- <div class="Coupon">
             <div class="couponLeft">优惠券</div>
             <div class="toAddAddress1" @click="toAddAddress" v-if="userAddress == null">没有可使用优惠券</div>
             <select v-if="userGoodCaeds != null" class="Place" v-model="chooseCar" style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
@@ -67,9 +90,10 @@
                 </option>
             </select>
 
-        </div>
+        </div>-->
         <!--        立即购买-->
         <div class="buying" style="position:fixed;bottom: 0" @click="submitOrder">提交订单 ￥<span v-text="allPrice"></span></div>
+        <div class="blank"></div>
     </div>
 
 </template>
@@ -81,6 +105,7 @@
         name: "PanicBuying",
         data() {
             return {
+                user:null,
                 propsData:{},
                 goodId:null,
                 theBusinessId:null, //商家ID
@@ -115,7 +140,7 @@
                     'goodsPrice':this.goodsPrice,   //商品单价
                     'addressId':this.selectAddressId,         //地址ID
                     'goodsNormsId':this.goodsNormsId, //商品规格
-                    'discountId':this.chooseCar,
+                    'discountId':this.chooseCarId,
 
                 },
 
@@ -132,13 +157,15 @@
                     if(this.chooseCar == null) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice);
                     else if(this.chooseCar.cardsOrder <= origPrice) this.allPrice = (newValue * this.GoodsList.goodsNorms.currentPrice) - this.chooseCar.cardsPrice;
                 }
-                else {      //当减少购买数量导致总价下降而不满足使用此优惠券时重置价格为未使用优惠券价格
+                else {
+                    //当减少购买数量导致总价下降而不满足使用此优惠券时重置价格为未使用优惠券价格
                     this.allPrice = origPrice;
                 }
 
             },
             chooseCar(newValue){
                 this.allPrice = this.GoodsList.goodsNorms.currentPrice * this.count; //重置价格
+                this.chooseCarId = newValue.userCards.userCardsId;
                 this.allPrice = this.allPrice - newValue.cardsPrice;       //计算使用优惠券后的价格
             }
         },
@@ -197,12 +224,11 @@
                 this.$set(this.createOrder,'addressId',this.selectAddressId);
                 this.$set(this.createOrder,'businessId',this.theBusinessId);
                 this.$set(this.createOrder,'goodsNormsId',this.goodsNormsId);
-                if(this.chooseCar == null){
+                if(this.chooseCarId == null){
                     this.$set(this.createOrder,'discountId',null);
                 }else {
-                    this.$set(this.createOrder,'discountId',this.chooseCar.cardsId);
+                    this.$set(this.createOrder,'discountId',this.chooseCarId);
                 }
-                console.log(this.createOrder);
             },
             toSubmitPage(){
                 var choosedAddress;
@@ -219,19 +245,33 @@
                     this.$set(this.propsData,'allPrice',this.allPrice);
                     this.$set(this.propsData,'orderID',this.orderId);
 
+                    console.log(this.propsData);
+
                 this.$router.push({path:'/submitOrder',query:this.propsData});
             },
 
             submitOrder(){      //提交订单后返回一个订单ID
                 // 响应式添加订单对象
                 this.createSubmitOrder();
-                axios.post(process.env.VUE_APP_URL + 'order/saveOrder',this.createOrder)
+                axios.post(process.env.VUE_APP_URL + 'order/limitAndTimeCreateOrder',this.createOrder)
                     .then(response =>{
-                        this.orderId = response.data.data;          //成功后返回订单ID
-                        console.log(response.data.data);
-                        this.$router.push('/submitOrder'+this.orderId);
-                        this.toSubmitPage();
-
+                        if (response.data.code == 200){
+                            this.orderId = response.data.data.ordersId;          //成功后返回订单ID
+                            console.log('hdgfhsgfh');
+                            console.log(response);
+                            this.$router.push('/submitOrder'+this.orderId);
+                            this.toSubmitPage();
+                        } else {
+                            this.$alert('商品余量不足或抢购已结束。', '抢购失败', {
+                                confirmButtonText: '确定',
+                                callback: action => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: `action: ${ action }`
+                                    });
+                                }
+                            });
+                        }
                     })
                     .catch(err => console.log(err));
             }
@@ -265,9 +305,10 @@
 
             axios.get(process.env.VUE_APP_URL + 'usercards/queryValidUserCards/' + this.goodId)       //获取优惠券
                 .then(re => {
+                    console.log('查询卡用卡券');
                     this.userGoodCaeds = re.data.data;
+                    console.log(this.userGoodCaeds);
                 }).catch(err => alert('网络错误'))
-
 
         }
     }
@@ -275,16 +316,59 @@
 
 <style scoped>
     .addIcon{
-        width: 16%;
+        width: 14px;
+        height: 14px;
         margin-left: 2%;
+        margin-right: 15%;
     }
     .toAddAddress{
         width: 40%;
-        font-size: 1.8rem;
+        font-size: 16px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
         color: #bbbbbb;
+        margin: 0 auto;
+
+    }
+    .collapse_item{
+        margin-left: 4%;
+    }
+    .el-collapse-item__header{
+        font-weight: bold !important;
+        font-size: 14px !important;
+    }
+    .blank{
+        width: 100%;
+        height: 100px;
+    }
+    .address_nr{
+        padding: 10px;
+        background-color: #f8f6f6;
+        border-radius: 5px;
+        margin: 10px;
+    }
+    .address_item{
+        display: flex;
+        margin:10px 10px 10px 0px !important;
+        height: auto !important;
+        padding: 10px 10px !important;
+    }
+    .renAtel{
+        padding: 10px 0px;
+    }
+    .clear{
+        clear: both;
+    }
+    .ren{
+        display: block;
+        float: left;
+    }
+    .tel{
+        display: block;
+        float: right;
+    }
+    .address_rcAddress{
 
     }
     .toAddAddress1{
@@ -410,27 +494,26 @@
     }
 
     .Specification {
-        display: flex;
+        display: block;
         width: 92%;
         height: 7%;
         font-family: "PingFang SC";
     }
 
     .specification {
-        width: 95%;
         padding-top: 4%;
         padding-left: 4%;
         font-size: 1.75em;
         font-weight: bold;
+        float: left;
     }
 
     .weight {
-        width: 10%;
+        float: right;
         font-size: 1.75em;
         padding-top: 4%;
         padding-left: 6%;
         cursor: pointer;
-        border: none;background-color: transparent;outline: none;
         text-align: right;
     }
     .number {
