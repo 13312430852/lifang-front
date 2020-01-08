@@ -26,7 +26,7 @@
                         <li>获取您的公开信息(昵称、头像、性别等)</li>
                     </ul>
                     <div style="border:0px black solid;height: 30px;display: flex;align-items: center;padding-left: 9px">
-                        <span style="font-size: 12px;border: 0px black solid;display: block;">同意<a href="">《用户授权协议》</a> </span>
+                        <span style="font-size: 12px;border: 0px black solid;display: block;">同意<a href="" style="text-decoration: none;color: #4c90f5">《用户授权协议》</a> </span>
                     </div>
 
                 </div>
