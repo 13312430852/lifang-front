@@ -2,8 +2,7 @@
     <div class="allPage">
         <div class="reciept">
             <div class="recieptFirst">
-                <div class="Nname" v-text="PayMessage.userAddress.addressName">
-                </div>
+                <div class="Nname"><span class="Nname1" v-text="PayMessage.userAddress.addressName"></span></div>
                 <div class="Nphone" v-text="PayMessage.userAddress.addressTel">
                 </div>
             </div>
@@ -12,14 +11,13 @@
                     <img src="../assets/adrressIcon.png" width="100%"/>
                 </div>
                 <div class="site" v-text="PayMessage.userAddress.rcAddress">
-
                 </div>
             </div>
         </div>
         <div class="commodity">
             <div class="commodityFirst">
                 <div class="Fno1">
-                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%" height="100%">
+                    <img :src="PayMessage.GoodsList.goods.goodsImageUrl" style="width: 100%;border-radius: .3rem;margin-left: 8%" height="100%">
                 </div>
                 <div class="Fno2">
                     <div v-text="PayMessage.GoodsList.goods.goodsName" class="Fno2-1">
@@ -88,11 +86,9 @@
         </div>
         <div class="basePart">
             <div class="basePartTxt">
-                小计：{{PayMessage.allPrice}}
+                小计：￥<span style="font-size: 2.5rem;font-weight: bolder" v-text="PayMessage.allPrice"></span>
             </div>
-
             <button class="btn" @click="toPay">立即购买</button>
-
         </div>
     </div>
 </template>
@@ -170,6 +166,8 @@
         height: 14.61%;
         background-color: #ffffff;
         margin: 2.48% auto;
+        border-radius: .8rem;
+        box-shadow:0px 0px 13px 0px #d7d7d7;
 
     }
     .recieptFirst{
@@ -177,17 +175,26 @@
         height: 41%;
 
     }
+    .Nname1{
+        font-weight:500;
+        overflow: hidden;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+
+    }
     .Nname{
         font-size: 262.5%;
         font-weight:500;
         color: #000000;
         flex: 1;
-        height: 56.25%;
+        padding-left: 5%;
         width: 50%;
-        margin: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         text-align: center;font-weight:500;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        min-width: 0;
+        /*background-color: #4c90f5;*/
     }
     .Nphone{
         font-size: 200%;
@@ -198,6 +205,7 @@
         margin: auto;
     }
     .recieptSecond{
+        margin-top: 3%;
         width: 78.4%;
         height: 42%;
         display: flex;
@@ -227,6 +235,8 @@
         width: 94.67%;
         overflow: hidden;
         text-overflow: ellipsis;
+        border-radius: .8rem;
+        box-shadow:0px 0px 13px 0px #d7d7d7;
     }
     .commodityFirst{
         height: 26.34%;
@@ -242,9 +252,10 @@
 
     }
     .Fno2{
-        width: 53.94%;
+        width: 49%;
         height: 100%;
-        margin: 4.23% 1%;
+        padding-left: 5%;
+        margin-top: 4.23%;
     }
     .Fno2-1{
         height: 44.545%;
@@ -274,14 +285,14 @@
         height: 31.11%;
         width: 90%;
         margin: 5% 5%;
-        font-size: 162.5%;
-        color: #000000;
+        font-size: 2rem;
+        color: red;
     }
     .Fno3-2{
         height: 31.11%;
         width: 90%;
-        margin: 5% 5%;
-        font-size: 162.5%;
+        padding-left:14%;
+        font-size: 1.75rem;
         color: #a8a5a5;
     }
     .commoditySecond{
@@ -360,22 +371,23 @@
         width: 100%;
         display: flex;
         background-color: #ffffff;
-        position: absolute;
-        bottom: 0%;
+        position: fixed;
+        bottom: 0;
     }
     .basePartTxt{
-        font-size: 1.625rem;
+        font-size: 1.75rem;
         color: #ff7a01;
         width: 30%;
         margin: auto 0 auto 37%;
     }
     .btn{
        width: 26.67%;
-        height: 66.67%;
+        height: 80%;
         margin: auto 4.5%;
         background-color: #fe5500;
         color: #ffffff;
         font-size: 2rem;
         border-style: none;
+        border-radius: .6rem;
     }
 </style>

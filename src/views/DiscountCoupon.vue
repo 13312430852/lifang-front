@@ -106,30 +106,6 @@
         flex-direction: column;
 
     }
-    /*.abc{
-        width: 200px;
-        height: 100px;
-        position: relative;
-        background-image: radial-gradient(circle at right top, #fff, #fff 10px, transparent 11px),
-        radial-gradient(circle at right bottom, #fff, #fff 10px, transparent 11px);
-        background-color: blueviolet;
-
-    }
-    .abc:after{
-        content: '';
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        right: -5px;
-        width: 10px;
-        height: 100%;
-        background: radial-gradient(circle, #fff, #fff 2px, transparent 5px);
-        background-size: 10px 10px;
-    }
-
-
-*/
-
 
     .toUse button{
         background-color: #4c90f5;
