@@ -91,7 +91,7 @@
                 小计：{{PayMessage.allPrice}}
             </div>
 
-            <button class="btn" @click="toPay">立即购买</button>
+            <button class="btn" @click="toPay" :disabled="isDisable">立即购买</button>
 
         </div>
     </div>
@@ -104,7 +104,7 @@
             return{
                 theOrderId:null,
                 orderMsg:null,
-
+                isDisable:false,
                 user1:{
                     'nickname':'我是怂狗狗',
                     'numberPhone':'13007808520'
@@ -115,6 +115,10 @@
         },
         methods:{
             toPay(){
+                this.isDisable = true;
+                setTimeout(() => {
+                    this.isDisable = false;
+                }, 1000);
                 axios.get(process.env.VUE_APP_URL + 'order/payOrder/' + this.PayMessage.orderID)
                     .then(re => {
                         if(re.data.code == 200 ){       //支付成功后跳至订单详情页面

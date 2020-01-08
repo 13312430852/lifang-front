@@ -109,7 +109,7 @@
         width: 100%;
         background:rgba(255,255,255,1);
         box-shadow:0px -1px 10px 0px rgba(0,0,2,0.1);
-        position: absolute;
+        position: fixed;
         bottom: 0;
         display: flex;
         z-index: 999;

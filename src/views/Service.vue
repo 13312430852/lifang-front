@@ -56,7 +56,7 @@
           }
         },
         created() {
-            axios.get(process.env.VUE_APP_URL + 'service/queryServiceById/e2679b94ebb6476c8c3cecf238f438a0')
+            axios.get(process.env.VUE_APP_URL + 'service/queryServiceById/123')
                 .then(response => {
                 this.service = response.data.data;
                 // console.log(response)
