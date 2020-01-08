@@ -5,17 +5,43 @@
                 <img src="../assets/service/没有订单.png"  width="100%"/>
                 暂无订单
             </div>
-
         </div>
-        <div v-else class="item2" v-for="moneyItem in moneyList" ><!--顶部-->
-            <ol class="item1">
-                <li class="item3" v-text="moneyItem.moneyTime"></li>
-                <li class="item4" >-<span v-text="moneyItem.moneyPrice"></span>元</li>
-                <li class="item5" v-text="moneyItem.moneyDetails"></li>
-            </ol>
-            <hr>
-        </div>
-
+        <el-table
+                v-else
+                :data="moneyList"
+                stripe>
+            <el-table-column
+                    class="daytime"
+                    label="日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="color: #409EFF" v-html="scope.row.moneyTime">
+                    </span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="金额(元)"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="color: #F56C6C">
+                        -
+                        <span v-html="scope.row.moneyPrice">
+                        </span>
+                    </span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="详情"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="color: #606266">
+                        <span v-html="scope.row.moneyDetails">
+                        </span>
+                    </span>
+                </template>
+            </el-table-column>
+        </el-table
+                v-else>
     </div>
 </template>
 
@@ -25,25 +51,26 @@
         data(){
             return{
                 countMoney:null,
-                moneyList:[
-                    ],
+                moneyList:[],
             }
         },
         created() {
             axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryInMoney')
                 .then(response => {
                     this.moneyList = response.data.data.moneyList;
+                    for (let i = 0; i < this.moneyList.length; i++) {
+                        this.moneyList[i].moneyTime =  this.moneyList[i].moneyTime.replace(/\s+|&nbsp;/ig, '<br/>');
+                    }
                     this.countMoney = response.data.data.countMoney;
                     console.log(this.moneyList);
                     console.log(this.countMoney);
                 })
-                .catch(err => alert('网络错误'))
+                .catch(err => null)
         }
     }
 </script>
 
 <style scoped>
-
 
     .item1{
         display: flex;

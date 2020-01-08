@@ -21,6 +21,7 @@
             </div>
             <!--标题-->
             <div class="TLimit" v-text="menuName"></div>
+            <el-divider></el-divider>
             <!--            商品展示页面-->
 
             <more-good-list :theGoods_more="maiGoods">
@@ -239,13 +240,11 @@
     }
 
     .TLimit {
-        margin-top: 2.5%;
-        margin-left: 2.5%;
+        margin-top: 30px;
         width: 92%;
-        height: 2.25%;
         color: #141414;
         font-weight: bold;
-        font-size: 1.875em;
+        font-size: 24px;
         font-family: "PingFang SC";
     }
 

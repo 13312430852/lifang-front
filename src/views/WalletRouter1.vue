@@ -5,17 +5,43 @@
                 <img src="../assets/service/没有订单.png"  width="100%"/>
                 暂无订单
             </div>
-
         </div>
-        <div class="item2" v-for="moneyItem in moneyOutList" v-if="moneyOutList!=null"><!--顶部-->
-            <ol class="item1" >
-                <li class="item3" v-text="moneyItem.moneyTime"></li>
-                <li class="item4" >+<span v-text="moneyItem.moneyPrice"></span>元</li>
-                <li class="item5" v-text="moneyItem.moneyDetails"></li>
-            </ol>
-            <hr>
-        </div>
-
+        <el-table
+                v-else
+                :data="moneyList"
+                stripe
+                lazy>
+            <el-table-column
+                    class="daytime"
+                    label="日期"
+                    align="center">
+                <template slot-scope="scope">
+                    <div style="color: #409EFF" v-html="scope.row.moneyTime">
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="金额(元)"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="color: #67C23A">
+                        -
+                        <span v-html="scope.row.moneyPrice">
+                        </span>
+                    </span>
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="详情"
+                    align="center">
+                <template slot-scope="scope">
+                    <span style="color: #606266">
+                        <span v-html="scope.row.moneyDetails">
+                        </span>
+                    </span>
+                </template>
+            </el-table-column>
+        </el-table>
     </div>
 </template>
 
@@ -34,10 +60,13 @@
             axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
                 .then(response => {
                     this.moneyOutList = response.data.data.moneyList;
+                    if (this.moneyOutList!=null && this.moneyOutList!=[])
+                    for (let i = 0; i < this.moneyList.length; i++) {
+                        this.moneyOutList[i].moneyTime =  this.moneyOutList[i].moneyTime.replace(/\s+|&nbsp;/ig, '<br/>');
+                    }
                     this.outMoney = response.data.data.countMoney;
-                    console.log(this.moneyOutList);
                 })
-                .catch(err => alert('网络错误'))
+                .catch(err => null)
         }
 
     }
