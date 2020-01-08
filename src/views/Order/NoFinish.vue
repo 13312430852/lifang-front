@@ -14,7 +14,7 @@
                 </div>
                 <div style="display:flex;flex: 4;">
                     <span style="flex: 1"><div class="createTime" style="clear: both;" v-text="createTime(good.ordersTime)">2020-12-09</div></span>
-                    <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1">去支付</button></span>
+                    <span class="one"><button class="but" style="margin-right: 0" v-if="good.ordersPayState != 1" @click.capture.stop="toPay(good)">去支付</button></span>
                     <span class="two"><button class="but">再购买</button></span>
                 </div>
             </div>
@@ -37,6 +37,8 @@
             return{
                 //url:process.env.VUE_APP_URL,
                 goods:null,
+                propsData:{},
+                address:{},
             }
         },
         computed:{
@@ -67,6 +69,25 @@
             // }
         },
         methods:{
+            toPay(item){
+                this. createMsg(item);
+            },
+            createMsg(item){            //构造参数
+                console.log(item);
+                var detailGood;
+                axios.get(process.env.VUE_APP_URL +  'goods_details/queryGoodsWithDetailsById/' + item.goodsId)
+                    .then(re =>{
+                        detailGood = re.data.data;
+                        this.$set(this.propsData,'GoodsList',detailGood);
+                        this.$set(this.propsData,'userAddress',item.address);
+                        this.$set(this.propsData,'count',item.goodsNum);
+                        this.$set(this.propsData,'allPrice',item.ordersPrice);
+                        this.$set(this.propsData,'orderID',item.ordersId);
+
+                        this.$router.push({path:'/submitOrder',query:this.propsData});
+                    })
+
+            },
             Todetail(goods){
                 this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
             },
