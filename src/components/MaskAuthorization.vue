@@ -4,11 +4,34 @@
 		    <loading v-if="isLoading"></loading>
 		</transition>
         <div class="ensure">
-            <div class="tips">亲，您还没有登录，</div>
-            <div class="tips1">请同意微信授权哦。</div>
+            <div class="ensure_back">
+                <div class="loginTitle">
+                    <span class="loginAuth">登录授权</span>
+                    <img src="../assets/login_close.png" class="loginImage" @click="cancelIn"/>
+                </div>
+
+                <div class="loginIconBox">
+                    <img src="../assets/logo.png" class="loginIcon" />
+                </div>
+                <div class="loginWelcome">
+                    <span> 爱立方，爱生活</span>
+                </div>
+
+            </div>
+
             <div class="toButton">
-                <div class="col-1 buttonBox"><button class="button1" @click="cancelIn">取消</button></div>
-                <div class="col-1 buttonBox"><button class="button" @click="isSure">确认</button></div>
+                <div class="buttonContent">
+                    <span class="AuthContent">授权<span style="font-weight: bold;margin: 0 2px;">立方生活</span>获取以下信息提供服务</span>
+                    <ul style="list-style-type: circle;font-size: 10px;margin:5px;color: #b8b8b8">
+                        <li>获取您的公开信息(昵称、头像、性别等)</li>
+                    </ul>
+                    <div style="border:0px black solid;height: 30px;display: flex;align-items: center;padding-left: 9px">
+                        <span style="font-size: 12px;border: 0px black solid;display: block;">同意<a href="" style="text-decoration: none;color: #4c90f5">《用户授权协议》</a> </span>
+                    </div>
+
+                </div>
+<!--                <div class="col-1 buttonBox"><button class="button1" @click="cancelIn">取消</button></div>-->
+                <div class="buttonBox"><button class="button" @click="isSure">确认</button></div>
             </div>
         </div>
     </div>
@@ -16,7 +39,7 @@
 
 <script>
 	import Loading from "./loading";
-	
+
     export default {
 		components: {
 			Loading
@@ -57,10 +80,77 @@
 </script>
 
 <style scoped>
-    .buttonBox{
+    .AuthContent{
+        border: 0px black solid;
+        font-size: 12px;
+        width: 100%;
+        height: auto;
+
+    }
+
+    .loginIconBox{
+        width: auto;
+        border: 0px black solid;
+        height: 80px;
         display: flex;
+        align-items: center;
         justify-content: center;
-        align-content: center;
+    }
+    .loginIcon{
+        display: block;
+        border: 0px black solid;
+        height:50px;
+        width:50px;
+    }
+    .loginTitle{
+        border: 0px red solid;
+        display: flex;
+        flex-direction:row;
+        align-items: center;
+        width: auto;
+        height: 20%;
+
+    }
+    .loginAuth{
+        display: block;
+        border: 0px black solid;
+        flex: 3;
+        text-align: center;
+        margin-left: 27px;
+        font-size: 14px;
+        color: white;
+    }
+    .loginImage{
+        height:24px;
+        width:24px;
+        border: 0px red solid;
+        display: block;float: right;
+        margin-right: 5px;
+        color: white;
+    }
+    .loginWelcome{
+        border: 0px rebeccapurple solid;
+        width: auto;
+        height: 30px;
+        text-align: center;
+        font-size: 12px;
+        color: white;
+        padding-top: 10px;
+    }
+    .buttonBox{
+        border: 0px red solid;
+        display: flex;
+        flex:3;
+        width: auto;
+        height: 20%;
+        justify-content: center;
+        align-items: center;
+    }
+    .buttonContent{
+        border: 0px saddlebrown solid;
+        text-align: center;
+        padding: 6px 3px;
+        flex: 4;
     }
     .button1{
         width: 50%;
@@ -72,40 +162,53 @@
 
     }
     .button{
+        display: block;
         border-style: none;
-        background-color: #4C90F5;
-        width: 50%;
-        height: 52%;
-        border-radius: 3px;
+        background-color: #409EFF;
+        width: 80%;
+        height: 70%;
+        border-radius: 6px;
         font-size: 1.75rem;
-        color: whitesmoke;
+        color: white;
+        margin-bottom: 10px;
     }
     .col-1{
         flex: 1;
     }
     .toButton{
-        margin-top: 20%;
+        border: 0px blue solid;
         width: 100%;
-        height: 30%;
+        height: 48%;
         /*background-color: #343434;*/
         display: flex;
+        flex-direction: column;
     }
     .tips1{
+        border: 1px black solid;
         font-size: 1.9rem;
         margin-left: 30%;
-        margin-top: 4%;
+
     }
     .tips{
+        border: 1px black solid;
         font-size: 1.9rem;
         margin-left: 6%;
     }
     .ensure{
-        width: 80%;
-        height: 30%;
-        border-radius: 4px;
+        border: 0px red solid;
+        width: 60%;
+        height: 45%;
+        border-radius: 10px;
         background-color: rgba(255,255,240,1);
         margin: 30% auto 0 auto;
-        padding-top: 8%;
+
+    }
+    .ensure_back{
+        background-color: #409EFF;
+        border: 0px black solid;
+        width: auto;
+        height: 53%;
+        border-radius: 10px 10px 0 0;
     }
     .mask{
         width: 100%;

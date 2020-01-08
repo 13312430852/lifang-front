@@ -257,7 +257,7 @@
     }
     .realyGood{
         width: 45%;
-        height: 192px;
+        height: 100%;
         margin-left: 3%;
         border-radius: 4px;
         border:1px solid rgba(229,229,229,1);

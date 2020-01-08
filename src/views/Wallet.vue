@@ -21,15 +21,14 @@
             <div id="money" ><!--第二部分-->
                 <div class="Moneytop"><!--状态明细-->
                     <div class="Moneytop1" @click="lllla"  >
-                        收入明细：{{ outMoney}}元
+                        收入明细：<span style="color: #67C23A">￥{{outMoney}}</span>
                         <div class="walletHr-box">
                             <div class="walletHr"  v-show="theOne">
-
                             </div>
                         </div>
                     </div>
                     <div class="Moneytop1" @click="lllla2">
-                        支出明细：{{countMoney}}元
+                        支出明细：<span style="color: #F56C6C">￥{{countMoney}}</span>
                         <div class="walletHr-box">
                             <div class="walletHr" v-show="theTwo">
 
@@ -40,17 +39,7 @@
                     <div class="Moneytop1" @click="lllla2">收入明细：元</div>-->
                 </div>
                 <div id="datils" >
-                    <div class="item2"><!--顶部-->
-                        <ol class="item1">
-                            <li class="item3">时间</li>
-                            <li class="item4">金额</li>
-                            <li class="item5">详情</li>
-                        </ol>
-                        <hr>
-                    </div><!--顶部结束-->
                     <router-view/>
-                    <!--顶部结束-->
-
                 </div>
 
             </div>
@@ -94,7 +83,7 @@
                     console.log(this.moneyList);
                     console.log(this.countMoney);
                 })
-                .catch(err => alert('网络错误'))
+                .catch(err => alert('网络错误'));
 
         axios.get(process.env.VUE_APP_URL+ 'mineWallet/queryOutMoney')
             .then(response => {
@@ -102,7 +91,7 @@
                 this.outMoney = response.data.data.countMoney;
                 console.log(this.moneyOutList);
             })
-            .catch(err => alert('网络错误'))
+            .catch(err => alert('网络错误'));
 
             //获取用户的基本信息
        axios.get(process.env.VUE_APP_URL + 'mine/getUserInfo')                                                 //通过...码获取用户基本信息
@@ -113,12 +102,21 @@
                         this.user.user_all_money = 0
                     }*/
                 })
-           .catch(err => alert('未请求到用户基本数据错误为：' + err))
+           .catch(err => alert('未请求到用户基本数据错误为：' + err));
     },
 
         methods:{
             toWithdraw(){
-                this.$router.push('/withdraw');
+                /*this.$router.push('/withdraw');*/
+                /*this.$alert('Sorry!此功能尚未开发！', '功能未开发', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                    }
+                });*/
+                this.$notify.info({
+                    title: '功能未开放',
+                    message: '提现功能尚未开放哦！'
+                });
             },
             lllla(){
                 this.theOne  = true;
@@ -142,6 +140,12 @@
         width: 92%;
         color: #ffffff;
         margin: 2.24% auto;
+        /* background-image: linear-gradient(to right, #4C90F5, #B8D2FB);
+         border-radius: 10px;*/
+
+        background:linear-gradient(221deg,#7fa4fb,#6cb7fb);
+        box-shadow:0px 0px 13px 0px rgba(129,67,243,0.47);
+        border-radius:10px;
     }
 
     .tex {
