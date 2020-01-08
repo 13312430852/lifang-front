@@ -1,7 +1,7 @@
 <template>
     <div id="box1">
         <loading-b v-if="goods==null"></loading-b>
-        <div class="goods" v-for="(good,i) in goods"  @click="Todetail(goods[i])">
+        <div class="goods" v-for="(good,i) in goods" @click="Todetail(good)">
             <div class="goodImg" :style="{backgroundImage:'url(' + good.goods.goodsImageUrl + ')'}"></div>
             <div id="message">
                 <div class="theNameRow">
@@ -91,8 +91,8 @@
                     })
 
             },
-            Todetail(goods){
-                this.$router.push({path: '/theOrderDetail', query: {'goods':goods}})
+            Todetail(order){
+                this.$router.push({path: '/theOrderDetail', query: {'order':order}})
             },
         }
     }

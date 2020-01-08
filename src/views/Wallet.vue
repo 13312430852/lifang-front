@@ -21,15 +21,14 @@
             <div id="money" ><!--第二部分-->
                 <div class="Moneytop"><!--状态明细-->
                     <div class="Moneytop1" @click="lllla"  >
-                        收入明细：{{ outMoney}}元
+                        收入明细：<span style="color: #67C23A">{{outMoney}}￥</span>
                         <div class="walletHr-box">
                             <div class="walletHr"  v-show="theOne">
-
                             </div>
                         </div>
                     </div>
                     <div class="Moneytop1" @click="lllla2">
-                        支出明细：{{countMoney}}元
+                        支出明细：<span style="color: #F56C6C">{{countMoney}}￥</span>
                         <div class="walletHr-box">
                             <div class="walletHr" v-show="theTwo">
 
@@ -40,17 +39,7 @@
                     <div class="Moneytop1" @click="lllla2">收入明细：元</div>-->
                 </div>
                 <div id="datils" >
-                    <div class="item2"><!--顶部-->
-                        <ol class="item1">
-                            <li class="item3">时间</li>
-                            <li class="item4">金额</li>
-                            <li class="item5">详情</li>
-                        </ol>
-                        <hr>
-                    </div><!--顶部结束-->
                     <router-view/>
-                    <!--顶部结束-->
-
                 </div>
 
             </div>
